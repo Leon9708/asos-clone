@@ -1,0 +1,15 @@
+<app-navbar></app-navbar>
+<main>
+    <div class="place_images">
+        <div [ngClass]="{'blur_img': isHoveredWomen}" class="img_men"></div>
+        <div [ngClass]="{'blur_img': isHoveredMen}" class="img_women"></div>
+        <div class="box_text">
+            <h1>This is ASOS</h1>
+            <p>ASOS DESIGN and 850+ brands</p>
+            <div>
+                <button (click)="loadNext('women')" (mouseleave)="isHoveredWomen = false" (mouseenter)=" isHoveredWomen = true " class="btn_women ">SHOP WOMEN</button>
+                <button (click)="loadNext('men')" (mouseleave)="isHoveredMen = false " (mouseenter)="isHoveredMen= true " class="btn_men ">SHOP MEN</button>
+            </div>
+        </div>
+    </div>
+</main>

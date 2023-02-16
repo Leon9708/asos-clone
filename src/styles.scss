@@ -1,0 +1,25 @@
+body {
+    box-sizing: border-box;
+    margin: 0;
+    font-family: "Champagne";
+}
+
+@font-face {
+    font-family: "Champagne";
+    src: url("/assets/fonts/Champagne___Limousines_Bold.eot?") format("eot"), url("/assets/fonts/ChampagneLimousines-Bold.woff") format("woff"), url("/assets/fonts/ChampagneLimousines-Bold.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+p,
+h1,
+h2,
+h3,
+button {
+    margin: 0;
+}
+
+button {
+    cursor: pointer;
+    font-family: "Champagne";
+}
