@@ -1,0 +1,86 @@
+main {
+    width: 100%;
+    height: calc(100vh - 4rem);
+    display: flex;
+    justify-content: center;
+}
+
+.place_images {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    display: flex;
+    width: 90%;
+    position: relative;
+}
+
+.img_men {
+    background-image: url('/assets/img/men.jpg');
+    width: 50.1%;
+    background-size: cover;
+}
+
+.img_women {
+    background-image: url('/assets/img/women.jpg');
+    width: 50%;
+    background-size: cover;
+    /*     background-position: 50% 80%; */
+    background-position: 50% 74%;
+}
+
+.box_text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    h1 {
+        background-color: white;
+        padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+        font-size: 4rem;
+        font-weight: bolder;
+        letter-spacing: 0.1rem;
+    }
+    p {
+        background-color: white;
+        width: fit-content;
+        text-align: center;
+        padding: 0.3rem 0.25rem 0.25rem 0.25rem;
+        letter-spacing: 0.1rem;
+        z-index: -1;
+    }
+    div {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        gap: 1.5rem;
+        padding-top: 2rem;
+    }
+    button {
+        width: 10rem;
+        padding: 0.75rem 1rem;
+        background-color: white;
+        border: none;
+        letter-spacing: 0.15rem;
+        font-weight: bold;
+        &:hover {
+            color: white;
+            background-color: black;
+        }
+    }
+}
+
+.blur_img {
+    filter: blur(1.5px);
+    animation: blur 750ms;
+}
+
+@keyframes blur {
+    from {
+        filter: blur(0px);
+    }
+    to {
+        filter: blur(1.5px);
+    }
+}
