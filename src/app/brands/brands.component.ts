@@ -32,7 +32,6 @@ export class BrandsComponent implements OnInit {
         this.brandsByLetter = this.groupBrandsByLetter();
         console.log(data);
       });
-    
     }   
   }
 
