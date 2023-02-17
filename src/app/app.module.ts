@@ -9,6 +9,9 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from "@angular/common/http";
 import { BrandsComponent } from './brands/brands.component';
 import { ProductViewComponent } from './product-view/product-view.component';
+import { SortComponent } from './product-view/pop-up/sort/sort.component';
+import { CategoryComponent } from './product-view/pop-up/category/category.component';
+
 
 @NgModule({
   declarations: [
@@ -17,7 +20,9 @@ import { ProductViewComponent } from './product-view/product-view.component';
     NavbarComponent,
     BrandsComponent,
     ProductViewComponent,
-    NavbarComponent
+    NavbarComponent,
+    SortComponent,
+    CategoryComponent,
   ],
   imports: [
     BrowserModule,
