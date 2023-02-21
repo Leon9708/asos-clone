@@ -1,12 +1,12 @@
 <app-navbar></app-navbar>
 <div class="place_productview_container">
     <div class="container_productview">
-        <h1>Abercrombie and Fitch</h1>
+        <h1>{{ category?.['categoryName']}}</h1>
         <div class="place_filter_container">
             <div class="container_filter">
                 <div class="box_btn_filter">
                     <button [ngStyle]="{ 'background-color': popUpSort ? '#f6f6f6' : 'transparent' }" (click)="this.popUpSort = !this.popUpSort" class="btn_filter">
-                        <p>Sort</p>
+                        <p>Color</p>
                         <img [ngClass]="{'transform_img': popUpSort}" src="/assets/img/arrow-down.png" alt="">
                     </button>
                     <app-sort class="place_popup" *ngIf="popUpSort"></app-sort>
@@ -32,13 +32,13 @@
                 </button>
             </div>
         </div>
-        <p class="styles_found">100 styles found</p>
+        <p class="styles_found">{{ category?.['products'].length }} styles found</p>
         <div class="place_products_container">
             <div class="products_container">
-                <div *ngFor="let button of [0,1,2,3]" class="product_box">
-                    <div></div>
-                    <p class="description">Abercrombie & Fitch 3 pack icon logo t-shirt in blue/white/grey</p>
-                    <p class="price">$32.00</p>
+                <div *ngFor="let product of  category?.['products']" class="product_box">
+                    <img [src]="'http://images.' + product.imageUrl.slice(7)">
+                    <p class="description">{{product['name']}}</p>
+                    <p class="price">{{product['price']['current']['text']}}</p>
                 </div>
             </div>
         </div>
