@@ -1,4 +1,7 @@
-<button (click)="buttonClicked(0)" [ngClass]="{'active': isSelected(0)}">Recommended</button>
+<!-- <button (click)="buttonClicked(0)" [ngClass]="{'active': isSelected(0)}">Recommended</button>
 <button (click)="buttonClicked(1)" [ngClass]="{'active': isSelected(1)}">What's new</button>
 <button (click)="buttonClicked(2)" [ngClass]="{'active': isSelected(2)}">Price high to low</button>
-<button (click)="buttonClicked(3)" [ngClass]="{'active': isSelected(3)}">Price low to high</button>
+<button (click)="buttonClicked(3)" [ngClass]="{'active': isSelected(3)}">Price low to high</button> -->
+<button *ngFor="let sortType of sortTypes" (click)="changeBackground(sortType)" [ngClass]="{ 'active': selectedButton === sortType }">{{ sortType }}</button>
+<!-- <button (click)="changeBackground($event)" [ngClass]="{'active': selectedButton === category.facets[0].facetValues[0].name}">{{category.facets[0].facetValues[0].name}}</button>
+<button (click)="changeBackground($event)" [ngClass]="{'active': selectedButton === category.facets[0].facetValues[1].name}">{{category.facets[0].facetValues[1].name}}</button> -->

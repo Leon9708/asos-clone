@@ -6,17 +6,17 @@
             <div class="container_filter">
                 <div class="box_btn_filter">
                     <button [ngStyle]="{ 'background-color': popUpSort ? '#f6f6f6' : 'transparent' }" (click)="this.popUpSort = !this.popUpSort" class="btn_filter">
-                        <p>Color</p>
+                        <p>Sort</p>
                         <img [ngClass]="{'transform_img': popUpSort}" src="/assets/img/arrow-down.png" alt="">
                     </button>
-                    <app-sort class="place_popup" *ngIf="popUpSort"></app-sort>
+                    <app-sort (closePopup)="closePopup()" [(category)]="this.category" class="place_popup" *ngIf="popUpSort"></app-sort>
                 </div>
                 <div class="box_btn_filter">
                     <button (blur)="popUpCategory = false" (click)="this.popUpCategory = !this.popUpCategory" class="btn_filter">
                         <p>Category</p>
                         <img src="/assets/img/arrow-down.png" alt="">
                     </button>
-                    <app-category *ngIf="popUpCategory"></app-category>
+                    <app-category class="place_popup" *ngIf="popUpCategory"></app-category>
                 </div>
                 <button class="btn_filter">
                     <p>Sort</p>
@@ -32,7 +32,7 @@
                 </button>
             </div>
         </div>
-        <p class="styles_found">{{ category?.['products'].length }} styles found</p>
+        <p class="styles_found">{{ category?.['itemCount']}} styles found</p>
         <div class="place_products_container">
             <div class="products_container">
                 <div *ngFor="let product of  category?.['products']" class="product_box">

@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class ShareDataService {
 
   constructor() { }
-  brand: [];
+  brand: {title: string, categoryId: string}[]
   buttonId: string;
 
   getButtonId(): string {
@@ -15,9 +15,6 @@ export class ShareDataService {
 
   setButtonId(buttonId: string): void {
     this.buttonId = buttonId;
-  }
-  getCategoryId(): [] {
-    return this.brand;
   }
 
   setCategoryId(brand: []): void {

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { ApiAsosService } from 'src/app/service/api-asos.service';
 
 @Component({
   selector: 'app-sort',
@@ -6,26 +7,41 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./sort.component.scss']
 })
 export class SortComponent implements OnInit {
-  selectedIndexes: number[] = [];
+  selectedButton = '';
+  @Input() category: any;
+  @Output() categoryChange = new EventEmitter<any>();
+/*   @Output() categoryUpdated = new EventEmitter<any>(); */
+  @Output() closePopup = new EventEmitter<void>();
+  sortTypes = ["What's new", 'Price high to low', 'Price low to high'];
 
-  constructor() { }
+  constructor(private apiService: ApiAsosService) { }
 
   ngOnInit(): void {
   }
 
-  buttonClicked(index: number) {
-    if (this.isSelected(index)) {
-      // Remove index if it is already selected
-      this.selectedIndexes = this.selectedIndexes.filter(i => i !== index);
-    } else {
-      // Add index if it is not selected
-      this.selectedIndexes.push(index);
+  changeBackground(sortType: string): void {
+    this.closePopup.emit();
+    this.selectedButton = sortType;
+    let sortParam: string;
+    switch(sortType) {
+      case "What's new":
+        sortParam = 'freshness';
+        break;
+      case 'Price high to low':
+        sortParam = 'pricedesc';
+        break;
+      case 'Price low to high':
+        sortParam = 'priceasc';
+        break;
+    }
+    if (sortParam) {
+      this.apiService.updateProducts(sortParam).subscribe(data => {
+        this.category = data;
+     /*    this.categoryUpdated.emit(this.category) */
+        localStorage.setItem('category', JSON.stringify(this.category));
+      }, error => {
+        console.error(error);
+      });
     }
   }
-
-  isSelected(index: number) {
-    return this.selectedIndexes.includes(index);
-  }
 }
-
-

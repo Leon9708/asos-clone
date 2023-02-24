@@ -37,6 +37,8 @@ export class BrandsComponent implements OnInit {
 
   selectProductsId(brand:any) {
     this.shareData.setCategoryId(brand);
+    localStorage.setItem('categoryId', JSON.stringify(brand['categoryId']));
+    localStorage.removeItem('category');
     this.router.navigateByUrl('productView');
   }
 
