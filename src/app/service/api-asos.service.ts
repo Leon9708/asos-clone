@@ -31,13 +31,19 @@ export class ApiAsosService {
     const url = `https://asos2.p.rapidapi.com/products/v2/list?store=US&offset=0&categoryId=${this.categoryId}&limit=48&country=US&sort=freshness&currency=USD&sizeSchema=US&lang=en-US`
     return this.http.get<any[]>(url, this.options);
   }
-  updateProducts(sortType:string){
+  updateProducts(){
     this.categoryId = localStorage.getItem('categoryId');
-    this.sortType = sortType
-    const url = `https://asos2.p.rapidapi.com/products/v2/list?store=US&offset=0&categoryId=${this.categoryId}&limit=48&country=US&sort=${sortType}&currency=USD&sizeSchema=US&lang=en-US`
+    const filteredCategoryId = localStorage.getItem('filteredCategoryId')
+    const sortType = localStorage.getItem('sortType')
+    let url = `https://asos2.p.rapidapi.com/products/v2/list?store=US&offset=0&categoryId=${this.categoryId}&limit=48&country=US&sort=${sortType}`;
+
+    if (filteredCategoryId) {
+      url += `&attribute_10992=${filteredCategoryId}`;
+    }
+  
+    url += '&currency=USD&sizeSchema=US&lang=en-US';
+  
     console.log(url)
     return this.http.get<any[]>(url, this.options)
   }
-
-
 }

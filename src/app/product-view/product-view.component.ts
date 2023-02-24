@@ -32,12 +32,8 @@ export class ProductViewComponent implements OnInit {
       }
     }
   }
-/*   onCategoryUpdated(category: any) {
+   onCategoryUpdated(category: any) {
     this.category = category
-    console.log('ball')
-  } */
-  closePopup(): void {
-    this.popUpSort = false;
-  }
+  } 
 }
 

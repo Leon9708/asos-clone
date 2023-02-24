@@ -9,14 +9,14 @@
                         <p>Sort</p>
                         <img [ngClass]="{'transform_img': popUpSort}" src="/assets/img/arrow-down.png" alt="">
                     </button>
-                    <app-sort (closePopup)="closePopup()" [(category)]="this.category" class="place_popup" *ngIf="popUpSort"></app-sort>
+                    <app-sort (categoryUpdated)="onCategoryUpdated($event)" [category]="category" class="place_popup" *ngIf="popUpSort"></app-sort>
                 </div>
                 <div class="box_btn_filter">
-                    <button (blur)="popUpCategory = false" (click)="this.popUpCategory = !this.popUpCategory" class="btn_filter">
+                    <button (click)="this.popUpCategory = !this.popUpCategory" class="btn_filter">
                         <p>Category</p>
                         <img src="/assets/img/arrow-down.png" alt="">
                     </button>
-                    <app-category class="place_popup" *ngIf="popUpCategory"></app-category>
+                    <app-category (categoryUpdated)="onCategoryUpdated($event)" [category]="category" class="place_popup" *ngIf="popUpCategory"></app-category>
                 </div>
                 <button class="btn_filter">
                     <p>Sort</p>

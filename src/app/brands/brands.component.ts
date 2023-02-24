@@ -36,6 +36,7 @@ export class BrandsComponent implements OnInit {
   }
 
   selectProductsId(brand:any) {
+    localStorage.clear()
     this.shareData.setCategoryId(brand);
     localStorage.setItem('categoryId', JSON.stringify(brand['categoryId']));
     localStorage.removeItem('category');

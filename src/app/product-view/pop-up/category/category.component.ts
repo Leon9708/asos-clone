@@ -8,41 +8,34 @@ import { ApiAsosService } from 'src/app/service/api-asos.service';
 })
 export class CategoryComponent implements OnInit {
   selectedButton = '';
-/*   @Input() category: any;
+  @Input() category: any;
   @Output() categoryUpdated = new EventEmitter<any>();
-  @Output() closePopup = new EventEmitter<void>(); */
-  sortCategory = ["What's new", 'Price high to low', 'Price low to high'];
+  CategoryFilterArray = [];
 
   constructor(private apiService: ApiAsosService) { }
 
   ngOnInit(): void {
+    const selectedButtonCategory = localStorage.getItem('selectedButtonCategory');
+    if (selectedButtonCategory) {
+      this.selectedButton = selectedButtonCategory;
+    }
+    for (let i = 0; i < this.category.facets[1].facetValues.length; i++) {
+      const categoryFilter = {categoryName : this.category.facets[1].facetValues[i].name, id : this.category.facets[1].facetValues[i].id}
+      this.CategoryFilterArray.push(categoryFilter);
+    }
   }
 
- /*  changeBackground(sortCategory: string): void {
-    this.closePopup.emit();
-    this.selectedButton = sortCategory;
-    let sortParam: string;
-    switch(sortCategory) {
-      case "What's new":
-        sortParam = 'freshness';
-        break;
-      case 'Price high to low':
-        sortParam = 'pricedesc';
-        break;
-      case 'Price low to high':
-        sortParam = 'priceasc';
-        break;
-    }
-
-    if (sortParam) {
-      this.apiService.updateProducts(sortParam).subscribe(data => {
+  changeBackground(categoryFilter: any): void {
+    this.selectedButton = categoryFilter.categoryName;
+    localStorage.setItem('selectedButtonCategory', this.selectedButton);
+    localStorage.setItem('filteredCategoryId', categoryFilter.id), 
+    this.apiService.updateProducts().subscribe(data => {
         this.category = data;
         this.categoryUpdated.emit(data);
-     
         console.log(data)
       }, error => {
         console.error(error);
       });
-    }
-  } */
+    
+  } 
 }

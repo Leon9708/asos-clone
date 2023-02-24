@@ -1,1 +1,1 @@
-<!-- <button *ngFor="let category of sortCategory" (click)="changeBackground(category)" [ngClass]="{'active': selectedButton === category}">{{ category }}</button> -->
+<button *ngFor="let categoryfilter of CategoryFilterArray" (click)="changeBackground(categoryfilter)" [ngClass]="{'active': selectedButton === categoryfilter.categoryName}">{{ categoryfilter.categoryName }}</button>
