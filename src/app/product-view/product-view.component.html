@@ -9,19 +9,22 @@
                         <p>Sort</p>
                         <img [ngClass]="{'transform_img': popUpSort}" src="/assets/img/arrow-down.png" alt="">
                     </button>
-                    <app-sort (categoryUpdated)="onCategoryUpdated($event)" [category]="category" class="place_popup" *ngIf="popUpSort"></app-sort>
+                    <app-sort (closePopup)="closePopUp()" (categoryUpdated)="onCategoryUpdated($event)" [category]="category" class="place_popup" *ngIf="popUpSort"></app-sort>
                 </div>
                 <div class="box_btn_filter">
-                    <button (click)="this.popUpCategory = !this.popUpCategory" class="btn_filter">
+                    <button [ngStyle]="{ 'background-color': popUpCategory ? '#f6f6f6' : 'transparent' }" (click)="this.popUpCategory = !this.popUpCategory" class="btn_filter">
                         <p>Category</p>
-                        <img src="/assets/img/arrow-down.png" alt="">
+                        <img [ngClass]="{'transform_img': popUpCategory}" src="/assets/img/arrow-down.png" alt="">
                     </button>
-                    <app-category (categoryUpdated)="onCategoryUpdated($event)" [category]="category" class="place_popup" *ngIf="popUpCategory"></app-category>
+                    <app-category (closePopup)="closePopUp()" (categoryUpdated)="onCategoryUpdated($event)" [category]="category" class="place_popup" *ngIf="popUpCategory"></app-category>
                 </div>
-                <button class="btn_filter">
-                    <p>Sort</p>
-                    <img src="/assets/img/arrow-down.png" alt="">
-                </button>
+                <div class="box_btn_filter">
+                    <button [ngStyle]="{ 'background-color': popUpStyle ? '#f6f6f6' : 'transparent' }" class="btn_filter" (click)="this.popUpStyle = !this.popUpStyle">
+                        <p>Style</p>
+                        <img [ngClass]="{'transform_img': popUpStyle}" src="/assets/img/arrow-down.png" alt="">
+                    </button>
+                    <app-style (closePopup)="closePopUp()" (categoryUpdated)="onCategoryUpdated($event)" [category]="category" *ngIf="popUpStyle" class="place_popup"></app-style>
+                </div>
                 <button class="btn_filter">
                     <p>Sort</p>
                     <img src="/assets/img/arrow-down.png" alt="">

@@ -11,6 +11,8 @@ import { BrandsComponent } from './brands/brands.component';
 import { ProductViewComponent } from './product-view/product-view.component';
 import { SortComponent } from './product-view/pop-up/sort/sort.component';
 import { CategoryComponent } from './product-view/pop-up/category/category.component';
+import { StyleComponent } from './product-view/pop-up/style/style.component';
+
 
 
 @NgModule({
@@ -23,6 +25,7 @@ import { CategoryComponent } from './product-view/pop-up/category/category.compo
     NavbarComponent,
     SortComponent,
     CategoryComponent,
+    StyleComponent,
   ],
   imports: [
     BrowserModule,

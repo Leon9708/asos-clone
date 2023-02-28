@@ -10,6 +10,7 @@ export class SortComponent implements OnInit {
   selectedButton = "What's new";
   @Input() category: any;
   @Output() categoryUpdated = new EventEmitter<any>(); 
+  @Output() closePopup = new EventEmitter<any>();
   sortTypes = ["What's new", 'Price high to low', 'Price low to high'];
 
   constructor(private apiService: ApiAsosService) { }
@@ -39,6 +40,7 @@ export class SortComponent implements OnInit {
     this.apiService.updateProducts().subscribe(data => {
         this.category = data;
         this.categoryUpdated.emit(this.category) 
+        this.closePopup.emit();
         localStorage.setItem('category', JSON.stringify(this.category));
       }, error => {
         console.error(error);

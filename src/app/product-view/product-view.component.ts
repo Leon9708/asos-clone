@@ -11,6 +11,7 @@ import { ShareDataService } from '../service/share-data.service';
 export class ProductViewComponent implements OnInit {
   popUpSort: boolean = false;
   popUpCategory: boolean = false;
+  popUpStyle:boolean = false
   constructor(public apiService: ApiAsosService, private dataService :ShareDataService) { }
   categoryId: string = '';
   category: any [];
@@ -35,5 +36,10 @@ export class ProductViewComponent implements OnInit {
    onCategoryUpdated(category: any) {
     this.category = category
   } 
+  closePopUp(){
+    this.popUpSort = false
+    this.popUpCategory = false;
+    this.popUpStyle = false;
+  }
 }
 

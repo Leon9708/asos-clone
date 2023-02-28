@@ -33,15 +33,22 @@ export class ApiAsosService {
   }
   updateProducts(){
     this.categoryId = localStorage.getItem('categoryId');
-    const filteredCategoryId = localStorage.getItem('filteredCategoryId')
-    const sortType = localStorage.getItem('sortType')
+    const filteredCategoryId = localStorage.getItem('filteredCategoryId');
+    const sortType = localStorage.getItem('sortType');
+    const style = localStorage.getItem('styleId');
     let url = `https://asos2.p.rapidapi.com/products/v2/list?store=US&offset=0&categoryId=${this.categoryId}&limit=48&country=US&sort=${sortType}`;
+    
+    url += '&currency=USD&sizeSchema=US&lang=en-US';
 
+    if(style){
+    url += `&attribute_1046=${style}`;
+    }
     if (filteredCategoryId) {
       url += `&attribute_10992=${filteredCategoryId}`;
     }
+    
   
-    url += '&currency=USD&sizeSchema=US&lang=en-US';
+
   
     console.log(url)
     return this.http.get<any[]>(url, this.options)
