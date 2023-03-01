@@ -1,4 +1,4 @@
 <div class="place_all">
     <button (click)="removeStyle()" class="all">All</button>
 </div>
-<button class="selection" *ngFor="let style of StyleFilterArray" (click)="changeBackground(style)" [ngClass]="{ 'active': selectedButton === style.styleName }">{{ style.styleName }}</button>
+<button class="selection" *ngFor="let style of StyleFilterArray" (click)="filterStyle(style)" [ngClass]="{ 'active': selectedButton === style.styleName }">{{ style.styleName }}</button>

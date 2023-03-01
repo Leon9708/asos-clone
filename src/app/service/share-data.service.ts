@@ -1,24 +1,34 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShareDataService {
-
   constructor() { }
-  brand: {title: string, categoryId: string}[]
-  buttonId: string;
+  private brandIdSubject = new BehaviorSubject<{ title: string, categoryId: string }>(null);
+  brand$ = this.brandIdSubject.asObservable();
+  private genderIdSubject = new BehaviorSubject<string>(null)
+  genderId$ = this.genderIdSubject.asObservable();
+  brandData: any[];
+  private brandsSubject = new BehaviorSubject<any[]>([]);
+  brands$ = this.brandsSubject.asObservable();
+  private brandDataSubject = new BehaviorSubject<any[]>([]);
+  brandData$ = this.brandDataSubject.asObservable();
 
-  getButtonId(): string {
-    return this.buttonId;
+  setGenderId(genderId: string): void {
+    this.genderIdSubject.next(genderId);
   }
 
-  setButtonId(buttonId: string): void {
-    this.buttonId = buttonId;
+  setBrandId(brand: { title: string, categoryId: string }): void {
+    this.brandIdSubject.next(brand);
   }
 
-  setCategoryId(brand: []): void {
-    this.brand = brand;
+  setBrands(brands: any[]): void {
+    this.brandsSubject.next(brands);
   }
-
+  
+  setBrandData(data: any[]): void {
+    this.brandDataSubject.next(data);
+  }
 }

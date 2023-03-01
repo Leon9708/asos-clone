@@ -3,6 +3,6 @@
 <button (click)="buttonClicked(2)" [ngClass]="{'active': isSelected(2)}">Price high to low</button>
 <button (click)="buttonClicked(3)" [ngClass]="{'active': isSelected(3)}">Price low to high</button> -->
 <div style="padding-top: 0.25rem;"></div>
-<button *ngFor="let sortType of sortTypes" (click)="changeBackground(sortType)" [ngClass]="{ 'active': selectedButton === sortType }">{{ sortType }}</button>
+<button *ngFor="let sortType of sortTypes" (click)="filterSort(sortType)" [ngClass]="{ 'active': selectedButton === sortType }">{{ sortType }}</button>
 <!-- <button (click)="changeBackground($event)" [ngClass]="{'active': selectedButton === category.facets[0].facetValues[0].name}">{{category.facets[0].facetValues[0].name}}</button>
 <button (click)="changeBackground($event)" [ngClass]="{'active': selectedButton === category.facets[0].facetValues[1].name}">{{category.facets[0].facetValues[1].name}}</button> -->

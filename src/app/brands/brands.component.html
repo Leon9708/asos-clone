@@ -2,8 +2,8 @@
 <div class="place_Brand_container">
     <div class="container_brands">
         <div class="box_h1">
-            <h1 *ngIf="buttonId === 'men'">A-Z Men's Brands</h1>
-            <h1 *ngIf="buttonId === 'women'">A-Z Women's Brands</h1>
+            <h1 *ngIf="(genderId) === 'men'">A-Z Men's Brands</h1>
+            <h1 *ngIf="(genderId) === 'women'">A-Z Women's Brands</h1>
         </div>
         <div>
             <div class="brands" *ngFor="let group of brandsByLetter" [attr.data-letter]="group">

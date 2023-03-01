@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ApiAsosService } from '../service/api-asos.service';
 import { ShareDataService } from '../service/share-data.service';
 
@@ -12,29 +12,32 @@ export class ProductViewComponent implements OnInit {
   popUpSort: boolean = false;
   popUpCategory: boolean = false;
   popUpStyle:boolean = false
-  constructor(public apiService: ApiAsosService, private dataService :ShareDataService) { }
   categoryId: string = '';
-  category: any [];
+  brandData: any [];
+  brand: any;
+  previousBrandId: string;
+  constructor(public apiService: ApiAsosService, private shareData :ShareDataService) { }
 
-  async ngOnInit() {
-    const categoryData = localStorage.getItem('category');
-    if (categoryData) {
-      this.category = JSON.parse(categoryData);
-      console.log(this.category,'local')
-    } else {
-      try {
-        this.categoryId = this.dataService.brand['categoryId'].toString()
-        const data = await this.apiService.fetchProducts().toPromise();
-        this.category = data;
-        localStorage.setItem('category', JSON.stringify(this.category));
-        console.log(this.category, 'api')
-      } catch (error) {
-        console.error(error);
+  ngOnInit(): void {
+    this.shareData.brand$.subscribe(async (brand: { title: string, categoryId: string }) => {
+      if (brand.categoryId !== this.previousBrandId) {
+        this.brand = brand;
+        try { 
+          const data = await this.apiService.fetchProducts(this.brand.categoryId).toPromise();
+          this.brandData = data;
+          this.shareData.setBrandData(this.brandData);
+          console.log(this.brandData, 'api');
+        } catch (error) {
+          console.error(error);
+        }
       }
-    }
+      this.previousBrandId = brand.categoryId;
+    });
   }
-   onCategoryUpdated(category: any) {
-    this.category = category
+
+
+  onCategoryUpdated(brandData: any) {
+    this.shareData.setBrandData(brandData) 
   } 
   closePopUp(){
     this.popUpSort = false

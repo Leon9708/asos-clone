@@ -1,4 +1,4 @@
 <div class="place_all">
     <button (click)="removeCategory()" class="all">All</button>
 </div>
-<button class="selection" *ngFor="let categoryfilter of CategoryFilterArray" (click)="changeBackground(categoryfilter)" [ngClass]="{'active': selectedButton === categoryfilter.categoryName}">{{ categoryfilter.categoryName }}</button>
+<button class="selection" *ngFor="let categoryfilter of CategoryFilterArray" (click)="filterCategory(categoryfilter)" [ngClass]="{'active': selectedButton === categoryfilter.categoryName}">{{ categoryfilter.categoryName }}</button>

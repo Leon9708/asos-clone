@@ -8,7 +8,7 @@ import { ApiAsosService } from 'src/app/service/api-asos.service';
 })
 export class StyleComponent implements OnInit {
   selectedButton = '';
-  @Input() category: any;
+  @Input() brandData: any;
   @Output() categoryUpdated = new EventEmitter<any>();
   @Output() closePopup = new EventEmitter<any>()
   StyleFilterArray = [];
@@ -21,7 +21,7 @@ export class StyleComponent implements OnInit {
       this.selectedButton = selectedButtonStyle;
     }
   
-    const element = this.category.facets.find((facet: { id: string; }) => facet.id === 'attribute_1046');
+    const element = this.brandData.facets.find((facet: { id: string; }) => facet.id === 'attribute_1046');
 
     if (element) {
       for (let i = 0; i < element.facetValues.length; i++) {
@@ -34,19 +34,17 @@ export class StyleComponent implements OnInit {
     }
   }
 
-  changeBackground(styleFilter: any): void {
-    debugger;
+  filterStyle(styleFilter: any): void {
     this.selectedButton = styleFilter.styleName;
     localStorage.setItem('selectedButtonStyle', this.selectedButton);
     localStorage.setItem('styleId', styleFilter.id), 
     this.setUpdate();
-    
   } 
 
   setUpdate(){
     this.apiService.updateProducts().subscribe(data => {
-      this.category = data;
-      this.categoryUpdated.emit(data);
+      this.brandData = data;
+      this.categoryUpdated.emit(this.brandData);
       this.closePopup.emit();
       console.log(data)
     }, error => {

@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 <div class="place_productview_container">
     <div class="container_productview">
-        <h1>{{ category?.['categoryName']}}</h1>
+        <h1>{{ brandData?.['categoryName']}}</h1>
         <div class="place_filter_container">
             <div class="container_filter">
                 <div class="box_btn_filter">
@@ -9,21 +9,21 @@
                         <p>Sort</p>
                         <img [ngClass]="{'transform_img': popUpSort}" src="/assets/img/arrow-down.png" alt="">
                     </button>
-                    <app-sort (closePopup)="closePopUp()" (categoryUpdated)="onCategoryUpdated($event)" [category]="category" class="place_popup" *ngIf="popUpSort"></app-sort>
+                    <app-sort (closePopup)="closePopUp()" (categoryUpdated)="onCategoryUpdated($event)" [brandData]="brandData" class="place_popup" *ngIf="popUpSort"></app-sort>
                 </div>
                 <div class="box_btn_filter">
                     <button [ngStyle]="{ 'background-color': popUpCategory ? '#f6f6f6' : 'transparent' }" (click)="this.popUpCategory = !this.popUpCategory" class="btn_filter">
                         <p>Category</p>
                         <img [ngClass]="{'transform_img': popUpCategory}" src="/assets/img/arrow-down.png" alt="">
                     </button>
-                    <app-category (closePopup)="closePopUp()" (categoryUpdated)="onCategoryUpdated($event)" [category]="category" class="place_popup" *ngIf="popUpCategory"></app-category>
+                    <app-category (closePopup)="closePopUp()" (categoryUpdated)="onCategoryUpdated($event)" [brandData]="brandData" class="place_popup" *ngIf="popUpCategory"></app-category>
                 </div>
                 <div class="box_btn_filter">
                     <button [ngStyle]="{ 'background-color': popUpStyle ? '#f6f6f6' : 'transparent' }" class="btn_filter" (click)="this.popUpStyle = !this.popUpStyle">
                         <p>Style</p>
                         <img [ngClass]="{'transform_img': popUpStyle}" src="/assets/img/arrow-down.png" alt="">
                     </button>
-                    <app-style (closePopup)="closePopUp()" (categoryUpdated)="onCategoryUpdated($event)" [category]="category" *ngIf="popUpStyle" class="place_popup"></app-style>
+                    <app-style (closePopup)="closePopUp()" (categoryUpdated)="onCategoryUpdated($event)" [brandData]="brandData" *ngIf="popUpStyle" class="place_popup"></app-style>
                 </div>
                 <button class="btn_filter">
                     <p>Sort</p>
@@ -35,10 +35,10 @@
                 </button>
             </div>
         </div>
-        <p class="styles_found">{{ category?.['itemCount']}} styles found</p>
+        <p class="styles_found">{{ brandData?.['itemCount']}} styles found</p>
         <div class="place_products_container">
             <div class="products_container">
-                <div *ngFor="let product of  category?.['products']" class="product_box">
+                <div *ngFor="let product of  brandData?.['products']" class="product_box">
                     <img [src]="'http://images.' + product.imageUrl.slice(7)">
                     <p class="description">{{product['name']}}</p>
                     <p class="price">{{product['price']['current']['text']}}</p>

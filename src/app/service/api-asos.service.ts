@@ -1,23 +1,25 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { ShareDataService } from './share-data.service';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiAsosService {
-  categoryId: string;
+  brand: any;
   sortType: string;
   private categories = 'https://asos2.p.rapidapi.com/categories/list?country=US&lang=en-US';
 
   private options = {
     headers: {
-      'X-RapidAPI-Key': 'e837991aa7mshf30c519bdea7725p15cb82jsn89b881e7e9c8',
+      'X-RapidAPI-Key': 'a0180db7camshee129c41ed0a557p11395fjsn8bf119f2bea9',
       'X-RapidAPI-Host': 'asos2.p.rapidapi.com'
     }
   };
   
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private dataService: ShareDataService) { }
   
   fetchCategoriesMen(): Observable<any[]> {
     return this.http.get<any[]>(this.categories, this.options);
@@ -25,18 +27,15 @@ export class ApiAsosService {
   fetchCategoriesWomen(): Observable<any[]> {
     return this.http.get<any[]>(this.categories, this.options);
   }
-  fetchProducts(): Observable<any[]> {
-    this.categoryId = localStorage.getItem('categoryId');
-    console.log(this.categoryId)
-    const url = `https://asos2.p.rapidapi.com/products/v2/list?store=US&offset=0&categoryId=${this.categoryId}&limit=48&country=US&sort=freshness&currency=USD&sizeSchema=US&lang=en-US`
+  fetchProducts(categoryId:string): Observable<any[]> {
+    const url = `https://asos2.p.rapidapi.com/products/v2/list?store=US&offset=0&categoryId=${categoryId}&limit=48&country=US&sort=freshness&currency=USD&sizeSchema=US&lang=en-US`
     return this.http.get<any[]>(url, this.options);
   }
   updateProducts(){
-    this.categoryId = localStorage.getItem('categoryId');
     const filteredCategoryId = localStorage.getItem('filteredCategoryId');
     const sortType = localStorage.getItem('sortType');
     const style = localStorage.getItem('styleId');
-    let url = `https://asos2.p.rapidapi.com/products/v2/list?store=US&offset=0&categoryId=${this.categoryId}&limit=48&country=US&sort=${sortType}`;
+    let url = `https://asos2.p.rapidapi.com/products/v2/list?store=US&offset=0&categoryId=${this.brand}&limit=48&country=US&sort=${sortType}`;
     
     url += '&currency=USD&sizeSchema=US&lang=en-US';
 
@@ -47,9 +46,6 @@ export class ApiAsosService {
       url += `&attribute_10992=${filteredCategoryId}`;
     }
     
-  
-
-  
     console.log(url)
     return this.http.get<any[]>(url, this.options)
   }

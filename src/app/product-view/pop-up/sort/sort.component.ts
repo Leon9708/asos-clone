@@ -8,7 +8,7 @@ import { ApiAsosService } from 'src/app/service/api-asos.service';
 })
 export class SortComponent implements OnInit {
   selectedButton = "What's new";
-  @Input() category: any;
+  @Input() brandData: any;
   @Output() categoryUpdated = new EventEmitter<any>(); 
   @Output() closePopup = new EventEmitter<any>();
   sortTypes = ["What's new", 'Price high to low', 'Price low to high'];
@@ -22,7 +22,7 @@ export class SortComponent implements OnInit {
     }
   }
 
-  changeBackground(sortType: string): void {
+  filterSort(sortType: string): void {
     this.selectedButton = sortType;
     let sortParam: string;
     switch(sortType) {
@@ -38,10 +38,10 @@ export class SortComponent implements OnInit {
     }
     localStorage.setItem('sortType', sortParam )
     this.apiService.updateProducts().subscribe(data => {
-        this.category = data;
-        this.categoryUpdated.emit(this.category) 
+        this.brandData = data;
+        this.categoryUpdated.emit(this.brandData) 
         this.closePopup.emit();
-        localStorage.setItem('category', JSON.stringify(this.category));
+        localStorage.setItem('category', JSON.stringify(this.brandData));
       }, error => {
         console.error(error);
       });

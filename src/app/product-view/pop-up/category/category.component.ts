@@ -8,7 +8,7 @@
   })
   export class CategoryComponent implements OnInit {
     selectedButton = '';
-    @Input() category: any;
+    @Input() brandData: any;
     @Output() categoryUpdated = new EventEmitter<any>();
     @Output() closePopup = new EventEmitter<any>()
     CategoryFilterArray = [];
@@ -20,20 +20,20 @@
       if (selectedButtonCategory) {
         this.selectedButton = selectedButtonCategory;
       }
-      const element = this.category.facets.find((facet: { id: string; }) => facet.id === 'attribute_10992');
+      const category = this.brandData.facets.find((facet: { id: string; }) => facet.id === 'attribute_10992');
 
-      if (element) {
-        for (let i = 0; i < element.facetValues.length; i++) {
+      if (category) {
+        for (let i = 0; i < category.facetValues.length; i++) {
           const categoryfilter = {
-            categoryName: element.facetValues[i].name,
-            id: element.facetValues[i].id
+            categoryName: category.facetValues[i].name,
+            id: category.facetValues[i].id
           };
           this.CategoryFilterArray.push(categoryfilter);
         }
       }
     }
 
-    changeBackground(categoryFilter: any): void {
+    filterCategory(categoryFilter: any): void {
       this.selectedButton = categoryFilter.categoryName;
       localStorage.setItem('selectedButtonCategory', this.selectedButton);
       localStorage.setItem('filteredCategoryId', categoryFilter.id), 
@@ -42,8 +42,8 @@
 
      setUpdate(){
       this.apiService.updateProducts().subscribe(data => {
-        this.category = data;
-        this.categoryUpdated.emit(data);
+        this.brandData = data;
+        this.categoryUpdated.emit(this.brandData);
         this.closePopup.emit(null);
         console.log(data)
       }, error => {

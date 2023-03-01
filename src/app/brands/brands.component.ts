@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiAsosService } from '../service/api-asos.service';
 import { ShareDataService } from '../service/share-data.service';
@@ -10,36 +10,45 @@ import { ShareDataService } from '../service/share-data.service';
 })
 export class BrandsComponent implements OnInit {
 
-  buttonId: string;
   alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
   alphabetUpper = this.alphabet.map(letter => letter.toUpperCase());
   brands: any[] = [];
   brandsByLetter: { letter: string, brands:{title:string, categoryId: string}[]}[] = []
-
+  genderId: string;
   constructor(private apiService: ApiAsosService, private shareData:ShareDataService, private router: Router) { }
 
   ngOnInit(): void {
-     this.buttonId = this.shareData.getButtonId();
-     if ( this.buttonId  === 'men') {
-      this.apiService.fetchCategoriesMen().subscribe(data => {
-        this.brands = data['brands'][0]['children'];
-        this.brandsByLetter = this.groupBrandsByLetter();
-        console.log(data);
-      });
-    } else{
-      this.apiService.fetchCategoriesWomen().subscribe(data => {
-        this.brands = data['brands'][2]['children'];
-        this.brandsByLetter = this.groupBrandsByLetter();
-        console.log(data);
-      });
-    }   
+    debugger;
+    this.shareData.genderId$.subscribe((genderId: string) => {
+      this.genderId = genderId;
+    });
+    this.shareData.brands$.subscribe((brands) => {
+      if (this.brands.length === 0 || JSON.stringify(this.brands) !== JSON.stringify(brands)) {
+        if (this.genderId === 'men') {
+          this.apiService.fetchCategoriesMen().subscribe(data => {
+            this.brands = data['brands'][0]['children']
+            this.shareData.setBrands(this.brands);
+            this.brandsByLetter = this.groupBrandsByLetter();
+            console.log('men',data);
+          });
+        } else {
+          this.apiService.fetchCategoriesWomen().subscribe(data => {
+            this.brands = data['brands'][2]['children']
+            this.shareData.setBrands(this.brands);
+            this.brandsByLetter = this.groupBrandsByLetter();
+            console.log('women',data);
+          });
+        }
+      }
+      else{
+        this.brands = brands;
+       } 
+    });
+    console.log(this.brands)
   }
 
   selectProductsId(brand:any) {
-    localStorage.clear()
-    this.shareData.setCategoryId(brand);
-    localStorage.setItem('categoryId', JSON.stringify(brand['categoryId']));
-    localStorage.removeItem('category');
+    this.shareData.setBrandId(brand); 
     this.router.navigateByUrl('productView');
   }
 

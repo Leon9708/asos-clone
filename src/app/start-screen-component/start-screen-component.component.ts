@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import {  Router } from '@angular/router';
 import { ShareDataService } from '../service/share-data.service';
 
@@ -10,14 +10,13 @@ import { ShareDataService } from '../service/share-data.service';
 export class StartScreenComponentComponent implements OnInit {
   isHoveredWomen: boolean = false;
   isHoveredMen: boolean = false;
-  id: string;
   constructor(private router: Router, private shareData: ShareDataService) { }
-
+  
   ngOnInit(): void {
   }
 
   loadNext(id:string){
-    this.shareData.setButtonId(id);
+    this.shareData.setGenderId(id);
     this.router.navigateByUrl('brands')
   }
 
