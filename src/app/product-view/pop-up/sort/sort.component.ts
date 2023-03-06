@@ -1,5 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ApiAsosService } from 'src/app/service/api-asos.service';
+import { ShareDataService } from 'src/app/service/share-data.service';
+
 
 @Component({
   selector: 'app-sort',
@@ -9,11 +11,10 @@ import { ApiAsosService } from 'src/app/service/api-asos.service';
 export class SortComponent implements OnInit {
   selectedButton = "What's new";
   @Input() brandData: any;
-  @Output() categoryUpdated = new EventEmitter<any>(); 
   @Output() closePopup = new EventEmitter<any>();
   sortTypes = ["What's new", 'Price high to low', 'Price low to high'];
 
-  constructor(private apiService: ApiAsosService) { }
+  constructor(private apiService: ApiAsosService, private shareData: ShareDataService) { }
 
   ngOnInit(): void {
     const selectedButtonSort = localStorage.getItem('selectedButtonSort');
@@ -24,24 +25,23 @@ export class SortComponent implements OnInit {
 
   filterSort(sortType: string): void {
     this.selectedButton = sortType;
-    let sortParam: string;
+    localStorage.setItem('selectedButtonSort',sortType)
+    let sort: string;
     switch(sortType) {
       case "What's new":
-        sortParam = 'freshness';
+        sort = 'freshness';
         break;
       case 'Price high to low':
-        sortParam = 'pricedesc';
+        sort = 'pricedesc';
         break;
       case 'Price low to high':
-        sortParam = 'priceasc';
+        sort = 'priceasc';
         break;
     }
-    localStorage.setItem('sortType', sortParam )
+    this.shareData.filterSort = sort
     this.apiService.updateProducts().subscribe(data => {
-        this.brandData = data;
-        this.categoryUpdated.emit(this.brandData) 
+        this.shareData.setBrandData(data)
         this.closePopup.emit();
-        localStorage.setItem('category', JSON.stringify(this.brandData));
       }, error => {
         console.error(error);
       });

@@ -1,5 +1,8 @@
   import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
   import { ApiAsosService } from 'src/app/service/api-asos.service';
+  import { ShareDataService } from 'src/app/service/share-data.service';
+
+
 
   @Component({
     selector: 'app-category',
@@ -9,11 +12,10 @@
   export class CategoryComponent implements OnInit {
     selectedButton = '';
     @Input() brandData: any;
-    @Output() categoryUpdated = new EventEmitter<any>();
     @Output() closePopup = new EventEmitter<any>()
     CategoryFilterArray = [];
 
-    constructor(private apiService: ApiAsosService) { }
+    constructor(private apiService: ApiAsosService, private shareData: ShareDataService) { }
 
     ngOnInit(): void {
       const selectedButtonCategory = localStorage.getItem('selectedButtonCategory');
@@ -33,27 +35,31 @@
       }
     }
 
+    setUpdate(){
+      console.log(this.shareData.filterCategoryId)
+       this.apiService.updateProducts().subscribe(newBrandData => {
+        this.shareData.setBrandData(newBrandData)
+        this.closePopup.emit(
+          
+        );
+        console.log(newBrandData)
+      }, error => {
+        console.error(error);
+      });     
+    }
+
     filterCategory(categoryFilter: any): void {
+      debugger;
       this.selectedButton = categoryFilter.categoryName;
+      this.shareData.filterCategoryId = categoryFilter.id
       localStorage.setItem('selectedButtonCategory', this.selectedButton);
-      localStorage.setItem('filteredCategoryId', categoryFilter.id), 
       this.setUpdate()   
     } 
 
-     setUpdate(){
-      this.apiService.updateProducts().subscribe(data => {
-        this.brandData = data;
-        this.categoryUpdated.emit(this.brandData);
-        this.closePopup.emit(null);
-        console.log(data)
-      }, error => {
-        console.error(error);
-    });
-    
-    }
+
     removeCategory(){
-      localStorage.removeItem('filteredCategoryId');
+      this.shareData.filterCategoryId = undefined
       localStorage.removeItem('selectedButtonCategory');
-      this.setUpdate();
+      this.setUpdate()
     }
   }

@@ -16,7 +16,7 @@ export class StartScreenComponentComponent implements OnInit {
   }
 
   loadNext(id:string){
-    this.shareData.setGenderId(id);
+    this.shareData.genderId = id
     this.router.navigateByUrl('brands')
   }
 

@@ -1,5 +1,7 @@
+import { style } from '@angular/animations';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ApiAsosService } from 'src/app/service/api-asos.service';
+import { ShareDataService } from 'src/app/service/share-data.service';
 
 @Component({
   selector: 'app-style',
@@ -13,7 +15,7 @@ export class StyleComponent implements OnInit {
   @Output() closePopup = new EventEmitter<any>()
   StyleFilterArray = [];
 
-  constructor(private apiService: ApiAsosService) { }
+  constructor(private apiService: ApiAsosService, private shareData: ShareDataService) { }
 
   ngOnInit(): void {
     const selectedButtonStyle = localStorage.getItem('selectedButtonStyle');
@@ -34,23 +36,23 @@ export class StyleComponent implements OnInit {
     }
   }
 
-  filterStyle(styleFilter: any): void {
-    this.selectedButton = styleFilter.styleName;
-    localStorage.setItem('selectedButtonStyle', this.selectedButton);
-    localStorage.setItem('styleId', styleFilter.id), 
-    this.setUpdate();
-  } 
-
   setUpdate(){
     this.apiService.updateProducts().subscribe(data => {
-      this.brandData = data;
-      this.categoryUpdated.emit(this.brandData);
+      this.shareData.setBrandData(data)
       this.closePopup.emit();
       console.log(data)
     }, error => {
       console.error(error);
     });
   }
+
+  filterStyle(styleFilter: any): void {
+    this.selectedButton = styleFilter.styleName;
+    this.shareData.filterStyleId = styleFilter.id
+    localStorage.setItem('selectedButtonStyle', this.selectedButton);
+    this.setUpdate();
+  } 
+
   removeStyle(){
     localStorage.removeItem('styleId');
     localStorage.removeItem('selectedButtonStyle');

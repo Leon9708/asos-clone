@@ -14,31 +14,29 @@ export class ProductViewComponent implements OnInit {
   popUpStyle:boolean = false
   categoryId: string = '';
   brandData: any [];
-  brand: any;
-  previousBrandId: string;
+  brandInfo: any;
   constructor(public apiService: ApiAsosService, private shareData :ShareDataService) { }
 
   ngOnInit(): void {
-    this.shareData.brand$.subscribe(async (brand: { title: string, categoryId: string }) => {
-      if (brand.categoryId !== this.previousBrandId) {
-        this.brand = brand;
-        try { 
-          const data = await this.apiService.fetchProducts(this.brand.categoryId).toPromise();
-          this.brandData = data;
-          this.shareData.setBrandData(this.brandData);
-          console.log(this.brandData, 'api');
+    debugger;
+    this.brandInfo = this.shareData.brandInfo;
+    this.shareData.brandData$.subscribe(async (data: any[]) => {
+      if (!data || JSON.stringify(this.brandData) !== JSON.stringify(data)) {
+        try {
+          const products = await this.apiService.fetchProducts(this.brandInfo.categoryId).toPromise();
+          this.brandData = products;
+          this.shareData.setBrandData(products);
+          console.log('API call successful');
         } catch (error) {
           console.error(error);
         }
+      } else {
+        console.log('Data not changed');
       }
-      this.previousBrandId = brand.categoryId;
     });
   }
 
 
-  onCategoryUpdated(brandData: any) {
-    this.shareData.setBrandData(brandData) 
-  } 
   closePopUp(){
     this.popUpSort = false
     this.popUpCategory = false;

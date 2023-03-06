@@ -18,37 +18,27 @@ export class BrandsComponent implements OnInit {
   constructor(private apiService: ApiAsosService, private shareData:ShareDataService, private router: Router) { }
 
   ngOnInit(): void {
-    debugger;
-    this.shareData.genderId$.subscribe((genderId: string) => {
-      this.genderId = genderId;
-    });
-    this.shareData.brands$.subscribe((brands) => {
-      if (this.brands.length === 0 || JSON.stringify(this.brands) !== JSON.stringify(brands)) {
-        if (this.genderId === 'men') {
-          this.apiService.fetchCategoriesMen().subscribe(data => {
-            this.brands = data['brands'][0]['children']
-            this.shareData.setBrands(this.brands);
-            this.brandsByLetter = this.groupBrandsByLetter();
-            console.log('men',data);
-          });
-        } else {
-          this.apiService.fetchCategoriesWomen().subscribe(data => {
-            this.brands = data['brands'][2]['children']
-            this.shareData.setBrands(this.brands);
-            this.brandsByLetter = this.groupBrandsByLetter();
-            console.log('women',data);
-          });
-        }
+     this.genderId = this.shareData.genderId;
+    if (this.brands.length === 0 || JSON.stringify(this.brands) !== JSON.stringify(this.shareData.brands)) {
+      if (this.genderId === 'men') {
+        this.apiService.fetchCategoriesMen().subscribe(data => {
+          this.brands = data['brands'][0]['children']
+          this.brandsByLetter = this.groupBrandsByLetter();
+       
+        });
+      } else {
+        this.apiService.fetchCategoriesWomen().subscribe(data => {
+          this.brands = data['brands'][2]['children']
+          this.brandsByLetter = this.groupBrandsByLetter();
+        });
       }
-      else{
-        this.brands = brands;
-       } 
-    });
+    }
+    this.shareData.brands = this.brands
     console.log(this.brands)
   }
 
   selectProductsId(brand:any) {
-    this.shareData.setBrandId(brand); 
+    this.shareData.brandInfo = brand; 
     this.router.navigateByUrl('productView');
   }
 
