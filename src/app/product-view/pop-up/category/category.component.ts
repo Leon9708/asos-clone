@@ -39,9 +39,7 @@
       console.log(this.shareData.filterCategoryId)
        this.apiService.updateProducts().subscribe(newBrandData => {
         this.shareData.setBrandData(newBrandData)
-        this.closePopup.emit(
-          
-        );
+        this.closePopup.emit();
         console.log(newBrandData)
       }, error => {
         console.error(error);

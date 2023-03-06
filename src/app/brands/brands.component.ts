@@ -18,7 +18,7 @@ export class BrandsComponent implements OnInit {
   constructor(private apiService: ApiAsosService, private shareData:ShareDataService, private router: Router) { }
 
   ngOnInit(): void {
-     this.genderId = this.shareData.genderId;
+    this.genderId = this.shareData.genderId;
     if (this.brands.length === 0 || JSON.stringify(this.brands) !== JSON.stringify(this.shareData.brands)) {
       if (this.genderId === 'men') {
         this.apiService.fetchCategoriesMen().subscribe(data => {
@@ -34,7 +34,6 @@ export class BrandsComponent implements OnInit {
       }
     }
     this.shareData.brands = this.brands
-    console.log(this.brands)
   }
 
   selectProductsId(brand:any) {
