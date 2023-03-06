@@ -15,6 +15,7 @@ import { StyleComponent } from './product-view/pop-up/style/style.component';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,

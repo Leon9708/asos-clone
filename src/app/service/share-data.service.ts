@@ -11,7 +11,7 @@ export class ShareDataService {
   genderId: string;
   brands: any[];
   brandInfo: any;
-  filterCategoryId: number;
+  filterCategoryId: number = 5623;
   filterSort: string;
   filterStyleId: number;
   
