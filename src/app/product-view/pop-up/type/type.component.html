@@ -1,0 +1,4 @@
+<div class="place_all">
+    <button (click)="removeType()" class="all">All</button>
+</div>
+<button class="selection" *ngFor="let type of filterArray" (click)="filterType(type)" [ngClass]="{ 'active': selectedButton === type.name }">{{ type.name }}</button>

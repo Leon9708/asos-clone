@@ -38,7 +38,7 @@ export class SortComponent implements OnInit {
         sort = 'priceasc';
         break;
     }
-    this.shareData.filterSort = sort
+    this.shareData.setFilterSort(sort); 
     this.apiService.updateProducts().subscribe(data => {
         this.shareData.setBrandData(data)
         this.closePopup.emit();

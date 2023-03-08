@@ -38,6 +38,7 @@ export class BrandsComponent implements OnInit {
 
   selectProductsId(brand:any) {
     this.shareData.brandInfo = brand; 
+    localStorage.clear();
     this.router.navigateByUrl('productView');
   }
 

@@ -1,0 +1,4 @@
+<div class="place_all">
+    <button (click)="removeType()" class="all">All</button>
+</div>
+<button class="selection" *ngFor="let color of filterArray" (click)="filterType(color)" [ngClass]="{ 'active': selectedButton === color.name }">{{ color.name }}</button>

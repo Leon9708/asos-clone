@@ -11,7 +11,6 @@ import { ShareDataService } from 'src/app/service/share-data.service';
 export class StyleComponent implements OnInit {
   selectedButton = '';
   @Input() brandData: any;
-  @Output() categoryUpdated = new EventEmitter<any>();
   @Output() closePopup = new EventEmitter<any>()
   StyleFilterArray = [];
 
@@ -48,13 +47,15 @@ export class StyleComponent implements OnInit {
 
   filterStyle(styleFilter: any): void {
     this.selectedButton = styleFilter.styleName;
-    this.shareData.filterStyleId = styleFilter.id
+    this.shareData.setFilterStyleId(styleFilter.id)  
+    this.shareData.removeOtherCategories('style');
+    localStorage.clear();
     localStorage.setItem('selectedButtonStyle', this.selectedButton);
     this.setUpdate();
   } 
 
   removeStyle(){
-    localStorage.removeItem('styleId');
+    this.shareData.filterStyleId = undefined
     localStorage.removeItem('selectedButtonStyle');
     this.setUpdate();
   }

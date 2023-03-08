@@ -11,13 +11,16 @@ import { ShareDataService } from '../service/share-data.service';
 export class ProductViewComponent implements OnInit {
   popUpSort: boolean = false;
   popUpCategory: boolean = false;
-  popUpStyle:boolean = false
+  popUpStyle: boolean = false
+  popUpType: boolean = false;
+  popUpColor: boolean = false;
   categoryId: string = '';
   brandData: any [] = [];
   brandInfo: any;
   constructor(public apiService: ApiAsosService, private shareData :ShareDataService) { }
 
  async ngOnInit(): Promise<void> {
+  debugger;
     this.brandInfo = this.shareData.brandInfo;
     this.shareData.brandData$.subscribe( (data: any[]) => {
       this.brandData = data
@@ -31,12 +34,15 @@ export class ProductViewComponent implements OnInit {
           console.error(error);
         }
       } 
-  }
+ 
+  }     
 
   closePopUp(){
     this.popUpSort = false
     this.popUpCategory = false;
     this.popUpStyle = false;
+    this.popUpType = false;
+    this.popUpColor = false;
   }
 }
 

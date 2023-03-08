@@ -1,0 +1,45 @@
+.selection {
+    width: 95%;
+    background-color: white;
+    border: none;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    text-align: start;
+    padding-left: 0.5rem;
+    font-size: 1.05rem;
+    min-height: 2.5rem;
+    letter-spacing: 0.05rem;
+    &:hover {
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    }
+}
+
+.active {
+    background-color: #0770CF;
+    color: white;
+}
+
+.place_all {
+    width: 100%;
+    background-color: rgb(228, 228, 228);
+    height: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.all {
+    font-size: 1.05rem;
+    letter-spacing: 0.075rem;
+    text-align: center;
+    margin: 0.5rem 0;
+    width: 30%;
+    height: 2rem;
+    border: none;
+    background-color: white;
+    border: solid 2px grey;
+    &:hover {
+        border: solid 2px #0770CF;
+        color: #0770CF;
+    }
+}

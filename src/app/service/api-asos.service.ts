@@ -4,9 +4,7 @@ import { Observable } from 'rxjs';
 import { ShareDataService } from './share-data.service';
 
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ApiAsosService {
   brand: any;
   sortType: string;
@@ -14,7 +12,7 @@ export class ApiAsosService {
 
   private options = {
     headers: {
-      'X-RapidAPI-Key': '5e49889959mshc2f4fb1b13ba7d1p1b0cf0jsnf7850f2cab0a',
+      'X-RapidAPI-Key': 'a913e46bbdmsh73734fd21ff4a8dp1c167djsn91fb129717f3',
       'X-RapidAPI-Host': 'asos2.p.rapidapi.com'
     }
   };
@@ -33,10 +31,12 @@ export class ApiAsosService {
   }
   updateProducts(){
     debugger;
-    let filteredCategoryId = this.shareData.filterCategoryId
-    let sortType =  this.shareData.filterSort
-    let style =  this.shareData.filterStyleId
-    let url = `https://asos2.p.rapidapi.com/products/v2/list?store=US&offset=0&categoryId=${this.shareData.brandInfo.id}&limit=48&country=US&`;
+    let category = this.shareData.getFilterCategoryId();  
+    let sortType =  this.shareData.getFilterSort()
+    let style =  this.shareData.getFilterStyleId()
+    let type = this.shareData.getFilterTypeId()
+    let color = this.shareData.getFilterColorId();
+    let url = `https://asos2.p.rapidapi.com/products/v2/list?store=US&offset=0&categoryId=${this.shareData.brandInfo.categoryId}&limit=48&country=US&`;
 
     if(sortType){
       url +=`sort=${sortType}`
@@ -46,8 +46,14 @@ export class ApiAsosService {
     if(style){
     url += `&attribute_1046=${style}`;
     }
-    if (filteredCategoryId) {
-      url += `&attribute_10992=${filteredCategoryId}`;
+    if (category) {
+      url += `&attribute_10992=${category}`;
+    }
+    if(type){
+      url += `&attribute_1047=${type}`;
+    }
+    if(color){
+      url += `&base_colour=${color}`;
     }
         
     url += '&currency=USD&sizeSchema=US&lang=en-US';

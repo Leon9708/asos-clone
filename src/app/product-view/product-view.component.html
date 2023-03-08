@@ -25,14 +25,20 @@
                     </button>
                     <app-style (closePopup)="closePopUp()" [brandData]="brandData" *ngIf="popUpStyle" class="place_popup"></app-style>
                 </div>
-                <button class="btn_filter">
-                    <p>Sort</p>
-                    <img src="/assets/img/arrow-down.png" alt="">
-                </button>
-                <button class="btn_filter">
-                    <p>Sort</p>
-                    <img src="/assets/img/arrow-down.png" alt="">
-                </button>
+                <div class="box_btn_filter">
+                    <button [ngStyle]="{ 'background-color': popUpColor ? '#f6f6f6' : 'transparent' }" class="btn_filter" (click)="this.popUpColor = !this.popUpColor">
+                        <p>Color</p>
+                        <img [ngClass]="{'transform_img': popUpColor}" src="/assets/img/arrow-down.png" alt="">
+                    </button>
+                    <app-color (closePopup)="closePopUp()" [brandData]="brandData" *ngIf="popUpColor" class="place_popup"></app-color>
+                </div>
+                <div class="box_btn_filter">
+                    <button [ngStyle]="{ 'background-color': popUpType ? '#f6f6f6' : 'transparent' }" class="btn_filter" (click)="this.popUpType = !this.popUpType">
+                        <p>Type</p>
+                        <img [ngClass]="{'transform_img': popUpType}" src="/assets/img/arrow-down.png" alt="">
+                    </button>
+                    <app-type (closePopup)="closePopUp()" [brandData]="brandData" *ngIf="popUpType" class="place_popup"></app-type>
+                </div>
             </div>
         </div>
         <p class="styles_found">{{ brandData?.['itemCount']}} styles found</p>

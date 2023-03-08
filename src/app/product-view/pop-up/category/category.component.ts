@@ -2,8 +2,6 @@
   import { ApiAsosService } from 'src/app/service/api-asos.service';
   import { ShareDataService } from 'src/app/service/share-data.service';
 
-
-
   @Component({
     selector: 'app-category',
     templateUrl: './category.component.html',
@@ -13,6 +11,7 @@
     selectedButton = '';
     @Input() brandData: any;
     @Output() closePopup = new EventEmitter<any>()
+    @Output() hidecategory = new EventEmitter <any>()
     CategoryFilterArray = [];
 
     constructor(private apiService: ApiAsosService, private shareData: ShareDataService) { }
@@ -23,7 +22,7 @@
         this.selectedButton = selectedButtonCategory;
       }
       const category = this.brandData.facets.find((facet: { id: string; }) => facet.id === 'attribute_10992');
-
+      debugger;
       if (category) {
         for (let i = 0; i < category.facetValues.length; i++) {
           const categoryfilter = {
@@ -32,11 +31,14 @@
           };
           this.CategoryFilterArray.push(categoryfilter);
         }
+      }else{
+        this.shareData.hideCategory('category')
       }
+
+     
     }
 
     setUpdate(){
-      console.log(this.shareData.filterCategoryId)
        this.apiService.updateProducts().subscribe(newBrandData => {
         this.shareData.setBrandData(newBrandData)
         this.closePopup.emit();
@@ -49,7 +51,9 @@
     filterCategory(categoryFilter: any): void {
       debugger;
       this.selectedButton = categoryFilter.categoryName;
-      this.shareData.filterCategoryId = categoryFilter.id
+      this.shareData.setFilterCategoryId(categoryFilter.id);
+      this.shareData.removeOtherCategories('category')
+      localStorage.clear();
       localStorage.setItem('selectedButtonCategory', this.selectedButton);
       this.setUpdate()   
     } 
