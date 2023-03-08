@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, HostListener, Input, OnInit, Output,  } from '@angular/core';
 import { ApiAsosService } from 'src/app/service/api-asos.service';
 import { ShareDataService } from 'src/app/service/share-data.service';
 
@@ -9,21 +9,23 @@ import { ShareDataService } from 'src/app/service/share-data.service';
 })
 export class TypeComponent implements OnInit {
   selectedButton = '';
-  @Input() brandData: any;
-  @Output() closePopup = new EventEmitter<any>()
+  selectedButtonStatus: boolean;
+  filterAvailable:boolean = false;
+  popUpType: boolean = false;
   filterArray = [];
-
-  constructor(private apiService: ApiAsosService, private shareData: ShareDataService) { }
+  @Input() brandData: any;
+  constructor(private apiService: ApiAsosService, private shareData: ShareDataService,private cdRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    const selectedButtonType = localStorage.getItem('selectedButtonType');
-    if (selectedButtonType) {
-      this.selectedButton = selectedButtonType;
-    }
-  
-    const element = this.brandData.facets.find((facet: { id: string; }) => facet.id === 'attribute_1047');
+    this.shareData.buttonStatus$.subscribe((buttonStatus) => {
+      this.selectedButtonStatus = buttonStatus
+    });
+  }
 
+  ngOnChanges(): void { 
+    const element = this.brandData.facets.find((facet: { id: string; }) => facet.id === 'attribute_1047');
     if (element) {
+      this.filterAvailable = true;
       for (let i = 0; i < element.facetValues.length; i++) {
         const typeFilter = {
           name: element.facetValues[i].name,
@@ -34,10 +36,17 @@ export class TypeComponent implements OnInit {
     }
   }
 
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const targetElement = event.target as Element;
+    if (!targetElement.closest('#boxType')) {
+      this.popUpType = false;
+    }
+  }
+
   setUpdate(){
     this.apiService.updateProducts().subscribe(data => {
       this.shareData.setBrandData(data)
-      this.closePopup.emit();
       console.log(data)
     }, error => {
       console.error(error);
@@ -45,18 +54,18 @@ export class TypeComponent implements OnInit {
   }
 
   filterType(type: any): void {
-    debugger;
     this.selectedButton = type.name;
     this.shareData.setFilterTypeId(type.id)  
     this.shareData.removeOtherCategories('type')
-    localStorage.clear();
+    this.selectedButtonStatus = true
     localStorage.setItem('selectedButtonType', this.selectedButton);
     this.setUpdate();
+    this.cdRef.detectChanges();
   } 
 
   removeType(){
     this.shareData.filterTypeId = undefined
-    localStorage.removeItem('selectedButtonType');
+    this.selectedButton = '';
     this.setUpdate();
   }
 }

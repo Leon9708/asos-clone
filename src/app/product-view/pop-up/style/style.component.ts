@@ -1,5 +1,5 @@
 import { style } from '@angular/animations';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectorRef, HostListener  } from '@angular/core';
 import { ApiAsosService } from 'src/app/service/api-asos.service';
 import { ShareDataService } from 'src/app/service/share-data.service';
 
@@ -8,55 +8,68 @@ import { ShareDataService } from 'src/app/service/share-data.service';
   templateUrl: './style.component.html',
   styleUrls: ['./style.component.scss']
 })
-export class StyleComponent implements OnInit {
+export class StyleComponent implements OnInit  {
   selectedButton = '';
+  selectedButtonStatus: boolean;
   @Input() brandData: any;
-  @Output() closePopup = new EventEmitter<any>()
-  StyleFilterArray = [];
+  popUpStyle: boolean = false
+  filterArray = [];
+  filterAvailable: boolean = false;
 
-  constructor(private apiService: ApiAsosService, private shareData: ShareDataService) { }
+
+  constructor(private apiService: ApiAsosService, private shareData: ShareDataService, private cdRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    const selectedButtonStyle = localStorage.getItem('selectedButtonStyle');
-    if (selectedButtonStyle) {
-      this.selectedButton = selectedButtonStyle;
-    }
-  
+    this.shareData.buttonStatus$.subscribe((buttonStatus) => {
+      this.selectedButtonStatus = buttonStatus
+    });
+  }
+
+  ngOnChanges(): void {
     const element = this.brandData.facets.find((facet: { id: string; }) => facet.id === 'attribute_1046');
 
     if (element) {
+      this.filterAvailable = true;
       for (let i = 0; i < element.facetValues.length; i++) {
         const styleFilter = {
           styleName: element.facetValues[i].name,
           id: element.facetValues[i].id
         };
-        this.StyleFilterArray.push(styleFilter);
+        this.filterArray.push(styleFilter);
       }
+    }
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const targetElement = event.target as Element;
+    if (!targetElement.closest('#boxStyle')) {
+      this.popUpStyle = false;
     }
   }
 
   setUpdate(){
     this.apiService.updateProducts().subscribe(data => {
       this.shareData.setBrandData(data)
-      this.closePopup.emit();
       console.log(data)
     }, error => {
       console.error(error);
     });
   }
 
-  filterStyle(styleFilter: any): void {
-    this.selectedButton = styleFilter.styleName;
-    this.shareData.setFilterStyleId(styleFilter.id)  
-    this.shareData.removeOtherCategories('style');
-    localStorage.clear();
-    localStorage.setItem('selectedButtonStyle', this.selectedButton);
-    this.setUpdate();
-  } 
+    filterStyle(styleFilter: any): void {
+      this.selectedButton = styleFilter.styleName;
+      this.shareData.setFilterStyleId(styleFilter.id)  
+      this.shareData.removeOtherCategories('style');
+      this.selectedButtonStatus = true
+      localStorage.setItem('selectedButtonStyle', this.selectedButton);
+      this.setUpdate();
+      this.cdRef.detectChanges();
+    } 
 
   removeStyle(){
     this.shareData.filterStyleId = undefined
-    localStorage.removeItem('selectedButtonStyle');
+    this.selectedButton = '';
     this.setUpdate();
   }
 }

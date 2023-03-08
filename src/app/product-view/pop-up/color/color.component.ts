@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { ApiAsosService } from 'src/app/service/api-asos.service';
 import { ShareDataService } from 'src/app/service/share-data.service';
 
@@ -7,23 +7,28 @@ import { ShareDataService } from 'src/app/service/share-data.service';
   templateUrl: './color.component.html',
   styleUrls: ['./color.component.scss']
 })
-export class ColorComponent implements OnInit {
+export class ColorComponent implements OnInit  {
   selectedButton = '';
+  selectedButtonStatus: boolean;
   @Input() brandData: any;
-  @Output() closePopup = new EventEmitter<any>()
+  popUpColor: boolean = false;
   filterArray = [];
+  filterAvailable:boolean = false;
 
-  constructor(private apiService: ApiAsosService, private shareData: ShareDataService) { }
+
+  constructor(private apiService: ApiAsosService, private shareData: ShareDataService, private cdRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    const selectedButtonColor = localStorage.getItem('selectedButtonColor');
-    if (selectedButtonColor) {
-      this.selectedButton = selectedButtonColor;
-    }
-  
+    this.shareData.buttonStatus$.subscribe((buttonStatus) => {
+      this.selectedButtonStatus = buttonStatus
+    });
+  }
+  ngOnChanges(): void {
+
     const element = this.brandData.facets.find((facet: { id: string; }) => facet.id === 'base_colour');
 
     if (element) {
+      this.filterAvailable = true;
       for (let i = 0; i < element.facetValues.length; i++) {
         const colorFilter = {
           name: element.facetValues[i].name,
@@ -34,10 +39,18 @@ export class ColorComponent implements OnInit {
     }
   }
 
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const targetElement = event.target as Element;
+    if (!targetElement.closest('#boxColor')) {
+      this.popUpColor = false;
+    }
+  }
+
   setUpdate(){
     this.apiService.updateProducts().subscribe(data => {
       this.shareData.setBrandData(data)
-      this.closePopup.emit();
+
       console.log(data)
     }, error => {
       console.error(error);
@@ -49,14 +62,15 @@ export class ColorComponent implements OnInit {
     this.selectedButton = color.name;
     this.shareData.setFilterColorId(color.id)  
     this.shareData.removeOtherCategories('color');
-    localStorage.clear();
+    this.selectedButtonStatus = true;
     localStorage.setItem('selectedButtonColor', this.selectedButton);
     this.setUpdate();
+    this.cdRef.detectChanges();
   } 
 
   removeType(){
     this.shareData.filterColorId = undefined
-    localStorage.removeItem('selectedButtonColor');
+    this.selectedButton = '';
     this.setUpdate();
   }
 }

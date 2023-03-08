@@ -1,4 +1,12 @@
-<div class="place_all">
-    <button (click)="removeCategory()" class="all">All</button>
+<div *ngIf="filterAvailable" id="boxCategory" class="box_btn_filter">
+    <button [ngStyle]="{ 'background-color': popUpCategory ? '#f6f6f6' : 'transparent' }" (click)="this.popUpCategory = !this.popUpCategory" class="btn_filter">
+        <p>Category</p>
+        <img [ngClass]="{'transform_img': popUpCategory}" src="/assets/img/arrow-down.png" alt="">
+    </button>
+    <div class="place_popup" *ngIf="this.popUpCategory">
+        <div class="place_all">
+            <button (click)="removeCategory()" class="all">All</button>
+        </div>
+        <button class="selection" *ngFor="let categoryfilter of filterArray" (click)="filterCategory(categoryfilter)" [ngClass]="{'active': selectedButton === categoryfilter.categoryName && selectedButtonStatus}">{{ categoryfilter.categoryName }}</button>
+    </div>
 </div>
-<button class="selection" *ngFor="let categoryfilter of CategoryFilterArray" (click)="filterCategory(categoryfilter)" [ngClass]="{'active': selectedButton === categoryfilter.categoryName}">{{ categoryfilter.categoryName }}</button>

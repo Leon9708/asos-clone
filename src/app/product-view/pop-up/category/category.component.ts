@@ -1,4 +1,4 @@
-  import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+  import { Component, Input, OnInit, Output, EventEmitter, ChangeDetectorRef, HostListener } from '@angular/core';
   import { ApiAsosService } from 'src/app/service/api-asos.service';
   import { ShareDataService } from 'src/app/service/share-data.service';
 
@@ -7,41 +7,47 @@
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss']
   })
-  export class CategoryComponent implements OnInit {
+  export class CategoryComponent implements OnInit  {
     selectedButton = '';
+    selectedButtonStatus: boolean = true;
     @Input() brandData: any;
-    @Output() closePopup = new EventEmitter<any>()
-    @Output() hidecategory = new EventEmitter <any>()
-    CategoryFilterArray = [];
+    filterAvailable:boolean = false;
+    filterArray = [];
+    popUpCategory: boolean = false;
 
-    constructor(private apiService: ApiAsosService, private shareData: ShareDataService) { }
+    constructor(private apiService: ApiAsosService, private shareData: ShareDataService, private cdRef: ChangeDetectorRef) { }
 
     ngOnInit(): void {
-      const selectedButtonCategory = localStorage.getItem('selectedButtonCategory');
-      if (selectedButtonCategory) {
-        this.selectedButton = selectedButtonCategory;
-      }
+      this.shareData.buttonStatus$.subscribe((buttonStatus) => {
+        this.selectedButtonStatus = buttonStatus
+      });
+    }
+    ngOnChanges(): void {
+  
       const category = this.brandData.facets.find((facet: { id: string; }) => facet.id === 'attribute_10992');
-      debugger;
       if (category) {
+        this.filterAvailable = true;
         for (let i = 0; i < category.facetValues.length; i++) {
           const categoryfilter = {
             categoryName: category.facetValues[i].name,
             id: category.facetValues[i].id
           };
-          this.CategoryFilterArray.push(categoryfilter);
+          this.filterArray.push(categoryfilter);
         }
-      }else{
-        this.shareData.hideCategory('category')
       }
+    }
 
-     
+    @HostListener('document:click', ['$event'])
+    onDocumentClick(event: MouseEvent) {
+      const targetElement = event.target as Element;
+      if (!targetElement.closest('#boxCategory')) {
+        this.popUpCategory = false;
+      }
     }
 
     setUpdate(){
        this.apiService.updateProducts().subscribe(newBrandData => {
         this.shareData.setBrandData(newBrandData)
-        this.closePopup.emit();
         console.log(newBrandData)
       }, error => {
         console.error(error);
@@ -53,15 +59,16 @@
       this.selectedButton = categoryFilter.categoryName;
       this.shareData.setFilterCategoryId(categoryFilter.id);
       this.shareData.removeOtherCategories('category')
-      localStorage.clear();
+      this.selectedButtonStatus = true;
       localStorage.setItem('selectedButtonCategory', this.selectedButton);
       this.setUpdate()   
+      this.cdRef.detectChanges();
     } 
 
 
     removeCategory(){
       this.shareData.filterCategoryId = undefined
-      localStorage.removeItem('selectedButtonCategory');
+      this.selectedButton = '';
       this.setUpdate()
     }
   }

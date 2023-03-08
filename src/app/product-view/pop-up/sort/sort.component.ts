@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, HostListener } from '@angular/core';
 import { ApiAsosService } from 'src/app/service/api-asos.service';
 import { ShareDataService } from 'src/app/service/share-data.service';
 
@@ -11,8 +11,8 @@ import { ShareDataService } from 'src/app/service/share-data.service';
 export class SortComponent implements OnInit {
   selectedButton = "What's new";
   @Input() brandData: any;
-  @Output() closePopup = new EventEmitter<any>();
   sortTypes = ["What's new", 'Price high to low', 'Price low to high'];
+  popUpSort: boolean = false;
 
   constructor(private apiService: ApiAsosService, private shareData: ShareDataService) { }
 
@@ -20,6 +20,14 @@ export class SortComponent implements OnInit {
     const selectedButtonSort = localStorage.getItem('selectedButtonSort');
     if (selectedButtonSort) {
       this.selectedButton = selectedButtonSort;
+    }
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const targetElement = event.target as Element;
+    if (!targetElement.closest('#boxSort')) {
+      this.popUpSort = false;
     }
   }
 
@@ -41,7 +49,7 @@ export class SortComponent implements OnInit {
     this.shareData.setFilterSort(sort); 
     this.apiService.updateProducts().subscribe(data => {
         this.shareData.setBrandData(data)
-        this.closePopup.emit();
+   
       }, error => {
         console.error(error);
       });

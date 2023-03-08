@@ -6,27 +6,50 @@ import { categories } from 'src/models/categories';
   providedIn: 'root'
 })
 export class ShareDataService {
+
   private brandDataSubject = new BehaviorSubject<any[]>([]);
   brandData$ = this.brandDataSubject.asObservable();
-  genderId: string;
-  brands: any[];
+  private brandsSubject = new BehaviorSubject<any[]>([]);
+  brands$ = this.brandsSubject.asObservable();
+  private genderIdSubject = new BehaviorSubject<string>(null);
+  genderId$ = this.genderIdSubject.asObservable();
+  prevGenderId: string;
   brandInfo: any;
+
   filterCategoryId: number;
   filterSort: string;
   filterStyleId: number;
   filterTypeId:number;
   filterColorId:number;
+
+  private buttonStatusObject = new BehaviorSubject<boolean>(null)
+  buttonStatus$ = this.buttonStatusObject.asObservable();
   constructor() { }
 
-  hideCategory(emptyElement: string){
-    if(emptyElement === 'category'){
-      
-    }
+  setGenderId(genderId: string): void {
+    this.genderIdSubject.next(genderId);
+  }
+
+  setPrevGenderId(genderId){
+    this.prevGenderId = genderId
+  }
+
+  getPrevGenderId(): string {
+    return this.prevGenderId;
+  }
+
+  setButtonStatus(status: boolean): void {
+    this.buttonStatusObject.next(status);
+  }
+
+  setBrands(brands: any[]): void {
+    this.brandsSubject.next(brands);
   }
 
   setBrandData(data: any[]): void {
     this.brandDataSubject.next(data);
   }
+
   setFilterCategoryId(id: number): void {
     this.filterCategoryId = id;
   }
@@ -72,20 +95,22 @@ export class ShareDataService {
       this.filterStyleId = undefined;
       this.filterTypeId = undefined;
       this.filterColorId = undefined
+      this.setButtonStatus(false)
     } else if (selectedElement === 'style') {
       this.filterCategoryId = undefined;
       this.filterTypeId = undefined;
       this.filterColorId = undefined
+      this.setButtonStatus(false)
     }else if (selectedElement === 'type') {
       this.filterStyleId = undefined;
       this.filterCategoryId = undefined;  
       this.filterColorId = undefined
+      this.setButtonStatus(false)
     }else if (selectedElement === 'color') {
       this.filterStyleId = undefined;
       this.filterCategoryId = undefined;  
       this.filterTypeId = undefined;
+      this.setButtonStatus(false)
     }
-  }
-  
-  
+  } 
 }

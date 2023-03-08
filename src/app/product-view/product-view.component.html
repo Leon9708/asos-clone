@@ -4,41 +4,39 @@
         <h1>{{ brandData?.['categoryName']}}</h1>
         <div class="place_filter_container">
             <div class="container_filter">
-                <div class="box_btn_filter">
-                    <button [ngStyle]="{ 'background-color': popUpSort ? '#f6f6f6' : 'transparent' }" (click)="this.popUpSort = !this.popUpSort" class="btn_filter">
-                        <p>Sort</p>
-                        <img [ngClass]="{'transform_img': popUpSort}" src="/assets/img/arrow-down.png" alt="">
-                    </button>
-                    <app-sort (closePopup)="closePopUp()" [brandData]="brandData" class="place_popup" *ngIf="popUpSort"></app-sort>
-                </div>
-                <div class="box_btn_filter">
+                <app-sort [brandData]="brandData"></app-sort>
+                <app-category [brandData]="brandData"></app-category>
+                <app-style [brandData]="brandData"></app-style>
+                <app-color [brandData]="brandData"></app-color>
+                <app-type [brandData]="brandData"></app-type>
+                <!-- <div class="box_btn_filter">
                     <button [ngStyle]="{ 'background-color': popUpCategory ? '#f6f6f6' : 'transparent' }" (click)="this.popUpCategory = !this.popUpCategory" class="btn_filter">
                         <p>Category</p>
                         <img [ngClass]="{'transform_img': popUpCategory}" src="/assets/img/arrow-down.png" alt="">
                     </button>
-                    <app-category (closePopup)="closePopUp()" [brandData]="brandData" class="place_popup" *ngIf="popUpCategory"></app-category>
+                   
                 </div>
                 <div class="box_btn_filter">
                     <button [ngStyle]="{ 'background-color': popUpStyle ? '#f6f6f6' : 'transparent' }" class="btn_filter" (click)="this.popUpStyle = !this.popUpStyle">
                         <p>Style</p>
                         <img [ngClass]="{'transform_img': popUpStyle}" src="/assets/img/arrow-down.png" alt="">
                     </button>
-                    <app-style (closePopup)="closePopUp()" [brandData]="brandData" *ngIf="popUpStyle" class="place_popup"></app-style>
+                
                 </div>
                 <div class="box_btn_filter">
                     <button [ngStyle]="{ 'background-color': popUpColor ? '#f6f6f6' : 'transparent' }" class="btn_filter" (click)="this.popUpColor = !this.popUpColor">
                         <p>Color</p>
                         <img [ngClass]="{'transform_img': popUpColor}" src="/assets/img/arrow-down.png" alt="">
                     </button>
-                    <app-color (closePopup)="closePopUp()" [brandData]="brandData" *ngIf="popUpColor" class="place_popup"></app-color>
+                   
                 </div>
                 <div class="box_btn_filter">
                     <button [ngStyle]="{ 'background-color': popUpType ? '#f6f6f6' : 'transparent' }" class="btn_filter" (click)="this.popUpType = !this.popUpType">
                         <p>Type</p>
                         <img [ngClass]="{'transform_img': popUpType}" src="/assets/img/arrow-down.png" alt="">
                     </button>
-                    <app-type (closePopup)="closePopUp()" [brandData]="brandData" *ngIf="popUpType" class="place_popup"></app-type>
-                </div>
+                   
+                </div> -->
             </div>
         </div>
         <p class="styles_found">{{ brandData?.['itemCount']}} styles found</p>

@@ -1,4 +1,12 @@
-<div class="place_all">
-    <button (click)="removeStyle()" class="all">All</button>
+<div *ngIf="filterAvailable" id="boxStyle" class="box_btn_filter">
+    <button [ngStyle]="{ 'background-color': popUpStyle ? '#f6f6f6' : 'transparent' }" (click)="this.popUpStyle = !this.popUpStyle" class="btn_filter">
+        <p>Style</p>
+        <img [ngClass]="{'transform_img': popUpStyle}" src="/assets/img/arrow-down.png" alt="">
+    </button>
+    <div class="place_popup" *ngIf="this.popUpStyle">
+        <div class="place_all">
+            <button (click)="removeStyle()" class="all">All</button>
+        </div>
+        <button class="selection" *ngFor="let style of filterArray" (click)="filterStyle(style)" [ngClass]="{ 'active': selectedButton === style.styleName && selectedButtonStatus }">{{ style.styleName }}</button>
+    </div>
 </div>
-<button class="selection" *ngFor="let style of StyleFilterArray" (click)="filterStyle(style)" [ngClass]="{ 'active': selectedButton === style.styleName }">{{ style.styleName }}</button>
