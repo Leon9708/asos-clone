@@ -1,6 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { categories } from 'src/models/categories';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +14,7 @@ export class ShareDataService {
   genderId$ = this.genderIdSubject.asObservable();
   prevGenderId: string;
   brandInfo: any;
+  productId: number;
 
   filterCategoryId: number;
   filterSort: string;
@@ -26,11 +26,19 @@ export class ShareDataService {
   buttonStatus$ = this.buttonStatusObject.asObservable();
   constructor() { }
 
+  setProductId(id: number): void {
+    this.productId = id;
+  }
+  
+  getProductId(): number {
+    return this.productId;
+  }
+
   setGenderId(genderId: string): void {
     this.genderIdSubject.next(genderId);
   }
 
-  setPrevGenderId(genderId){
+  setPrevGenderId(genderId: string){
     this.prevGenderId = genderId
   }
 

@@ -9,40 +9,12 @@
                 <app-style [brandData]="brandData"></app-style>
                 <app-color [brandData]="brandData"></app-color>
                 <app-type [brandData]="brandData"></app-type>
-                <!-- <div class="box_btn_filter">
-                    <button [ngStyle]="{ 'background-color': popUpCategory ? '#f6f6f6' : 'transparent' }" (click)="this.popUpCategory = !this.popUpCategory" class="btn_filter">
-                        <p>Category</p>
-                        <img [ngClass]="{'transform_img': popUpCategory}" src="/assets/img/arrow-down.png" alt="">
-                    </button>
-                   
-                </div>
-                <div class="box_btn_filter">
-                    <button [ngStyle]="{ 'background-color': popUpStyle ? '#f6f6f6' : 'transparent' }" class="btn_filter" (click)="this.popUpStyle = !this.popUpStyle">
-                        <p>Style</p>
-                        <img [ngClass]="{'transform_img': popUpStyle}" src="/assets/img/arrow-down.png" alt="">
-                    </button>
-                
-                </div>
-                <div class="box_btn_filter">
-                    <button [ngStyle]="{ 'background-color': popUpColor ? '#f6f6f6' : 'transparent' }" class="btn_filter" (click)="this.popUpColor = !this.popUpColor">
-                        <p>Color</p>
-                        <img [ngClass]="{'transform_img': popUpColor}" src="/assets/img/arrow-down.png" alt="">
-                    </button>
-                   
-                </div>
-                <div class="box_btn_filter">
-                    <button [ngStyle]="{ 'background-color': popUpType ? '#f6f6f6' : 'transparent' }" class="btn_filter" (click)="this.popUpType = !this.popUpType">
-                        <p>Type</p>
-                        <img [ngClass]="{'transform_img': popUpType}" src="/assets/img/arrow-down.png" alt="">
-                    </button>
-                   
-                </div> -->
             </div>
         </div>
         <p class="styles_found">{{ brandData?.['itemCount']}} styles found</p>
         <div class="place_products_container">
             <div class="products_container">
-                <div *ngFor="let product of  brandData?.['products']" class="product_box">
+                <div (click)="openDetailView(product.id)" *ngFor="let product of  brandData?.['products']" class="product_box">
                     <img [src]="'http://images.' + product.imageUrl.slice(7)">
                     <p class="description">{{product['name']}}</p>
                     <p class="price">{{product['price']['current']['text']}}</p>

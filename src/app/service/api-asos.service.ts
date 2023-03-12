@@ -62,4 +62,10 @@ export class ApiAsosService {
     console.log(url)
     return this.http.get<any[]>(url, this.options)
   }
+
+  getProduct(){
+    let productId = this.shareData.getProductId() ;
+    let url = `https://asos2.p.rapidapi.com/products/v3/detail?id=${productId}&lang=en-US&store=US&sizeSchema=US&currency=USD`;
+    return this.http.get<any[]>(url, this.options)
+  }
 }

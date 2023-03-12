@@ -16,6 +16,8 @@ import { ShareDataService } from './service/share-data.service';
 import { ApiAsosService } from './service/api-asos.service';
 import { TypeComponent } from './product-view/pop-up/type/type.component';
 import { ColorComponent } from './product-view/pop-up/color/color.component';
+import { DetailViewComponent } from './detail-view/detail-view.component';
+
 
 
 
@@ -32,6 +34,7 @@ import { ColorComponent } from './product-view/pop-up/color/color.component';
     StyleComponent,
     TypeComponent,
     ColorComponent,
+    DetailViewComponent,
   ],
   imports: [
     BrowserModule,

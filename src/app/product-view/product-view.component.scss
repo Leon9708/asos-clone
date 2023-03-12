@@ -59,12 +59,17 @@
     width: 18rem;
     min-width: 16rem;
     min-height: 0;
+    cursor: pointer;
     img {
         object-fit: cover;
     }
     p {
         margin: 0;
     }
+}
+
+.product_box img:hover {
+    filter: brightness(80%);
 }
 
 .description {

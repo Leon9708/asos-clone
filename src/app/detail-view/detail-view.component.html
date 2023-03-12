@@ -1,0 +1,45 @@
+<app-navbar></app-navbar>
+<div class="place_detailview">
+    <div class="place_preview">
+        <div *ngFor="let image of product['media']['images']; let i = index" class="preview_img">
+            <img [src]="'http://images.' + image.url.slice(7)" alt="">
+        </div>
+    </div>
+    <div class="box_img">
+        <img [src]="'http://images.' + product['media']['images'][0]['url'].slice(7)" alt="">
+    </div>
+    <div class="place_details">
+        <div class="box_details">
+            <h1>{{product['variants'][0]['name']}}</h1>
+            <h2>{{product['price']['current']['text']}}</h2>
+            <div class="box_discount">
+                <div class="box_pricetag">
+                    <img src="/assets/img/price_tag.png" alt="">
+                </div>
+                <p>NEW HERE? <br>Get 15% off 100,000+ styles!* <br>With code: <span>NEWBIE</span> </p>
+            </div>
+            <p class="text_info"><span>color:</span> {{product['variants'][0]['colour']}}</p>
+            <div class="place_size">
+                <p class="text_info"> <span>size:</span></p>
+                <div class="box_size">
+                    <div *ngIf="popUpSize" class="popup_size">
+                        <button *ngFor="let variant of product['variants']">{{variant['brandSize']}}</button>
+                    </div>
+                    <button (click)="this.popUpSize = !this.popUpSize">
+                        <p>Please Select</p>
+                        <img src="/assets/img/arrow-down.png" alt="">
+                    </button>
+                </div>
+            </div>
+            <p class="text_info"> <span>Product code:</span> {{product['productCode']}}</p>
+            <div class="box_btns">
+                <button class="btn_buy">Add to Bag</button>
+                <div class="box_btn_like">
+                    <button class="btn_like">
+                        <img src="/assets/img/heart.png" alt="">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
