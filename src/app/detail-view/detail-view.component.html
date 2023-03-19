@@ -1,12 +1,14 @@
 <app-navbar></app-navbar>
 <div class="place_detailview">
     <div class="place_preview">
-        <div *ngFor="let image of product['media']['images']; let i = index" class="preview_img">
+        <button (click)="changeImage(i)" *ngFor="let image of product['media']['images']; let i = index" class="preview_img">
             <img [src]="'http://images.' + image.url.slice(7)" alt="">
-        </div>
+        </button>
     </div>
     <div class="box_img">
-        <img [src]="'http://images.' + product['media']['images'][0]['url'].slice(7)" alt="">
+        <img class="main_img" id="mainImg" [src]="'http://images.' + product['media']['images'][0]['url'].slice(7)" alt="">
+        <img class="arrow_left" src="/assets/img/arrow.png" alt="" (click)="onLeftArrowClick()">
+        <img class="arrow_right" src="/assets/img/arrow.png" alt="" (click)="onRightArrowClick()">
     </div>
     <div class="place_details">
         <div class="box_details">
@@ -21,23 +23,47 @@
             <p class="text_info"><span>color:</span> {{product['variants'][0]['colour']}}</p>
             <div class="place_size">
                 <p class="text_info"> <span>size:</span></p>
-                <div class="box_size">
-                    <div *ngIf="popUpSize" class="popup_size">
-                        <button *ngFor="let variant of product['variants']">{{variant['brandSize']}}</button>
+                <div [ngStyle]="{ 'margin-bottom': popUpSize ? '10rem' : '0' }" *ngIf="product['variants'].length >= 2" class="box_size">
+                    <div (onFocusOut)="this.popUpSize = !this.popUpSize" (click)="this.popUpSize = !this.popUpSize" *ngIf="popUpSize" class="popup_size">
+                        <button class="btn_popup" (click)="onSizeButtonClick(variant['brandSize'])" *ngFor="let variant of product['variants']; let i = index">{{variant['brandSize']}}</button>
                     </div>
-                    <button (click)="this.popUpSize = !this.popUpSize">
-                        <p>Please Select</p>
+                    <button class="btn_select" (click)="this.popUpSize = !this.popUpSize">
+                        <p *ngIf="!selectedSize">Please Select</p>
+                        <p *ngIf="selectedSize">Selected Size: {{selectedSize}}</p>
                         <img src="/assets/img/arrow-down.png" alt="">
                     </button>
                 </div>
+                <p *ngIf="product['variants'].length <= 1">{{product['variants'][0]['brandSize']}}</p>
             </div>
-            <p class="text_info"> <span>Product code:</span> {{product['productCode']}}</p>
             <div class="box_btns">
                 <button class="btn_buy">Add to Bag</button>
                 <div class="box_btn_like">
                     <button class="btn_like">
                         <img src="/assets/img/heart.png" alt="">
                     </button>
+                </div>
+            </div>
+            <div class="place_description">
+                <div *ngFor="let btn of productInfo; let i = index" class="box_description">
+                    <button (click)="turnImg(productInfo[i])" class="btn_description">
+                      <p>{{productInfo[i]}}</p>
+                      <img class="vertical" [ngClass]="{ 'rotate-90': selectedPopup === productInfo[i], 'rotate-back': selectedPopup !== productInfo[i] }" src="/assets/img/minus.png" alt="">
+                      <img class="horizontal" src="/assets/img/minus.png" alt="">
+                    </button>
+                    <div *ngIf="selectedPopup === productInfo[i]">
+                        <ng-container *ngIf="selectedPopup === 'Product Details'">
+                            <app-productdetails [product]="product"></app-productdetails>
+                        </ng-container>
+                        <ng-container *ngIf="selectedPopup === 'Brand'">
+                            <app-brand class="" [product]="product"></app-brand>
+                        </ng-container>
+                        <ng-container *ngIf="selectedPopup === 'Size and Fit'">
+                            <app-sizeandfit [product]="product"></app-sizeandfit>
+                        </ng-container>
+                        <ng-container *ngIf="selectedPopup === 'About Me'">
+                            <app-aboutme [product]="product"></app-aboutme>
+                        </ng-container>
+                    </div>
                 </div>
             </div>
         </div>

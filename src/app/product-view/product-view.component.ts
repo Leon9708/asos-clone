@@ -16,7 +16,7 @@ export class ProductViewComponent implements OnInit {
   brandInfo: any;
   constructor(public apiService: ApiAsosService, private shareData :ShareDataService, private router: Router) { }
 
- async ngOnInit(): Promise<void> {
+  async ngOnInit(): Promise<void> {
     this.brandInfo = this.shareData.brandInfo;
     if (!this.brandData.length) {
         try {
@@ -30,13 +30,11 @@ export class ProductViewComponent implements OnInit {
         this.brandData = data
       });
         console.log('API call successful',this.brandData);
-        debugger;
   }     
 
-  openDetailView(productId: number){
-    debugger;
+  openDetailView(productId: number){  
     this.shareData.setProductId(productId)
-    this.router.navigateByUrl('detailView')
+    this.router.navigateByUrl('detail-view')
   }
 
 }

@@ -55,7 +55,7 @@ export class BrandsComponent implements OnInit {
     localStorage.removeItem('selectedButtonColor')
     localStorage.removeItem('selectedButtonType')
     localStorage.removeItem('selectedButtonStyle')
-    this.router.navigateByUrl('productView');
+    this.router.navigateByUrl('product-view');
   }
 
   groupBrandsByLetter(): { letter: string, brands: {title:string, categoryId: string}[]}[] {

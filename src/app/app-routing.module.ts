@@ -1,16 +1,12 @@
 import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { BrandsComponent } from './brands/brands.component';
-import { DetailViewComponent } from './detail-view/detail-view.component';
-import { ProductViewComponent } from './product-view/product-view.component';
-import { StartScreenComponentComponent } from './start-screen-component/start-screen-component.component';
-
 
 const routes: Routes = [
-  { path: '', component: StartScreenComponentComponent },
-  { path:'brands', component: BrandsComponent},
-  { path:'productView', component: ProductViewComponent},
-  { path:'detailView', component: DetailViewComponent}
+  { path: '', loadChildren: () => import('./start-screen-component/start-screen-component/start-screen-component.module').then(m => m.StartScreenComponentModule) },
+  { path: 'brands', loadChildren: () => import('./brands/brands.module').then(m => m.BrandsModule) },
+  { path: 'product-view', loadChildren: () => import('./product-view/product-view.module').then(m => m.ProductViewModule) },
+  { path: 'detail-view', loadChildren: () => import('./detail-view/detail-view.module').then(m => m.DetailViewModule) },
+
 ];
 
 @NgModule({

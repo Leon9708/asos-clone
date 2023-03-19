@@ -12,7 +12,7 @@ export class ApiAsosService {
 
   private options = {
     headers: {
-      'X-RapidAPI-Key': 'a913e46bbdmsh73734fd21ff4a8dp1c167djsn91fb129717f3',
+      'X-RapidAPI-Key': 'e837991aa7mshf30c519bdea7725p15cb82jsn89b881e7e9c8',
       'X-RapidAPI-Host': 'asos2.p.rapidapi.com'
     }
   };
