@@ -5,7 +5,8 @@ import { ShareDataService } from '../service/share-data.service';
 @Component({
   selector: 'app-detail-view',
   templateUrl: './detail-view.component.html',
-  styleUrls: ['./detail-view.component.scss']
+  styleUrls: ['./detail-view.component.scss'],
+ 
 })
 export class DetailViewComponent implements OnInit {
   product: any[];

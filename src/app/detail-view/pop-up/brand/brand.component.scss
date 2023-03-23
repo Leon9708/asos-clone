@@ -5,3 +5,30 @@ p {
     padding-top: 0;
     font-size: 0.95rem;
 }
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+ :host {
+    opacity: 0;
+    transform: translateY(20px);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.8s;
+}
+
+ :host.active {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 500px; // Adjust this value according to the maximum height of your content
+    overflow: visible;
+    animation: fadeInUp 0.8s forwards;
+}

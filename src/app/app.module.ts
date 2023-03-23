@@ -8,6 +8,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { SharedModule } from './shared/shared-module.module'; 
 import { ShareDataService } from './service/share-data.service';
 import { ApiAsosService } from './service/api-asos.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -22,6 +23,7 @@ import { ApiAsosService } from './service/api-asos.service';
     FormsModule,    
     HttpClientModule,
     SharedModule,
+    BrowserAnimationsModule
   ],
   providers: [ShareDataService,ApiAsosService],
   bootstrap: [AppComponent]

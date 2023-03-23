@@ -1,14 +1,16 @@
 <app-navbar></app-navbar>
 <div class="place_detailview">
-    <div class="place_preview">
-        <button (click)="changeImage(i)" *ngFor="let image of product['media']['images']; let i = index" class="preview_img">
+    <div class="place_img_sticky">
+        <div class="box_preview">
+            <button (click)="changeImage(i)" *ngFor="let image of product['media']['images']; let i = index" class="preview_img">
             <img [src]="'http://images.' + image.url.slice(7)" alt="">
         </button>
-    </div>
-    <div class="box_img">
-        <img class="main_img" id="mainImg" [src]="'http://images.' + product['media']['images'][0]['url'].slice(7)" alt="">
-        <img class="arrow_left" src="/assets/img/arrow.png" alt="" (click)="onLeftArrowClick()">
-        <img class="arrow_right" src="/assets/img/arrow.png" alt="" (click)="onRightArrowClick()">
+        </div>
+        <div class="box_img">
+            <img class="main_img" id="mainImg" [src]="'http://images.' + product['media']['images'][0]['url'].slice(7)" alt="">
+            <img class="arrow_left" src="/assets/img/arrow.png" alt="" (click)="onLeftArrowClick()">
+            <img class="arrow_right" src="/assets/img/arrow.png" alt="" (click)="onRightArrowClick()">
+        </div>
     </div>
     <div class="place_details">
         <div class="box_details">
@@ -51,18 +53,10 @@
                       <img class="horizontal" src="/assets/img/minus.png" alt="">
                     </button>
                     <div *ngIf="selectedPopup === productInfo[i]">
-                        <ng-container *ngIf="selectedPopup === 'Product Details'">
-                            <app-productdetails [product]="product"></app-productdetails>
-                        </ng-container>
-                        <ng-container *ngIf="selectedPopup === 'Brand'">
-                            <app-brand class="" [product]="product"></app-brand>
-                        </ng-container>
-                        <ng-container *ngIf="selectedPopup === 'Size and Fit'">
-                            <app-sizeandfit [product]="product"></app-sizeandfit>
-                        </ng-container>
-                        <ng-container *ngIf="selectedPopup === 'About Me'">
-                            <app-aboutme [product]="product"></app-aboutme>
-                        </ng-container>
+                        <app-productdetails *ngIf="selectedPopup === 'Product Details'" [ngClass]="{ 'active': selectedPopup === 'Product Details' }" [product]="product"></app-productdetails>
+                        <app-brand *ngIf="selectedPopup === 'Brand'" [ngClass]="{ 'active': selectedPopup === 'Brand' }" [product]="product"></app-brand>
+                        <app-sizeandfit *ngIf="selectedPopup === 'Size and Fit'" [ngClass]="{ 'active': selectedPopup === 'Size and Fit' }" [product]="product"></app-sizeandfit>
+                        <app-aboutme *ngIf="selectedPopup === 'About Me'" [ngClass]="{ 'active': selectedPopup === 'About Me' }" [product]="product"></app-aboutme>
                     </div>
                 </div>
             </div>

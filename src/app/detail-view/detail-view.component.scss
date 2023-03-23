@@ -1,16 +1,30 @@
 .place_detailview {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    height: calc(100vh - 4rem);
+    height: fit-content;
     gap: 1.5rem;
+    padding-bottom: 0.5rem;
 }
 
-.place_preview {
-    margin-top: 4rem;
+.place_img_sticky {
+    position: sticky;
+    top: 6rem;
+    height: auto;
+    display: flex;
+    gap: 1rem;
+}
+
+.box_preview {
+    padding-top: 1rem;
+    height: fit-content;
+    top: 0;
+    bottom: 10px;
+    top: 6rem;
     width: 4rem;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     flex-direction: column;
     align-items: center;
     gap: 2rem;
@@ -29,8 +43,7 @@
 }
 
 .box_img {
-    position: relative;
-    height: 100%;
+    height: fit-content;
     width: 27.5rem;
     display: flex;
     align-items: center;
@@ -159,6 +172,7 @@
         width: 100%;
         padding: 0.5rem;
         border: none;
+        text-align: left;
         background-color: white;
         &:hover {
             background-color: #f6f6f6;
