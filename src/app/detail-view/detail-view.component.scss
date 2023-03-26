@@ -14,6 +14,7 @@
     height: auto;
     display: flex;
     gap: 1rem;
+    z-index: -2;
 }
 
 .box_preview {
@@ -44,6 +45,7 @@
 
 .box_img {
     height: fit-content;
+    position: relative;
     width: 27.5rem;
     display: flex;
     align-items: center;
@@ -79,7 +81,7 @@
 .place_details {
     padding-left: 1.5rem;
     height: 100%;
-    width: 16rem;
+    width: 19rem;
     display: flex;
     align-items: flex-start;
 }
@@ -94,7 +96,8 @@
     h1 {
         width: 80%;
         font-size: 1.25rem;
-        letter-spacing: 0.1rem
+        letter-spacing: 0.1rem;
+        z-index: -2;
     }
     h2 {
         font-weight: bolder;
@@ -191,6 +194,18 @@
     }
 }
 
+.place_btns {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+}
+
+.size_error {
+    background-color: rgb(188, 136, 136);
+    padding: 1rem;
+}
+
 .box_btns {
     display: flex;
     justify-content: space-between;
@@ -199,6 +214,7 @@
 }
 
 .btn_buy {
+    position: relative;
     height: 3rem;
     flex: 1;
     color: white;
@@ -210,6 +226,18 @@
     border: none;
     &:hover {
         background-color: #006637;
+    }
+    &:focus {
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    }
+    img {
+        width: 1.4rem;
+        height: 1.4rem;
+        object-fit: cover;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 1rem;
     }
 }
 
@@ -302,4 +330,22 @@
     .rotate-back {
         transform: rotate(90deg);
     }
+}
+
+.visible {
+    opacity: 1;
+    transition: opacity 0.3s, top 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    top: 0;
+}
+
+.hidden {
+    opacity: 0;
+    transition: opacity 0.3s, top 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    top: -50px;
+}
+
+.fade-in-out {
+    transition: opacity 0.3s, top 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }

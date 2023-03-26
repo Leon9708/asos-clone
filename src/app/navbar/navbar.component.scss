@@ -4,6 +4,7 @@ nav {
     background-color: #2D2D2D;
     display: flex;
     justify-content: center;
+    z-index: 5;
 }
 
 .place_content_nav {
@@ -64,13 +65,49 @@ input {
     width:8rem;
 }
 
-button {
+.btn_nav {
     border: none;
     background-color: transparent;
     padding: 0;
 }
 
-img {
+.btn_bag {
+    position: relative;
+}
+
+.img_nav {
     height: 1.5rem;
     width: 1.5rem;
+}
+
+.box_btns_right {
+    position: relative;
+    display: flex;
+    gap: 4rem;
+    margin-left: 2rem;
+}
+
+.preview_cart {
+    position: absolute;
+    bottom: -10.1rem;
+    left: -16.3rem;
+    width: 18rem;
+    height: 9rem;
+    background-color: rgb(228, 98, 98);
+    z-index: -1;
+}
+
+.slide-down {
+    animation: slide-down 0.4s ease-out;
+}
+
+@keyframes slide-down {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0%);
+        opacity: 1;
+    }
 }

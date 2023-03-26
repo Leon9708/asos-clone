@@ -1,12 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiAsosService } from '../service/api-asos.service';
 import { ShareDataService } from '../service/share-data.service';
+import { trigger, state, style, animate, transition } from '@angular/animations';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-detail-view',
   templateUrl: './detail-view.component.html',
   styleUrls: ['./detail-view.component.scss'],
- 
+  animations: [
+    trigger('fadeInOut', [
+      state('hidden', style({
+        opacity: 0,
+        top: '-20px'
+      })),
+      state('visible', style({
+        opacity: 1,
+        top: "50%"
+      })),
+      transition('visible => hidden', animate('0.5s cubic-bezier(0.4, 0, 0.2, 1)')),
+      transition('hidden => visible', animate('0.5s cubic-bezier(0.4, 0, 0.2, 1)'))
+    ])
+  ]
+
 })
 export class DetailViewComponent implements OnInit {
   product: any[];
@@ -17,7 +33,9 @@ export class DetailViewComponent implements OnInit {
   selectedPopup:string;
   rotatedBack: boolean;
   rotated: boolean;
-  constructor(private shareData: ShareDataService, private apiService: ApiAsosService ) { }
+  chooseSize: boolean;
+  addToCart: boolean = false
+  constructor(private shareData: ShareDataService, private apiService: ApiAsosService, private router: Router ) { }
 
   async ngOnInit(): Promise<void> {
    let productData = localStorage.getItem('productData');
@@ -57,6 +75,7 @@ export class DetailViewComponent implements OnInit {
   }
 
   onSizeButtonClick(size: string) {
+    this.chooseSize = false;
     this.selectedSize = size;
   }
 
@@ -65,6 +84,14 @@ export class DetailViewComponent implements OnInit {
       this.selectedPopup = '';
     } else {
       this.selectedPopup = buttonName;
+    }
+  }
+
+  checkValue(){
+    if(!this.selectedSize){
+      this.chooseSize = true;
+    }else{
+      this.addToCart = true
     }
   }
 }
