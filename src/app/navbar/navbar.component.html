@@ -10,12 +10,14 @@
             </button>
         </div>
         <input placeholder="" type="text">
-        <button class="btn_nav">
-            <img class="img_nav" src="/assets/img/heart.png" alt="">
-        </button>
-        <button (mouseleave)="showCart = false" (mouseenter)="showCart = true" class="btn_bag btn_nav"> 
-            <img class="img_nav" src="/assets/img/bag.png" alt="">
-            <app-preview-cart *ngIf="showCart" class="preview_cart slide-down"></app-preview-cart>
-        </button>
+        <div class="box_btn_nav_right">
+            <button class="btn_nav btn_heart">
+                <img class="img_nav" src="/assets/img/heart.png" alt="">
+            </button>
+            <button (mouseleave)="checkCart('btn')" (mouseenter)="showCart = true" class="btn_bag btn_nav"> 
+                <img class="img_nav" src="/assets/img/bag.png" alt="">
+                <app-preview-cart  (mouseleave)="checkCart('cart')" *ngIf="showCart" class="preview_cart slide-down"></app-preview-cart>
+            </button>
+        </div>
     </div>
 </nav>

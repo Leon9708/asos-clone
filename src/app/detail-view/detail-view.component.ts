@@ -18,8 +18,13 @@ import { Router } from '@angular/router';
         opacity: 1,
         top: "50%"
       })),
+      state('fadeOut', style({
+        opacity: 0,
+        top: "50%"
+      })),
       transition('visible => hidden', animate('0.5s cubic-bezier(0.4, 0, 0.2, 1)')),
-      transition('hidden => visible', animate('0.5s cubic-bezier(0.4, 0, 0.2, 1)'))
+      transition('hidden => visible', animate('0.5s cubic-bezier(0.4, 0, 0.2, 1)')),
+      transition('visible => fadeOut', animate('0.5s 7.5s cubic-bezier(0.4, 0, 0.2, 1)')),
     ])
   ]
 
@@ -35,16 +40,26 @@ export class DetailViewComponent implements OnInit {
   rotated: boolean;
   chooseSize: boolean;
   addToCart: boolean = false
+  isButtonDisabled: boolean = false
+
   constructor(private shareData: ShareDataService, private apiService: ApiAsosService, private router: Router ) { }
 
   async ngOnInit(): Promise<void> {
-   let productData = localStorage.getItem('productData');
+    let productData = localStorage.getItem('productData');
     if (!productData) {
-      const data = await this.apiService.getProduct().toPromise();
+ /*    this.shareData.product$.subscribe((data: any[]) => {
       this.product = data;
-      localStorage.setItem('productData', JSON.stringify(this.product));
-    } else {
+    }); */   const data = await this.apiService.getProduct().toPromise();
+    localStorage.setItem('productData', JSON.stringify(this.product));
+  /*     this.shareData.setProduct(data); */
+ /*    if (!this.product.length) {
+   
+    } */
+    }else {
       this.product= JSON.parse(productData);
+    }
+    if (this.product['variants'].length <= 1) {
+      this.selectedSize = this.product['variants'][0]['brandSize'];
     }
     console.log('product', this.product);
   }
@@ -55,7 +70,7 @@ export class DetailViewComponent implements OnInit {
     mainImage.src = 'http://images.' + this.product['media']['images'][imageIndex].url.slice(7);
   }
 
-  onLeftArrowClick() {
+  swipeImgLeft() {
     if (this.currentImageIndex > 0) {
       this.currentImageIndex--;
     } else {
@@ -64,7 +79,7 @@ export class DetailViewComponent implements OnInit {
     const mainImage = document.getElementById('mainImg') as HTMLImageElement;
     mainImage.src = 'http://images.' + this.product['media']['images'][this.currentImageIndex].url.slice(7);
   }
-  onRightArrowClick() {
+  swipeImgRight() {
     if (this.currentImageIndex < this.product['media']['images'].length - 1) {
       this.currentImageIndex++;
     } else {
@@ -91,7 +106,47 @@ export class DetailViewComponent implements OnInit {
     if(!this.selectedSize){
       this.chooseSize = true;
     }else{
-      this.addToCart = true
+      this.boughtAnimation()
+      this.toBasket()
     }
   }
+
+  boughtAnimation() {
+    this.addToCart = true;
+    this.isButtonDisabled = true;
+
+    setTimeout(() => {
+      this.isButtonDisabled = false;
+    }, 1000);
+    setTimeout(() => {
+      this.addToCart = false;
+    }, 7500);
+    setTimeout(() => {
+      this.shareData.setShowCart(true)
+    }, 1000);
+    setTimeout(() => {
+      this.shareData.setShowCart(false)
+    }, 7500);
+  }
+
+
+
+
+  toBasket(){
+    let productDetails = {
+      id: this.product['id'],
+      name: this.product['name'],
+      color: this.product['variants'][0]['colour'],
+      size: this.selectedSize,
+      img: this.product['media']['images'][0]['url'].slice(7),
+      price: this.product['price']['current']['text'],
+      qty: 1
+    }
+    console.log(productDetails,'productDetails')
+    this.shareData.addToCartArray(productDetails);
+  }
+
+ 
+
+  
 }

@@ -9,6 +9,7 @@ import { SharedModule } from './shared/shared-module.module';
 import { ShareDataService } from './service/share-data.service';
 import { ApiAsosService } from './service/api-asos.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CartComponent } from './cart/cart.component';
 
 
 
@@ -16,6 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     AppComponent,
+    CartComponent,
   ],
   imports: [
     BrowserModule,

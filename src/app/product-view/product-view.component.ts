@@ -33,6 +33,7 @@ export class ProductViewComponent implements OnInit {
   }     
 
   openDetailView(productId: number){  
+    this.shareData.setProduct([])
     this.shareData.setProductId(productId)
     this.router.navigateByUrl('detail-view')
   }

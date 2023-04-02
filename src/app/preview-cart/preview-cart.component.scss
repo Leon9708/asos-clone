@@ -1,0 +1,96 @@
+.place_cart {
+    flex-direction: column;
+    display: flex;
+    align-items: flex-start;
+}
+
+.cart_heading {
+    font-weight: bold;
+    font-size: 1.05rem;
+    text-shadow: 0px 1px, 1px 0px, 1px 1px;
+    letter-spacing: 0.15rem;
+    span {
+        text-shadow: none;
+        font-weight: 500;
+        font-size: 0.95rem;
+        padding-left: 0.25rem;
+    }
+    padding: 1rem 1.25rem;
+}
+
+.place_description {
+    max-height: 14rem;
+    overflow: auto;
+}
+
+.box_description {
+    display: flex;
+    align-items: flex-start;
+    background-color: white;
+    padding-top: 1rem;
+    padding: 0.75rem 1.25rem;
+    gap: 1rem;
+    max-height: 9rem;
+    img {
+        width: 9rem;
+        height: 7.5rem;
+    }
+}
+
+.box_description_text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    padding: 0.25rem 0;
+    div {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+.description_product {
+    text-align: left;
+}
+
+.price_product {
+    letter-spacing: 0.1rem;
+    font-size: 0.8rem;
+    text-shadow: 0px 1px, 1px 0px, 1px 1px;
+    text-transform: uppercase;
+}
+
+.box_subtotal {
+    width: calc(100% - 2.5rem);
+    padding: 0.75rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 -1px 3px -0.5px rgba(0, 0, 0, 0.182);
+    border-bottom: solid 1px #e2e2e2;
+    p {
+        font-size: 1.05rem;
+    }
+}
+
+.box_btn {
+    width: calc(100% - 2.5rem);
+    padding: 0.75rem 1.25rem;
+    button {
+        height: 100%;
+        width: 90%;
+        border: solid 2.5px rgb(203, 203, 203);
+        text-transform: uppercase;
+        text-shadow: 0px 1px, 1px 0px, 1px 1px;
+        letter-spacing: 0.15rem;
+        font-size: 0.95rem;
+        padding: 0.6rem 0;
+        background-color: white;
+        &:hover {
+            background-color: rgb(197, 197, 197);
+        }
+    }
+}

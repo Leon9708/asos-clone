@@ -8,8 +8,8 @@
         </div>
         <div class="box_img">
             <img class="main_img" id="mainImg" [src]="'http://images.' + product['media']['images'][0]['url'].slice(7)" alt="">
-            <img class="arrow_left" src="/assets/img/arrow.png" alt="" (click)="onLeftArrowClick()">
-            <img class="arrow_right" src="/assets/img/arrow.png" alt="" (click)="onRightArrowClick()">
+            <img class="arrow_left" src="/assets/img/arrow.png" alt="" (click)="swipeImgLeft()">
+            <img class="arrow_right" src="/assets/img/arrow.png" alt="" (click)="swipeImgRight()">
         </div>
     </div>
     <div class="place_details">
@@ -40,7 +40,7 @@
             <div class="place_btns">
                 <p *ngIf="chooseSize" class="size_error">Please select from the available colour and size options</p>
                 <div class="box_btns">
-                    <button (click)="checkValue()" class="btn_buy">
+                    <button [disabled]="isButtonDisabled" (click)="checkValue()" class="btn_buy">
                         <img [@fadeInOut]="addToCart ? 'visible' : 'hidden'" src="/assets/img/hook.png" alt="">
                         <p>Add to Bag</p>
                     </button>

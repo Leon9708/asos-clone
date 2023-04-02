@@ -10,8 +10,17 @@ export class ShareDataService {
   brandData$ = this.brandDataSubject.asObservable();
   private brandsSubject = new BehaviorSubject<any[]>([]);
   brands$ = this.brandsSubject.asObservable();
+  private productObject = new BehaviorSubject<any[]>([])
+  product$ = this.productObject.asObservable();
   private genderIdSubject = new BehaviorSubject<string>(null);
   genderId$ = this.genderIdSubject.asObservable();
+  private showCartObject = new BehaviorSubject<boolean>(null)
+  showCart$ = this.showCartObject.asObservable();
+  private buttonStatusObject = new BehaviorSubject<any>(null)
+  buttonStatus$ = this.buttonStatusObject.asObservable();
+  private cartArraySubject = new BehaviorSubject<any[]>([]);
+  cartArray$ = this.cartArraySubject.asObservable()
+
   prevGenderId: string;
   brandInfo: any;
   productId: number;
@@ -22,10 +31,22 @@ export class ShareDataService {
   filterTypeId:number;
   filterColorId:number;
 
-  private buttonStatusObject = new BehaviorSubject<boolean>(null)
-  buttonStatus$ = this.buttonStatusObject.asObservable();
+ 
   constructor() { }
 
+  addToCartArray(item: any) {
+    const currentCartArray = this.cartArraySubject.getValue();
+    currentCartArray.push(item);
+    this.cartArraySubject.next(currentCartArray);
+  }
+
+setProduct(product: any){
+  this.productObject.next(product)
+}
+
+  setShowCart(value: any){
+    this.showCartObject.next(value);
+  }
   setProductId(id: number): void {
     this.productId = id;
   }

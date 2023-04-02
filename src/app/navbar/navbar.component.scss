@@ -12,6 +12,7 @@ nav {
     display: flex;
     align-items: center;
     gap: 2rem;
+    z-index: 5;
 }
 
 h2 {
@@ -65,14 +66,27 @@ input {
     width:8rem;
 }
 
+.box_btn_nav_right {
+    display: flex;
+    gap: 1rem;
+    height: 100%;
+}
+
 .btn_nav {
     border: none;
     background-color: transparent;
     padding: 0;
 }
 
+.btn_heart {
+    height: 100%;
+    width: 3rem;
+}
+
 .btn_bag {
     position: relative;
+    height: 100%;
+    width: 3rem;
 }
 
 .img_nav {
@@ -80,21 +94,15 @@ input {
     width: 1.5rem;
 }
 
-.box_btns_right {
-    position: relative;
-    display: flex;
-    gap: 4rem;
-    margin-left: 2rem;
-}
-
 .preview_cart {
     position: absolute;
-    bottom: -10.1rem;
-    left: -16.3rem;
-    width: 18rem;
-    height: 9rem;
-    background-color: rgb(228, 98, 98);
-    z-index: -1;
+    top: 4rem;
+    bottom: -9rem;
+    left: -18.6rem;
+    width: 21rem;
+    height: fit-content;
+    background-color: #EEEEEE;
+    z-index: 2;
 }
 
 .slide-down {
@@ -104,10 +112,25 @@ input {
 @keyframes slide-down {
     from {
         transform: translateY(-100%);
+        top: 4rem;
         opacity: 0;
     }
     to {
         transform: translateY(0%);
         opacity: 1;
     }
+}
+
+.preview_cart_container {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 5px;
+    /* Adjust this value as needed */
+    z-index: 999;
+    display: none;
+}
+
+.preview_cart_container.show {
+    display: block;
 }
