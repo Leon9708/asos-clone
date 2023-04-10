@@ -53,18 +53,41 @@
                 </div>
             </div>
             <div class="place_description">
-                <div *ngFor="let btn of productInfo; let i = index" class="box_description">
-                    <button (click)="turnImg(productInfo[i])" class="btn_description">
-                      <p>{{productInfo[i]}}</p>
-                      <img class="vertical" [ngClass]="{ 'rotate-90': selectedPopup === productInfo[i], 'rotate-back': selectedPopup !== productInfo[i] }" src="/assets/img/minus.png" alt="">
+                <div class="box_description">
+                    <button (click)="turnImg('Product Details')" class="btn_description">
+                      <p>Product Details</p>
+                      <img class="vertical" [ngClass]="{ 'rotate-90': selectedPopup === 'Product Details', 'rotate-back': selectedPopup !== 'Product Details' }" src="/assets/img/minus.png" alt="">
                       <img class="horizontal" src="/assets/img/minus.png" alt="">
                     </button>
-                    <div *ngIf="selectedPopup === productInfo[i]">
-                        <app-productdetails *ngIf="selectedPopup === 'Product Details'" [ngClass]="{ 'active': selectedPopup === 'Product Details' }" [product]="product"></app-productdetails>
-                        <app-brand *ngIf="selectedPopup === 'Brand'" [ngClass]="{ 'active': selectedPopup === 'Brand' }" [product]="product"></app-brand>
-                        <app-sizeandfit *ngIf="selectedPopup === 'Size and Fit'" [ngClass]="{ 'active': selectedPopup === 'Size and Fit' }" [product]="product"></app-sizeandfit>
-                        <app-aboutme *ngIf="selectedPopup === 'About Me'" [ngClass]="{ 'active': selectedPopup === 'About Me' }" [product]="product"></app-aboutme>
+                    <div class="popUpProductDetails" *ngIf="selectedPopup === 'Product Details'" [ngClass]="{ 'active': selectedPopup === 'Product Details' }">
+                        <p class="heading" *ngIf="product['brand']['name'].length > 0"><span class="heading_span">Brand:  </span>{{product['brand']['name']}}</p>
+                        <p class="details" *ngIf="product['productType']['name'].length > 0" class="details"><span>Producttype: </span>{{product['productType']['name']}}</p>
+                        <p class=" details" *ngIf="product['productCode'] > 0"><span>Productcode: </span>{{product['productCode']}}</p>
                     </div>
+                </div>
+                <div *ngIf="product['brand']['description']?.length > 0" class="box_description">
+                    <button (click)="turnImg('Brand')" class="btn_description">
+                        <p>Brand</p>
+                        <img class="vertical" [ngClass]="{ 'rotate-90': selectedPopup === 'Brand', 'rotate-back': selectedPopup !== 'Brand' }" src="/assets/img/minus.png" alt="">
+                        <img class="horizontal" src="/assets/img/minus.png" alt="">
+                    </button>
+                    <p class="popUpDescription fadeInUp" *ngIf="selectedPopup === 'Brand'" [ngClass]="{ 'active': selectedPopup === 'Brand' }">{{ removeTags(product['brand'].description) }}</p>
+                </div>
+                <div *ngIf="product['info'].sizeAndFit?.length > 0 " class="box_description">
+                    <button (click)="turnImg('Size and Fit')" class="btn_description">
+                        <p>Size and Fit</p>
+                        <img class="vertical" [ngClass]="{ 'rotate-90': selectedPopup === 'Size and Fit', 'rotate-back': selectedPopup !== 'Size and Fit' }" src="/assets/img/minus.png" alt="">
+                        <img class="horizontal" src="/assets/img/minus.png" alt="">
+                    </button>
+                    <p class="popUpDescription fadeInUp" *ngIf="selectedPopup === 'Size and Fit'" [ngClass]="{ 'active': selectedPopup === 'Size and Fit' }" [innerHTML]="product['info']['sizeAndFit']"></p>
+                </div>
+                <div *ngIf="product['info']['aboutMe']?.length > 0" class="box_description">
+                    <button (click)="turnImg('About Me')" class="btn_description">
+                        <p>About Me</p>
+                        <img class="vertical" [ngClass]="{ 'rotate-90': selectedPopup === 'About Me', 'rotate-back': selectedPopup !== 'About Me' }" src="/assets/img/minus.png" alt="">
+                        <img class="horizontal" src="/assets/img/minus.png" alt="">
+                    </button>
+                    <p class="popUpDescription fadeInUp" [ngClass]="{ 'active': selectedPopup === 'About Me' }" *ngIf="selectedPopup === 'About Me'" [innerHTML]="product['info'].aboutMe"></p>
                 </div>
             </div>
         </div>

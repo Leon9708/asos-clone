@@ -19,8 +19,7 @@ export class ShareDataService {
   private buttonStatusObject = new BehaviorSubject<any>(null)
   buttonStatus$ = this.buttonStatusObject.asObservable();
   private cartArraySubject = new BehaviorSubject<any[]>([]);
-  cartArray$ = this.cartArraySubject.asObservable()
-
+  cartArray$ = this.cartArraySubject.asObservable();
   prevGenderId: string;
   brandInfo: any;
   productId: number;
@@ -34,15 +33,20 @@ export class ShareDataService {
  
   constructor() { }
 
+
+
   addToCartArray(item: any) {
     const currentCartArray = this.cartArraySubject.getValue();
     currentCartArray.push(item);
     this.cartArraySubject.next(currentCartArray);
   }
+  setCartArray(cartArray){
+    this.cartArraySubject.next(cartArray);
+  }
 
-setProduct(product: any){
-  this.productObject.next(product)
-}
+  setProduct(product: any){
+    this.productObject.next(product)
+  }
 
   setShowCart(value: any){
     this.showCartObject.next(value);

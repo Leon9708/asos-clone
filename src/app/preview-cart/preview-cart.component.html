@@ -1,15 +1,15 @@
 <div class="place_cart">
-    <p class="cart_heading">My bag, <span>{{productDetails.length}}</span> <span *ngIf="productDetails.length <= 1">item</span><span *ngIf="productDetails.length > 1">items</span></p>
+    <p class="cart_heading">My bag, <span>{{productTotal}}</span> <span *ngIf="productDetails.length <= 1">item</span><span *ngIf="productDetails.length > 1">items</span></p>
     <div class="place_description">
         <div class="box_description" *ngFor="let product of productDetails">
             <img [src]="'http://images.' + product['img']" alt="">
             <div class="box_description_text">
-                <p class="price_product">{{product['price']}}</p>
+                <p class="price_product">${{product['price']}}</p>
                 <p class="description_product">{{product['name']}}</p>
                 <div>
                     <p>{{product['color']}}</p>
                     <p>{{product['size']}}</p>
-                    <p>Qty: <span>1</span></p>
+                    <p>Qty: <span>{{product['qty']}}</span></p>
                 </div>
             </div>
         </div>
@@ -19,6 +19,6 @@
         <p>${{subTotal}}</p>
     </div>
     <div class="box_btn">
-        <button>View bag</button>
+        <button (click)="openBasket()">View bag</button>
     </div>
 </div>

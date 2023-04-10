@@ -1,1 +1,71 @@
-<p>cart works!</p>
+<app-navbar></app-navbar>
+<div class="place_cart">
+    <div [ngStyle]="productDetails.length > 1 ?  {'justify-content': 'center'} : null" class="place_products">
+        <div class="box_products_heading">
+            <p class="cart_heading">My bag</p>
+        </div>
+        <div class="place_empty" *ngIf="productDetails.length < 1">
+            <img src="/assets/img/bag_black.png" alt="">
+            <h2>Your bag is empty</h2>
+        </div>
+        <div class="place_description" *ngFor="let product of productDetails; let i = index">
+            <div class="box_description">
+                <img [src]="'http://images.' + product['img']" alt="">
+                <div class="box_description_text">
+                    <p class="price_product">${{product['price']}}</p>
+                    <p class="description_product">{{product['name']}}</p>
+                    <div class="box_details">
+                        <p>{{product['color']}}</p>
+                        <div class="box_edit">
+                            <button (click)="product.editSize = !product.editSize" class="btn_edit">
+                                <p>{{product['size']}}</p>
+                                <img src="/assets/img/arrow-down.png" alt="">
+                            </button>
+                            <div *ngIf="product.editSize" class="pop_up_edit">
+                                <button (click)="changeSize(variant['brandSize'], i)" class="btn_popup" *ngFor="let variant of product.sizeOptions; let j = index">{{variant['brandSize']}}</button>
+                            </div>
+                        </div>
+                        <div class="box_edit">
+                            <button (click)="product.editQty = !product.editQty" class="btn_edit">
+                                <p>Qty: <span>{{product['qty']}}</span></p>
+                                <img src="/assets/img/arrow-down.png" alt="">
+                            </button>
+                            <div *ngIf="product.editQty" class="pop_up_edit">
+                                <button (click)="changeQty(num,i)" class="btn_popup" *ngFor="let num of [1,2,3,4,5,6,7,8,9,10]">{{num}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="place_checkout">
+        <h2>TOTAL</h2>
+        <div class="box_subtotal">
+            <p class="text_subtotal">Sub-total</p>
+            <p>${{subTotal}}</p>
+        </div>
+        <div class="box_subtotal">
+            <p class="text_subtotal">Shipping</p>
+            <p *ngIf="!shippingFree">$5</p>
+            <p *ngIf="shippingFree">free</p>
+        </div>
+        <div *ngIf="!shippingFree" class="box_shipping_free">
+            <p class="text_shipping_free">Benötigter Betrag, um den Mindestbestellwert zu erreichen.</p>
+            <p>${{orderValue}}</p>
+        </div>
+        <div class="box_discount">
+            <p class="text_discount">Discount</p>
+            <div class="form__group field">
+                <input [disabled]="subTotal <= 0" [ngStyle]="{'border-image-source': this.discount ? 'linear-gradient(to left, #38ef7d, rgb(178, 255, 89))' : 'linear-gradient(to left, red, orange )'}" type="input" class="form__field" placeholder="Code" name="code" [(ngModel)]="code"
+                    (keyup)="checkCode()" />
+                <label for="name" class="form__label">code</label>
+            </div>
+        </div>
+        <div class="box_total">
+            <p class="text_total">Total</p>
+            <p>${{total}}</p>
+        </div>
+        <button>CHECKOUT</button>
+    </div>
+</div>

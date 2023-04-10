@@ -14,10 +14,12 @@
             <button class="btn_nav btn_heart">
                 <img class="img_nav" src="/assets/img/heart.png" alt="">
             </button>
-            <button (mouseleave)="checkCart('btn')" (mouseenter)="showCart = true" class="btn_bag btn_nav"> 
-                <img class="img_nav" src="/assets/img/bag.png" alt="">
-                <app-preview-cart  (mouseleave)="checkCart('cart')" *ngIf="showCart" class="preview_cart slide-down"></app-preview-cart>
-            </button>
+            <div (mouseleave)="hoverPreviewCart(false)" (mouseenter)="hoverPreviewCart(true)" class="btn_cart_box">
+                <button (click)="openBasket()" class="btn_bag btn_nav">
+                    <img class="img_nav" src="/assets/img/bag.png" alt="">
+                </button>
+                <app-preview-cart *ngIf="showCart && cartArray.length > 0" class="preview_cart slide-down"></app-preview-cart>
+            </div>
         </div>
     </div>
 </nav>
