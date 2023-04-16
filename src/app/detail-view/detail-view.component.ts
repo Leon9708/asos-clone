@@ -47,25 +47,18 @@ export class DetailViewComponent implements OnInit {
   constructor(private shareData: ShareDataService, private apiService: ApiAsosService, private router: Router, private sanitizer: DomSanitizer ) { }
 
   async ngOnInit(): Promise<void> { 
-    let productData = localStorage.getItem('productData');
-    if (productData === null || productData === undefined) {
- /*    this.shareData.product$.subscribe((data: any[]) => {
+    this.shareData.product$.subscribe((data: any[]) => {
       this.product = data;
-    }); */   const data = await this.apiService.getProduct().toPromise();
-    this.product= data
-    localStorage.setItem('productData', JSON.stringify(this.product));
-  /*     this.shareData.setProduct(data); */
- /*    if (!this.product.length) {
-   
-    } */
-
-    }else {
-      this.product= JSON.parse(productData);
+    }); 
+    if (this.product.length === 0) {
+      const data = await this.apiService.getProduct().toPromise();
+      this.shareData.setProduct(data); 
     }
     console.log(this.product)
     this.showSize()
     this.formatDescription()
   }
+  
 
   formatDescription(){
     this.productDescription = this.sanitizer.bypassSecurityTrustHtml(this.removeTags(this.product['brand'].description));

@@ -22,16 +22,17 @@ export class CartComponent implements OnInit {
   orderValue: number = 0;
   code:string;
   discount:boolean = false;
+  popUpBuy: boolean = false;
+
   constructor(private shareData:ShareDataService, private router: Router) { }
 
   ngOnInit(): void {
-    debugger;
     this.shareData.cartArray$.subscribe((cart:[])=>{
       this.productDetails = cart
       this.render()
     })
-  
   }
+  
   render(){
     this.checkDuplicates()
     this.calculateSubtotal()
@@ -40,17 +41,18 @@ export class CartComponent implements OnInit {
     this.checkCode();
   }
 
-  calculateTotal(){
-    this.total = 0;
-    this.checkShipping()
-    if(this.shippingFree){
-      this.total = this.subTotal
-    }else if(this.subTotal > 0){
-      this.total =  this.subTotal + 5
+  calculateTotal() {
+    let totalNumber = 0;
+    this.checkShipping();
+    if (this.shippingFree) {
+      totalNumber = this.subTotal;
+    } else if (this.subTotal > 0) {
+      totalNumber = this.subTotal + 5;
     }
-    if(this.discount){
-      this.total = this.total *0.9
+    if (this.discount) {
+      totalNumber = totalNumber * 0.9;
     }
+    this.total = +totalNumber.toFixed(2); 
   }
 
   checkShipping(){
@@ -60,14 +62,15 @@ export class CartComponent implements OnInit {
   }
 
   calculateSubtotal(){
-    this.subTotal = 0;
+    let subTotalNumber = 0;
     this.productDetails.forEach((product)=>{
       let price = 0
       let priceQty = 0
       price += product.price
       priceQty =  price * product.qty
-      this.subTotal += priceQty
+      subTotalNumber += priceQty
     })
+    this.subTotal = +subTotalNumber.toFixed(2);
   }
 
   checkMinimumOrder(){
@@ -103,11 +106,15 @@ export class CartComponent implements OnInit {
 
   checkCode() {
     if (this.code.toLowerCase() === "newbie") {
-      this.discount = true;
-    }else{
+      if (!this.discount) {
+        this.discount = true;
+        this.shareData.setCartArray(this.productDetails);
+      }
+    } else if (this.discount) {
       this.discount = false;
+      this.shareData.setCartArray(this.productDetails);
     }
-    this.shareData.setCartArray(this.productDetails)
   }
-
 }
+
+

@@ -44,7 +44,16 @@ export class NavbarComponent implements OnInit {
   }
 
   openBasket(){
-    this.router.navigateByUrl('cart')
     this.shareData.setShowCart(false)
+    this.router.navigateByUrl('cart')
    }
+
+   backtoStart(){
+    this.router.navigateByUrl('')
+  }
+
+  toBrands(id: string){
+    this.shareData.setGenderId(id)
+    this.router.navigateByUrl('brands')
+  }
 }

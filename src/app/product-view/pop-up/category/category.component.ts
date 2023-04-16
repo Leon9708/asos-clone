@@ -23,7 +23,7 @@
       });
     }
     ngOnChanges(): void {
-  
+      this.filterArray = [];
       const category = this.brandData.facets.find((facet: { id: string; }) => facet.id === 'attribute_10992');
       if (category) {
         this.filterAvailable = true;
@@ -56,6 +56,7 @@
 
     filterCategory(categoryFilter: any): void {
       debugger;
+      this.popUpCategory = false;
       this.selectedButton = categoryFilter.categoryName;
       this.shareData.setFilterCategoryId(categoryFilter.id);
       this.shareData.removeOtherCategories('category')

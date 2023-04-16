@@ -15,12 +15,18 @@ nav {
     z-index: 5;
 }
 
-h2 {
+.asos {
     line-height: normal;
     color: white;
     font-size: 3rem;
     letter-spacing: 0.1px;
     padding-bottom: 0.85rem;
+    border: none;
+    background-color: transparent;
+}
+
+button {
+    cursor: pointer;
 }
 
 h3 {

@@ -26,6 +26,7 @@ export class StyleComponent implements OnInit  {
   }
 
   ngOnChanges(): void {
+    this.filterArray = [];
     const element = this.brandData.facets.find((facet: { id: string; }) => facet.id === 'attribute_1046');
 
     if (element) {
@@ -58,6 +59,7 @@ export class StyleComponent implements OnInit  {
   }
 
     filterStyle(styleFilter: any): void {
+      this.popUpStyle = false;
       this.selectedButton = styleFilter.styleName;
       this.shareData.setFilterStyleId(styleFilter.id)  
       this.shareData.removeOtherCategories('style');

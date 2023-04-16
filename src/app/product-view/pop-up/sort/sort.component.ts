@@ -33,6 +33,7 @@ export class SortComponent implements OnInit {
 
   filterSort(sortType: string): void {
     this.selectedButton = sortType;
+    this.popUpSort = false
     localStorage.setItem('selectedButtonSort',sortType)
     let sort: string;
     switch(sortType) {

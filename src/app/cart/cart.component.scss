@@ -165,7 +165,7 @@ $gray: #9b9b9b;
         width: 100%;
         height: 3.5rem;
         background-color: #018849;
-        font-size: 0.9rem;
+        font-size: 1.4rem;
         font-weight: bolder;
         text-shadow: 0px 1px, 1px 0px, 1px 1px;
         color: white;
@@ -290,4 +290,23 @@ $gray: #9b9b9b;
     &:invalid {
         box-shadow: none;
     }
+}
+
+.app-bought {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    /* start off screen */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    z-index: 9999;
+    transition: right 0.5s ease-in-out;
+}
+
+.app-bought.show {
+    right: 0;
 }

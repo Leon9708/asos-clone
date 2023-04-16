@@ -24,7 +24,7 @@ export class ColorComponent implements OnInit  {
     });
   }
   ngOnChanges(): void {
-
+    this.filterArray = [];
     const element = this.brandData.facets.find((facet: { id: string; }) => facet.id === 'base_colour');
 
     if (element) {
@@ -58,7 +58,7 @@ export class ColorComponent implements OnInit  {
   }
 
   filterType(color: any): void {
-    debugger;
+    this.popUpColor = false
     this.selectedButton = color.name;
     this.shareData.setFilterColorId(color.id)  
     this.shareData.removeOtherCategories('color');

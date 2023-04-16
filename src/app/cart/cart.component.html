@@ -1,6 +1,7 @@
 <app-navbar></app-navbar>
-<div class="place_cart">
-    <div [ngStyle]="productDetails.length > 1 ?  {'justify-content': 'center'} : null" class="place_products">
+<div [ngClass]="{'background_blur': popUpBuy}" class="place_cart">
+    <app-bought class="app-bought" [ngClass]="{'show': popUpBuy}"></app-bought>
+    <div [ngStyle]="productDetails.length> 1 ? {'justify-content': 'center'} : null" class="place_products">
         <div class="box_products_heading">
             <p class="cart_heading">My bag</p>
         </div>
@@ -43,7 +44,7 @@
         <h2>TOTAL</h2>
         <div class="box_subtotal">
             <p class="text_subtotal">Sub-total</p>
-            <p>${{subTotal}}</p>
+            <p>${{ subTotal | number: '1.2-2' }}</p>
         </div>
         <div class="box_subtotal">
             <p class="text_subtotal">Shipping</p>
@@ -57,15 +58,15 @@
         <div class="box_discount">
             <p class="text_discount">Discount</p>
             <div class="form__group field">
-                <input [disabled]="subTotal <= 0" [ngStyle]="{'border-image-source': this.discount ? 'linear-gradient(to left, #38ef7d, rgb(178, 255, 89))' : 'linear-gradient(to left, red, orange )'}" type="input" class="form__field" placeholder="Code" name="code" [(ngModel)]="code"
-                    (keyup)="checkCode()" />
+                <input [ngStyle]="{'border-image-source': this.discount ? 'linear-gradient(to left, #38ef7d, rgb(178, 255, 89))' : 'linear-gradient(to left, red, orange )'}" type="input" class="form__field" placeholder="Code" name="code" [(ngModel)]="code" (keyup)="checkCode()"
+                />
                 <label for="name" class="form__label">code</label>
             </div>
         </div>
         <div class="box_total">
             <p class="text_total">Total</p>
-            <p>${{total}}</p>
+            <p>${{ total | number: '1.2-2' }}</p>
         </div>
-        <button>CHECKOUT</button>
+        <button (click)="popUpBuy = true">Buy</button>
     </div>
 </div>

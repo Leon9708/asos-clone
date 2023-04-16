@@ -23,6 +23,7 @@ export class TypeComponent implements OnInit {
   }
 
   ngOnChanges(): void { 
+    this.filterArray = [];
     const element = this.brandData.facets.find((facet: { id: string; }) => facet.id === 'attribute_1047');
     if (element) {
       this.filterAvailable = true;
@@ -54,6 +55,7 @@ export class TypeComponent implements OnInit {
   }
 
   filterType(type: any): void {
+    this.popUpType = false;
     this.selectedButton = type.name;
     this.shareData.setFilterTypeId(type.id)  
     this.shareData.removeOtherCategories('type')

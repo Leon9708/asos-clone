@@ -27,16 +27,16 @@ export class PreviewCartComponent implements OnInit {
   }
 
   calculateSubtotal(){
-    this.subTotal = 0;
-    this.productTotal = 0;
+    let subTotalNumber = 0;
     this.productDetails.forEach((product)=>{
       let price = 0
       let priceQty = 0
       price += product.price
       priceQty =  price * product.qty
-      this.subTotal += priceQty
+      subTotalNumber += priceQty
       this.checkProductTotal(product)
     })
+    this.subTotal = +subTotalNumber.toFixed(2);
   }
   checkDuplicates(){
     let filteredProductDetails = this.productDetails.reduce((accumulator, current) => {
@@ -56,6 +56,7 @@ export class PreviewCartComponent implements OnInit {
   }
 
   openBasket(){
+    this.shareData.setShowCart(false)
     this.router.navigateByUrl('cart')
   }
 
