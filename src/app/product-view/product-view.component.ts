@@ -14,6 +14,8 @@ export class ProductViewComponent implements OnInit {
   categoryId: string = '';
   brandData: any [] = [];
   brandInfo: any;
+  sites: any[];
+  selectedNumber: number = 1;
   constructor(public apiService: ApiAsosService, private shareData :ShareDataService, private router: Router) { }
 
   async ngOnInit(): Promise<void> {
@@ -28,15 +30,47 @@ export class ProductViewComponent implements OnInit {
       } 
       this.shareData.brandData$.subscribe( (data: any[]) => {
         this.brandData = data
+        this. calculateResult();
       });
         console.log('API call successful',this.brandData);
-  }     
+  } 
+  
+  calculateResult() {
+    const result = this.brandData['itemCount'] / 48;
+    const start = 1;
+    let end: number;
+    if (Number.isInteger(result)) {
+      end = result;
+    } else {
+      end = Math.ceil(result);
+    }
+    this.sites = Array.from({ length: end }, (_, i) => i + start);
+  }
+
+  setOffset(number: number): void {
+    let offset = (number - 1) * 48;
+    this.selectedNumber = number;
+    this.shareData.setOffSet(offset)
+    this.setUpdate();
+  }
+
+  setUpdate(){
+    this.apiService.updateProducts().subscribe(newBrandData => {
+     this.shareData.setBrandData(newBrandData)
+     console.log(newBrandData)
+   }, error => {
+     console.error(error);
+   });     
+ }
 
   openDetailView(productId: number){  
     this.shareData.setProduct([])
     this.shareData.setProductId(productId)
     this.router.navigateByUrl('detail-view')
   }
+
+  
+
 
 }
 

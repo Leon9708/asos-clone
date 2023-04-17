@@ -24,16 +24,22 @@ export class ShareDataService {
   brandInfo: any;
   productId: number;
 
+
   filterCategoryId: number;
   filterSort: string;
   filterStyleId: number;
   filterTypeId:number;
   filterColorId:number;
-
+  offset: number = 0;
  
   constructor() { }
 
-
+setOffSet(value:number){
+  this.offset = value
+}
+getOffSet(){
+  return this.offset
+}
 
   addToCartArray(item: any) {
     const currentCartArray = this.cartArraySubject.getValue();
