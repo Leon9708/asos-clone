@@ -48,11 +48,7 @@ export class SortComponent implements OnInit {
         break;
     }
     this.shareData.setFilterSort(sort); 
-    this.apiService.updateProducts().subscribe(data => {
-        this.shareData.setBrandData(data)
-   
-      }, error => {
-        console.error(error);
-      });
+    this.apiService.updateProducts();
+    this.shareData.setOffSet(0)
   }
 }

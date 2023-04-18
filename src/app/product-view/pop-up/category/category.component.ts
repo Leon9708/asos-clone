@@ -45,24 +45,16 @@
       }
     }
 
-    setUpdate(){
-       this.apiService.updateProducts().subscribe(newBrandData => {
-        this.shareData.setBrandData(newBrandData)
-        console.log(newBrandData)
-      }, error => {
-        console.error(error);
-      });     
-    }
 
     filterCategory(categoryFilter: any): void {
-      debugger;
       this.popUpCategory = false;
       this.selectedButton = categoryFilter.categoryName;
       this.shareData.setFilterCategoryId(categoryFilter.id);
       this.shareData.removeOtherCategories('category')
+      this.shareData.setOffSet(0)
       this.selectedButtonStatus = true;
-      localStorage.setItem('selectedButtonCategory', this.selectedButton);
-      this.setUpdate()   
+      localStorage.setItem('selectedButtonCategory', this.selectedButton); 
+      this.apiService.updateProducts();
       this.cdRef.detectChanges();
     } 
 
@@ -70,6 +62,5 @@
     removeCategory(){
       this.shareData.filterCategoryId = undefined
       this.selectedButton = '';
-      this.setUpdate()
     }
   }

@@ -45,30 +45,22 @@ export class TypeComponent implements OnInit {
     }
   }
 
-  setUpdate(){
-    this.apiService.updateProducts().subscribe(data => {
-      this.shareData.setBrandData(data)
-      console.log(data)
-    }, error => {
-      console.error(error);
-    });
-  }
-
   filterType(type: any): void {
     this.popUpType = false;
     this.selectedButton = type.name;
     this.shareData.setFilterTypeId(type.id)  
     this.shareData.removeOtherCategories('type')
+    this.shareData.setOffSet(0);
     this.selectedButtonStatus = true
     localStorage.setItem('selectedButtonType', this.selectedButton);
-    this.setUpdate();
+    this.apiService.updateProducts()
     this.cdRef.detectChanges();
   } 
 
   removeType(){
     this.shareData.filterTypeId = undefined
     this.selectedButton = '';
-    this.setUpdate();
+    this.apiService.updateProducts()
   }
 }
 

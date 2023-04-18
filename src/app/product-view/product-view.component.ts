@@ -14,8 +14,10 @@ export class ProductViewComponent implements OnInit {
   categoryId: string = '';
   brandData: any [] = [];
   brandInfo: any;
-  sites: any[];
+  sites: any[] = [];
+  allowedSites:any[];
   selectedNumber: number = 1;
+
   constructor(public apiService: ApiAsosService, private shareData :ShareDataService, private router: Router) { }
 
   async ngOnInit(): Promise<void> {
@@ -30,38 +32,40 @@ export class ProductViewComponent implements OnInit {
       } 
       this.shareData.brandData$.subscribe( (data: any[]) => {
         this.brandData = data
-        this. calculateResult();
+        this.setSites();
       });
         console.log('API call successful',this.brandData);
   } 
   
-  calculateResult() {
+  setSites() {
     const result = this.brandData['itemCount'] / 48;
-    const start = 1;
     let end: number;
     if (Number.isInteger(result)) {
       end = result;
     } else {
       end = Math.ceil(result);
     }
-    this.sites = Array.from({ length: end }, (_, i) => i + start);
+    this.sites = Array.from({length: end},(_, i) => i + 1)
+    this.showAllowedSites()
+  }
+
+  showAllowedSites(){
+    let minSite = this.selectedNumber - 2
+    let maxSite = this.selectedNumber + 2
+    minSite = minSite <= 0 ? 0 : minSite;
+    maxSite = maxSite > this.sites.length ? this.sites.length : maxSite;
+
+    this.allowedSites = this.sites.filter((site) => site >= minSite && site <= maxSite);
   }
 
   setOffset(number: number): void {
-    let offset = (number - 1) * 48;
-    this.selectedNumber = number;
-    this.shareData.setOffSet(offset)
-    this.setUpdate();
+    if(this.selectedNumber !== number){
+      let offset = (number - 1) * 48;
+      this.selectedNumber = number;
+      this.shareData.setOffSet(offset)
+      this.apiService.updateProducts()
+    }
   }
-
-  setUpdate(){
-    this.apiService.updateProducts().subscribe(newBrandData => {
-     this.shareData.setBrandData(newBrandData)
-     console.log(newBrandData)
-   }, error => {
-     console.error(error);
-   });     
- }
 
   openDetailView(productId: number){  
     this.shareData.setProduct([])

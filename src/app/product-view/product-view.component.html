@@ -23,21 +23,25 @@
 
         </div>
         <div class="box_sites">
-            <button *ngIf="selectedNumber !== sites[0]" (click)="setOffset(1)">
-                <img class="img_back" src="/assets/img/arrow.png" alt="">
-                <img class="img_back" src="/assets/img/arrow.png" alt="">
-            </button>
-            <button (click)="setOffset(selectedNumber - 1)" *ngIf="sites.length > 1 && selectedNumber !== sites[0]">
-                <img class="img_back" src="/assets/img/arrow.png" alt="">
-            </button>
-            <button [ngClass]="{ 'selected_number': selectedNumber === number }" *ngFor="let number of sites" (click)="setOffset(number)">{{ number }}</button>
-            <button (click)="setOffset(selectedNumber + 1)" *ngIf="sites.length > 1 && selectedNumber !== sites.slice(-1)[0]">
-                <img class="img_next" src="/assets/img/arrow.png" alt="">
-            </button>
-            <button *ngIf=" selectedNumber !== sites.slice(-1)[0]" (click)="setOffset(sites.slice(-1)[0])">
-                <img class="img_next" src="/assets/img/arrow.png" alt="">
-                <img class="img_next" src="/assets/img/arrow.png" alt="">
-            </button>
+            <div class="box_skip_sites">
+                <button class="btn_skip" *ngIf="selectedNumber !== sites[0]" (click)="setOffset(1)">
+                    <img class="img_back " src="/assets/img/arrow.png" alt="">
+                    <img class="img_back " src="/assets/img/arrow.png" alt="">
+                </button>
+                <button class="btn_skip" (click)="setOffset(selectedNumber - 1)" *ngIf="sites.length > 1 && selectedNumber !== sites[0]">
+                    <img class="img_back" src="/assets/img/arrow.png" alt="">
+                </button>
+            </div>
+            <button [ngClass]="{ 'selected_number': selectedNumber === number, 'btn_number': selectedNumber !== number }" *ngFor="let number of allowedSites" (click)="setOffset(number)">{{ number }}</button>
+            <div class="box_skip_sites">
+                <button class="btn_skip" (click)="setOffset(selectedNumber + 1)" *ngIf="sites.length > 1 && selectedNumber !== sites.slice(-1)[0]">
+                    <img class="img_next " src="/assets/img/arrow.png" alt="">
+                </button>
+                <button class="btn_skip" *ngIf=" selectedNumber !== sites.slice(-1)[0]" (click)="setOffset(sites.slice(-1)[0])">
+                    <img class="img_next " src="/assets/img/arrow.png" alt="">
+                    <img class="img_next " src="/assets/img/arrow.png" alt="">
+                </button>
+            </div>
         </div>
     </div>
 </div>

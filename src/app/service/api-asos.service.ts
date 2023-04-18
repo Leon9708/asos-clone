@@ -57,10 +57,11 @@ export class ApiAsosService {
     }
         
     url += '&currency=USD&sizeSchema=US&lang=en-US';
-
-    
     console.log(url)
-    return this.http.get<any[]>(url, this.options)
+    this.http.get<any[]>(url, this.options).subscribe((data) => {
+      this.shareData.setBrandData(data);
+    });
+
   }
 
   getProduct(){

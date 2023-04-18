@@ -47,31 +47,23 @@ export class ColorComponent implements OnInit  {
     }
   }
 
-  setUpdate(){
-    this.apiService.updateProducts().subscribe(data => {
-      this.shareData.setBrandData(data)
 
-      console.log(data)
-    }, error => {
-      console.error(error);
-    });
-  }
 
   filterType(color: any): void {
     this.popUpColor = false
     this.selectedButton = color.name;
     this.shareData.setFilterColorId(color.id)  
     this.shareData.removeOtherCategories('color');
+    this.shareData.setOffSet(0)
     this.selectedButtonStatus = true;
     localStorage.setItem('selectedButtonColor', this.selectedButton);
-    this.setUpdate();
+    this.apiService.updateProducts()
     this.cdRef.detectChanges();
   } 
 
   removeType(){
     this.shareData.filterColorId = undefined
     this.selectedButton = '';
-    this.setUpdate();
   }
 }
 

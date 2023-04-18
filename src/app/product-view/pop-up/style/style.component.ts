@@ -49,29 +49,22 @@ export class StyleComponent implements OnInit  {
     }
   }
 
-  setUpdate(){
-    this.apiService.updateProducts().subscribe(data => {
-      this.shareData.setBrandData(data)
-      console.log(data)
-    }, error => {
-      console.error(error);
-    });
-  }
 
-    filterStyle(styleFilter: any): void {
-      this.popUpStyle = false;
-      this.selectedButton = styleFilter.styleName;
-      this.shareData.setFilterStyleId(styleFilter.id)  
-      this.shareData.removeOtherCategories('style');
-      this.selectedButtonStatus = true
-      localStorage.setItem('selectedButtonStyle', this.selectedButton);
-      this.setUpdate();
-      this.cdRef.detectChanges();
-    } 
+  filterStyle(styleFilter: any): void {
+    this.popUpStyle = false;
+    this.selectedButton = styleFilter.styleName;
+    this.shareData.setFilterStyleId(styleFilter.id)  
+    this.shareData.removeOtherCategories('style');
+    this.shareData.setOffSet(0)
+    this.selectedButtonStatus = true
+    localStorage.setItem('selectedButtonStyle', this.selectedButton);
+    this.apiService.updateProducts()
+    this.cdRef.detectChanges();
+  } 
 
   removeStyle(){
     this.shareData.filterStyleId = undefined
     this.selectedButton = '';
-    this.setUpdate();
+    this.apiService.updateProducts()
   }
 }
