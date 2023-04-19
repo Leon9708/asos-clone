@@ -112,7 +112,7 @@ export class DetailViewComponent implements OnInit {
     }
   }
 
-  checkValue(){
+  checkValueBuy(){
     if(!this.selectedSize){
       this.chooseSize = true;
     }else{
@@ -121,10 +121,11 @@ export class DetailViewComponent implements OnInit {
     }
   }
 
+
+
   addAnimation() {
     this.addToCart = true;
     this.isButtonDisabled = true;
-
     setTimeout(() => {
       this.isButtonDisabled = false;
       this.shareData.setShowCart(true)
@@ -149,8 +150,33 @@ export class DetailViewComponent implements OnInit {
       editQty: false,
       editSize: false
     }
-    console.log(productDetails,'productDetails')
     this.shareData.addToCartArray(productDetails);
+  }
+
+  checkValueLike(){
+    if(!this.selectedSize){
+      this.chooseSize = true;
+    }else{
+      
+      this.toLikedItems()
+    }
+  }
+
+  toLikedItems(){
+    let productDetails = {
+      id: this.product['id'],
+      name: this.product['name'],
+      color: this.product['variants'][0]['colour'],
+      size: this.selectedSize,
+      sizeOptions: this.product['variants'],
+      img: this.product['media']['images'][0]['url'].slice(7),
+      price: this.product['price']['current']['value'],
+      qty: 1,
+      currentPrice: this.product['price']['current']['value'],
+      editQty: false,
+      editSize: false
+    }
+    this.shareData.addTolikedArray(productDetails);
   }
 
 

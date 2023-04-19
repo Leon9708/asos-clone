@@ -20,6 +20,8 @@ export class ShareDataService {
   buttonStatus$ = this.buttonStatusObject.asObservable();
   private cartArraySubject = new BehaviorSubject<any[]>([]);
   cartArray$ = this.cartArraySubject.asObservable();
+  private likedArraySubject = new BehaviorSubject<any[]>([]);
+  likedArray$ = this.likedArraySubject.asObservable();
   prevGenderId: string;
   brandInfo: any;
   productId: number;
@@ -34,19 +36,28 @@ export class ShareDataService {
  
   constructor() { }
 
-setOffSet(value:number){
-  this.offset = value
-}
-getOffSet(){
-  return this.offset
-}
+  setOffSet(value:number){
+    this.offset = value
+  }
+  getOffSet(){
+    return this.offset
+  }
+
+  addTolikedArray(item: any) {
+    const currentLikedArray = this.likedArraySubject.getValue();
+    currentLikedArray.push(item);
+    this.likedArraySubject.next(currentLikedArray);
+  }
+  setlikedArray(likedArray: any[]){
+    this.likedArraySubject.next(likedArray);
+  }
 
   addToCartArray(item: any) {
     const currentCartArray = this.cartArraySubject.getValue();
     currentCartArray.push(item);
     this.cartArraySubject.next(currentCartArray);
   }
-  setCartArray(cartArray){
+  setCartArray(cartArray: any[]){
     this.cartArraySubject.next(cartArray);
   }
 

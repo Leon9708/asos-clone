@@ -23,6 +23,7 @@ export class CartComponent implements OnInit {
   code:string;
   discount:boolean = false;
   popUpBuy: boolean = false;
+  buyActive: boolean = false;
 
   constructor(private shareData:ShareDataService, private router: Router) { }
 
@@ -37,7 +38,7 @@ export class CartComponent implements OnInit {
     this.checkDuplicates()
     this.calculateSubtotal()
     this.calculateTotal()
-    this.checkMinimumOrder();
+    this.checkMinimumPrice();
     this.checkCode();
   }
 
@@ -53,6 +54,7 @@ export class CartComponent implements OnInit {
       totalNumber = totalNumber * 0.9;
     }
     this.total = +totalNumber.toFixed(2); 
+    this.buyActive = this.productDetails.length !== 0 ? true : false;
   }
 
   checkShipping(){
@@ -73,7 +75,7 @@ export class CartComponent implements OnInit {
     this.subTotal = +subTotalNumber.toFixed(2);
   }
 
-  checkMinimumOrder(){
+  checkMinimumPrice(){
    this.orderValue = this.shippingfreeValue - this.subTotal
   }
 

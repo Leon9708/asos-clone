@@ -40,13 +40,13 @@
             <div class="place_btns">
                 <p *ngIf="chooseSize" class="size_error">Please select from the available colour and size options</p>
                 <div class="box_btns">
-                    <button [disabled]="isButtonDisabled" (click)="checkValue()" class="btn_buy">
+                    <button [disabled]="isButtonDisabled" (click)="checkValueBuy()" class="btn_buy">
                         <img [@fadeInOut]="addToCart ? 'visible' : 'hidden'" src="/assets/img/hook.png" alt="">
                         <p>Add to Bag</p>
                     </button>
 
                     <div class="box_btn_like">
-                        <button class="btn_like">
+                        <button (click)="checkValueLike()" class="btn_like">
                         <img src="/assets/img/heart.png" alt="">
                     </button>
                     </div>

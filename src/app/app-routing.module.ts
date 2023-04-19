@@ -7,6 +7,7 @@ const routes: Routes = [
   { path: 'product-view', loadChildren: () => import('./product-view/product-view.module').then(m => m.ProductViewModule) },
   { path: 'detail-view', loadChildren: () => import('./detail-view/detail-view.module').then(m => m.DetailViewModule) },
   { path: 'cart', loadChildren: () => import('./cart/cart.module').then(m => m.CartModule) },
+  { path: 'savedItems', loadChildren: () => import('./savedItems/saved-items.module').then(m => m.SavedItemsModule) },
   
 
 ];

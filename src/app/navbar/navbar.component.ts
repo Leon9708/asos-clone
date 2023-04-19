@@ -56,4 +56,7 @@ export class NavbarComponent implements OnInit {
     this.shareData.setGenderId(id)
     this.router.navigateByUrl('brands')
   }
+  toSavedItems(){
+    this.router.navigateByUrl('savedItems')
+  }
 }

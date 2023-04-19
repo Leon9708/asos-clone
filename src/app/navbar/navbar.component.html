@@ -11,7 +11,7 @@
         </div>
         <input placeholder="" type="text">
         <div class="box_btn_nav_right">
-            <button class="btn_nav btn_heart">
+            <button (click)="toSavedItems()" class="btn_nav btn_heart">
                 <img class="img_nav" src="/assets/img/heart.png" alt="">
             </button>
             <div (mouseleave)="hoverPreviewCart(false)" (mouseenter)="hoverPreviewCart(true)" class="btn_cart_box">

@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
-<div [ngClass]="{'background_blur': popUpBuy}" class="place_cart">
+<div class="place_cart">
     <app-bought class="app-bought" [ngClass]="{'show': popUpBuy}"></app-bought>
-    <div [ngStyle]="productDetails.length> 1 ? {'justify-content': 'center'} : null" class="place_products">
+    <div [ngStyle]="productDetails.length > 1 ? {'justify-content': 'center'} : null" class="place_products">
         <div class="box_products_heading">
             <p class="cart_heading">My bag</p>
         </div>
@@ -67,6 +67,6 @@
             <p class="text_total">Total</p>
             <p>${{ total | number: '1.2-2' }}</p>
         </div>
-        <button (click)="popUpBuy = true">Buy</button>
+        <button *ngIf="buyActive" (click)="popUpBuy = true">Buy</button>
     </div>
 </div>

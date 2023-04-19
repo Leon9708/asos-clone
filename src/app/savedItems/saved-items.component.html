@@ -1,0 +1,34 @@
+<app-navbar></app-navbar>
+<div class="place_cart">
+    <div [ngStyle]="productDetails.length > 1 ? {'justify-content': 'center'} : null" class="place_products">
+        <div class="box_products_heading">
+            <p class="cart_heading">Saved Items</p>
+        </div>
+        <div class="place_empty" *ngIf="productDetails.length < 1">
+            <img src="/assets/img/liked_black.png" alt="">
+            <h2>You have no Saved Items</h2>
+        </div>
+        <div class="products_container">
+            <div *ngFor="let product of productDetails; let i = index" class="product_box">
+                <img [src]="'http://images.' + product['img']">
+                <div class="box_description">
+                    <p class="description">{{product['name']}}</p>
+                    <p class="price">${{product['price']}}</p>
+                </div>
+                <div class="separator"></div>
+                <p class="color">{{product['color']}}</p>
+                <div class="separator"></div>
+                <div class="box_edit">
+                    <button (click)="product.editSize = !product.editSize" class="btn_edit">
+                            <p>{{product['size']}}</p>
+                            <img src="/assets/img/arrow-down.png" alt="">
+                        </button>
+                    <div *ngIf="product.editSize" class="pop_up_edit">
+                        <button (click)="changeSize(variant['brandSize'], i)" class="btn_popup" *ngFor="let variant of product.sizeOptions; let j = index">{{variant['brandSize']}}</button>
+                    </div>
+                </div>
+                <button class="to_bag">Move to bag</button>
+            </div>
+        </div>
+    </div>
+</div>
