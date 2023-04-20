@@ -10,6 +10,8 @@ export class ShareDataService {
   brandData$ = this.brandDataSubject.asObservable();
   private brandsSubject = new BehaviorSubject<any[]>([]);
   brands$ = this.brandsSubject.asObservable();
+  private brandInfoSubject = new BehaviorSubject<any[]>([])
+  brandInfo$ = this.brandInfoSubject.asObservable();
   private productObject = new BehaviorSubject<any[]>([])
   product$ = this.productObject.asObservable();
   private genderIdSubject = new BehaviorSubject<string>(null);
@@ -23,9 +25,8 @@ export class ShareDataService {
   private likedArraySubject = new BehaviorSubject<any[]>([]);
   likedArray$ = this.likedArraySubject.asObservable();
   prevGenderId: string;
-  brandInfo: any;
+  prevBrandInfo: any[];
   productId: number;
-
 
   filterCategoryId: number;
   filterSort: string;
@@ -35,6 +36,22 @@ export class ShareDataService {
   offset: number = 0;
  
   constructor() { }
+
+  setPrevBrandInfo(brandInfo: any[]){
+    this.prevBrandInfo = brandInfo
+  }
+
+  getPrevBrandInfo(): any[] {
+    return this.prevBrandInfo;
+  }
+
+  async getValueFromBrandInfo() {
+    return await this.brandInfo$.toPromise();
+  }
+
+  setBrandInfo(newBrandInfo: any[]){
+    this.brandInfoSubject.next(newBrandInfo)
+  }
 
   setOffSet(value:number){
     this.offset = value

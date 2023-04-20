@@ -13,29 +13,33 @@ export class ProductViewComponent implements OnInit {
   
   categoryId: string = '';
   brandData: any [] = [];
-  brandInfo: any;
   sites: any[] = [];
   allowedSites:any[];
   selectedNumber: number = 1;
+  prevBrandInfo: any[];
 
   constructor(public apiService: ApiAsosService, private shareData :ShareDataService, private router: Router) { }
 
-  async ngOnInit(): Promise<void> {
-    this.brandInfo = this.shareData.brandInfo;
-    if (!this.brandData.length) {
+  async ngOnInit() {
+    this.shareData.brandInfo$.subscribe(async (brandInfo: any[]) => {
+      this.prevBrandInfo = this.shareData.getPrevBrandInfo();
+      if (typeof this.prevBrandInfo === 'undefined' || brandInfo['categoryId'] !== this.prevBrandInfo['categoryId']) {
+        this.shareData.setPrevBrandInfo(brandInfo);
         try {
-          const products = await this.apiService.fetchProducts(this.brandInfo.categoryId).toPromise();
-          this.shareData.setBrandData(products)
+          const products = await this.apiService.fetchProducts(brandInfo['categoryId']).toPromise();
+          this.shareData.setBrandData(products);
         } catch (error) {
           console.error(error);
         }
-      } 
-      this.shareData.brandData$.subscribe( (data: any[]) => {
-        this.brandData = data
-        this.setSites();
-      });
-        console.log('API call successful',this.brandData);
-  } 
+      }
+    });
+
+    this.shareData.brandData$.subscribe(data => {
+      this.brandData = data;
+      this.setSites();
+    });
+  }
+
   
   setSites() {
     const result = this.brandData['itemCount'] / 48;

@@ -49,7 +49,7 @@ export class BrandsComponent implements OnInit {
   }
 
   selectProductsId(brand:any) {
-    this.shareData.brandInfo = brand; 
+    this.shareData.setBrandInfo(brand) 
     localStorage.removeItem('selectedButtonSort')
     localStorage.removeItem('selectedButtonCategory')
     localStorage.removeItem('selectedButtonColor')

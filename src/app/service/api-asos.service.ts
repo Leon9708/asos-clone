@@ -25,8 +25,8 @@ export class ApiAsosService {
   fetchCategoriesWomen(): Observable<any[]> {
     return this.http.get<any[]>(this.categories, this.options);
   }
-  fetchProducts(brandId:string): Observable<any[]> {
-    const url = `https://asos2.p.rapidapi.com/products/v2/list?store=US&offset=0  &categoryId=${brandId}&limit=48&country=US&sort=freshness&currency=USD&sizeSchema=US&lang=en-US`
+  fetchProducts (brandId:string): Observable<any[]> {
+    const url = `https://asos2.p.rapidapi.com/products/v2/list?store=US&offset=0&categoryId=${brandId}&limit=48&country=US&sort=freshness&currency=USD&sizeSchema=US&lang=en-US`
     return this.http.get<any[]>(url, this.options);
   }
   updateProducts(){
@@ -36,7 +36,8 @@ export class ApiAsosService {
     let style =  this.shareData.getFilterStyleId()
     let type = this.shareData.getFilterTypeId()
     let color = this.shareData.getFilterColorId();
-    let url = `https://asos2.p.rapidapi.com/products/v2/list?store=US&offset=${offset}&categoryId=${this.shareData.brandInfo.categoryId}&limit=48&country=US&`;
+    let brandInfo = this.shareData.getValueFromBrandInfo()
+    let url = `https://asos2.p.rapidapi.com/products/v2/list?store=US&offset=${offset}&categoryId=${brandInfo['categoryId']}&limit=48&country=US&`;
 
     if(sortType){
       url +=`sort=${sortType}`
