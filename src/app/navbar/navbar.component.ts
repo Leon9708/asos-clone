@@ -14,8 +14,8 @@ export class NavbarComponent implements OnInit {
   cartValue: boolean;
   cartName: string;
   cartArray: any;
-  
-  
+  searchActive: boolean = false;
+    
   constructor(private shareData: ShareDataService, private router: Router) { }
 
   ngOnInit(): void {
