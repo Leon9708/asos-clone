@@ -62,5 +62,7 @@
     removeCategory(){
       this.shareData.filterCategoryId = undefined
       this.selectedButton = '';
+      this.popUpCategory = false;
+      this.apiService.updateProducts();
     }
   }

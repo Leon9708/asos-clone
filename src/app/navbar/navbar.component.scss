@@ -23,6 +23,7 @@ nav {
     padding-bottom: 0.85rem;
     border: none;
     background-color: transparent;
+    display: flex;
 }
 
 button {
@@ -37,7 +38,7 @@ h3 {
     font-size: 0.8rem;
 }
 
-input {
+.input {
     border-radius: 2rem;
     height: 1.5rem;
     padding: 0.25rem 0.75rem;
@@ -51,18 +52,7 @@ input {
     flex: 1;
 }
 
-.btn_women {
-    border-left: solid #525050 0.1px;
-    border-right: solid #525050 0.1px;
-    border-collapse: collapse;
-    height: 4rem;
-    &:hover {
-        background-color: rgb(91, 91, 91);
-    }
-    width:8rem;
-}
-
-.btn_men {
+.btn_gender {
     border-right: solid #525050 0.1px;
     border-collapse: collapse;
     height: 4rem;
@@ -142,4 +132,68 @@ input {
 
 .preview_cart_container.show {
     display: block;
+}
+
+.btn_menu {
+    display: none;
+    border: none;
+    background-color: transparent;
+    height: 100%;
+    width: 3rem;
+    img {
+        width: 1.75rem;
+        height: 1.75rem;
+        padding-top: 0.2rem;
+    }
+}
+
+.btn_search {
+    background-color: transparent;
+    border: none;
+    display: none;
+    height: 100%;
+    width: 3rem;
+}
+
+@media screen and (max-width: 915px) {
+    .place_content_nav {
+        gap: 1rem;
+        width: 95%;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .place_content_nav {
+        gap: 1rem;
+        width: 95%;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .place_content_nav {
+        gap: 1rem;
+        width: 95%;
+    }
+    .btn_menu {
+        display: unset;
+    }
+    .btn_gender {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 580px) {
+    input {
+        display: none;
+    }
+    .btn_search {
+        display: unset;
+    }
+    .place_content_nav {
+        justify-content: space-between;
+    }
+    .asos {
+        flex: 1;
+        justify-content: flex-start;
+    }
 }

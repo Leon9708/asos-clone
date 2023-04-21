@@ -45,8 +45,8 @@ export class ShareDataService {
     return this.prevBrandInfo;
   }
 
-  async getValueFromBrandInfo() {
-    return await this.brandInfo$.toPromise();
+  getValueFromBrandInfo() {
+    return this.brandInfoSubject.value;
   }
 
   setBrandInfo(newBrandInfo: any[]){
@@ -67,6 +67,17 @@ export class ShareDataService {
   }
   setlikedArray(likedArray: any[]){
     this.likedArraySubject.next(likedArray);
+  }
+
+  deleteLikedItem(likedItem: any[]){
+    const currentLikedArray = this.likedArraySubject.getValue();
+    const deleteItemIndex = currentLikedArray.findIndex(item => item.id === likedItem['id']);
+    currentLikedArray.splice(deleteItemIndex, 1);
+    this.likedArraySubject.next(currentLikedArray);
+  }
+
+  getLikedArrayValue(){
+    return this.likedArraySubject.value;
   }
 
   addToCartArray(item: any) {

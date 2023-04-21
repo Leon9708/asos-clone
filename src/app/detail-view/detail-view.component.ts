@@ -44,6 +44,7 @@ export class DetailViewComponent implements OnInit {
   addToCart: boolean = false
   isButtonDisabled: boolean = false
   productDescription: SafeHtml;
+  liked: boolean = false
   constructor(private shareData: ShareDataService, private apiService: ApiAsosService, private router: Router, private sanitizer: DomSanitizer ) { }
 
   async ngOnInit(): Promise<void> { 
@@ -57,8 +58,8 @@ export class DetailViewComponent implements OnInit {
     console.log(this.product)
     this.showSize()
     this.formatDescription()
+    this.checkLikedArray()
   }
-  
 
   formatDescription(){
     this.productDescription = this.sanitizer.bypassSecurityTrustHtml(this.removeTags(this.product['brand'].description));
@@ -121,8 +122,6 @@ export class DetailViewComponent implements OnInit {
     }
   }
 
-
-
   addAnimation() {
     this.addToCart = true;
     this.isButtonDisabled = true;
@@ -153,12 +152,22 @@ export class DetailViewComponent implements OnInit {
     this.shareData.addToCartArray(productDetails);
   }
 
+  checkLikedArray(){
+    const likedItems = this.shareData.getLikedArrayValue()
+    this.liked = !!likedItems.find(item => item.id === this.product['id']);
+  }
+
   checkValueLike(){
-    if(!this.selectedSize){
-      this.chooseSize = true;
+    if(this.liked){
+      this.liked = false;
+      this.shareData.deleteLikedItem(this.product);
     }else{
-      
-      this.toLikedItems()
+      if(this.selectedSize){
+        this.liked = true
+        this.toLikedItems()
+      }else{
+        this.chooseSize = true;
+      }
     }
   }
 

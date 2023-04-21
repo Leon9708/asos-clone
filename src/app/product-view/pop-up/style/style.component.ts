@@ -65,6 +65,7 @@ export class StyleComponent implements OnInit  {
   removeStyle(){
     this.shareData.filterStyleId = undefined
     this.selectedButton = '';
-    this.apiService.updateProducts()
+    this.popUpStyle = false;
+    this.apiService.updateProducts();
   }
 }

@@ -27,7 +27,7 @@
                         <button (click)="changeSize(variant['brandSize'], i)" class="btn_popup" *ngFor="let variant of product.sizeOptions; let j = index">{{variant['brandSize']}}</button>
                     </div>
                 </div>
-                <button class="to_bag">Move to bag</button>
+                <button class="to_bag" (click)="moveToBag(i)">Move to bag</button>
             </div>
         </div>
     </div>

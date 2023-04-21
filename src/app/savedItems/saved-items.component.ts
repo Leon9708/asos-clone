@@ -23,4 +23,19 @@ export class SavedItemsComponent implements OnInit {
     this.productDetails[index]['size'] = size;
     this.shareData.setlikedArray(this.productDetails)
   }
+
+  moveToBag(itemIndex: number){
+    this.shareData.addToCartArray(this.productDetails[itemIndex])
+    this.shareData.deleteLikedItem(this.productDetails[itemIndex])
+    this.addAnimation()
+  }
+
+  addAnimation() {
+    setTimeout(() => {
+      this.shareData.setShowCart(true)
+    }, 750);
+    setTimeout(() => {
+      this.shareData.setShowCart(false)
+    }, 7500);
+  }
 }

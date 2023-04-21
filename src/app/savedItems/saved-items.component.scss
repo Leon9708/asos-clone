@@ -142,7 +142,7 @@
     width: 100%;
     height: fit-content;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 0.75rem;
     flex-wrap: wrap;
 }
@@ -152,9 +152,7 @@
     flex-direction: column;
     justify-content: flex-start;
     gap: 0.75rem;
-    width: fit-content;
-    width: 17rem;
-    min-width: 16rem;
+    width: calc((100% - 2rem) / 3);
     min-height: 0;
     img {
         object-fit: cover;

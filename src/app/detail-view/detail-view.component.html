@@ -46,9 +46,12 @@
                     </button>
 
                     <div class="box_btn_like">
-                        <button (click)="checkValueLike()" class="btn_like">
-                        <img src="/assets/img/heart.png" alt="">
-                    </button>
+                        <button *ngIf="!liked" (click)="checkValueLike()" class="btn_like">
+                            <img src="/assets/img/heart.png" alt="">
+                        </button>
+                        <button *ngIf="liked" (click)="checkValueLike()" class="btn_like">
+                            <img src="/assets/img/heart_black.png" alt="">
+                        </button>
                     </div>
                 </div>
             </div>

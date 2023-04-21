@@ -1,16 +1,22 @@
 <nav>
     <div class="place_content_nav">
+        <button class="btn_menu">
+            <img src="/assets/img/menu.png" alt="">
+        </button>
         <button (click)="backtoStart()" class="asos">asos</button>
         <div>
-            <button (click)="toBrands('women')" class="btn_women btn_nav">
+            <button (click)="toBrands('women')" class="btn_gender btn_nav">
                 <h3>WOMEN</h3>
             </button>
-            <button (click)="toBrands('men')" class="btn_men btn_nav">
+            <button (click)="toBrands('men')" class="btn_gender btn_nav">
                 <h3>MEN</h3>
             </button>
         </div>
-        <input placeholder="" type="text">
+        <input class="input" placeholder="Serach for Items" type="text">
         <div class="box_btn_nav_right">
+            <button class="btn_search btn_nav">
+                <img class="img_nav" src="/assets/img/search_white.png" alt="">
+            </button>
             <button (click)="toSavedItems()" class="btn_nav btn_heart">
                 <img class="img_nav" src="/assets/img/heart.png" alt="">
             </button>

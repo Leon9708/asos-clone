@@ -84,3 +84,41 @@ main {
         filter: blur(1.5px);
     }
 }
+
+@media screen and (max-width: 767px) {
+    .box_text {
+        h1 {
+            font-size: 3rem;
+        }
+        p {
+            font-size: 0.7rem;
+        }
+        button {
+            width: 7.5rem;
+        }
+    }
+}
+
+@media screen and (max-width: 580px) {
+    .box_text {
+        h1 {
+            font-size: 3rem;
+        }
+        p {
+            font-size: 0.7rem;
+        }
+        button {
+            width: 7.5rem;
+        }
+    }
+    .img_men {
+        height: 100%;
+    }
+    .img_women {
+        height: 100%;
+    }
+    .place_images {
+        padding: 0;
+        width: 100%;
+    }
+}

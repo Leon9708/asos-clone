@@ -60,7 +60,8 @@ export class TypeComponent implements OnInit {
   removeType(){
     this.shareData.filterTypeId = undefined
     this.selectedButton = '';
-    this.apiService.updateProducts()
+    this.popUpType = false;
+    this.apiService.updateProducts();
   }
 }
 

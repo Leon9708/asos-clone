@@ -64,6 +64,8 @@ export class ColorComponent implements OnInit  {
   removeType(){
     this.shareData.filterColorId = undefined
     this.selectedButton = '';
+    this.popUpColor = false
+    this.apiService.updateProducts()
   }
 }
 
