@@ -5,13 +5,15 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class ShareDataService {
+  [x: string]: any;
 
+  private categoriesSubject = new BehaviorSubject<any[]>([]);
+  categories$ = this.categoriesSubject.asObservable();
   private brandDataSubject = new BehaviorSubject<any[]>([]);
   brandData$ = this.brandDataSubject.asObservable();
   private brandsSubject = new BehaviorSubject<any[]>([]);
   brands$ = this.brandsSubject.asObservable();
-  private brandInfoSubject = new BehaviorSubject<any[]>([])
-  brandInfo$ = this.brandInfoSubject.asObservable();
+
   private productObject = new BehaviorSubject<any[]>([])
   product$ = this.productObject.asObservable();
   private genderIdSubject = new BehaviorSubject<string>(null);
@@ -24,7 +26,10 @@ export class ShareDataService {
   cartArray$ = this.cartArraySubject.asObservable();
   private likedArraySubject = new BehaviorSubject<any[]>([]);
   likedArray$ = this.likedArraySubject.asObservable();
+
+
   prevGenderId: string;
+  brandInfo: any[];
   prevBrandInfo: any[];
   productId: number;
 
@@ -37,6 +42,10 @@ export class ShareDataService {
  
   constructor() { }
 
+  setCategories(categories: any[]){
+    this.categoriesSubject.next(categories)
+  }
+
   setPrevBrandInfo(brandInfo: any[]){
     this.prevBrandInfo = brandInfo
   }
@@ -46,11 +55,11 @@ export class ShareDataService {
   }
 
   getValueFromBrandInfo() {
-    return this.brandInfoSubject.value;
+    return this.brandInfo
   }
 
   setBrandInfo(newBrandInfo: any[]){
-    this.brandInfoSubject.next(newBrandInfo)
+    this.brandInfo = newBrandInfo
   }
 
   setOffSet(value:number){

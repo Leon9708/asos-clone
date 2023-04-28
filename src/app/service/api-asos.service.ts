@@ -9,7 +9,6 @@ export class ApiAsosService {
   brand: any;
   sortType: string;
   private categories = 'https://asos2.p.rapidapi.com/categories/list?country=US&lang=en-US';
-
   private options = {
     headers: {
       'X-RapidAPI-Key': 'a0180db7camshee129c41ed0a557p11395fjsn8bf119f2bea9',
@@ -18,13 +17,11 @@ export class ApiAsosService {
   };
   
   constructor(private http: HttpClient, private shareData: ShareDataService) { }
+
+  fetchCategories(): Observable<any[]> {
+    return this.http.get<any[]>(this.categories, this.options);
+  }
   
-  fetchCategoriesMen(): Observable<any[]> {
-    return this.http.get<any[]>(this.categories, this.options);
-  }
-  fetchCategoriesWomen(): Observable<any[]> {
-    return this.http.get<any[]>(this.categories, this.options);
-  }
   fetchProducts (brandId:string): Observable<any[]> {
     const url = `https://asos2.p.rapidapi.com/products/v2/list?store=US&offset=0&categoryId=${brandId}&limit=48&country=US&sort=freshness&currency=USD&sizeSchema=US&lang=en-US`
     return this.http.get<any[]>(url, this.options);

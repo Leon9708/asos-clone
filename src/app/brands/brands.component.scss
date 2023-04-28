@@ -40,7 +40,7 @@ h1 {
     }
 }
 
-button {
+.btn_brand {
     width: 100%;
     border: none;
     border-bottom: solid 1px rgb(226, 226, 226);
@@ -51,5 +51,40 @@ button {
     font-size: 1.05rem;
     &:hover {
         background-color: #f6f6f6;
+    }
+}
+
+.box_nav_alphabet {
+    display: flex;
+    width: calc(100% - 2rem);
+    justify-content: center;
+    gap: 1.7rem;
+    align-items: center;
+    min-height: 3rem;
+    padding: 0.75rem 1rem;
+    button {
+        width: 100%;
+        background-color: transparent;
+        border: none;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        padding: 0;
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .box_nav_alphabet {
+        gap: 1.4rem;
+    }
+}
+
+@media screen and (max-width: 950px) {
+    .box_nav_alphabet {
+        gap: 1.2rem;
+        flex-wrap: wrap;
+        button {
+            width: unset;
+        }
     }
 }

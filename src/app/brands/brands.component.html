@@ -5,14 +5,17 @@
             <h1 *ngIf="(genderId) === 'men'">A-Z Men's Brands</h1>
             <h1 *ngIf="(genderId) === 'women'">A-Z Women's Brands</h1>
         </div>
+        <div class="box_nav_alphabet">
+            <button (click)="navigateToSection(letter)" *ngFor="let letter of alphabet">{{ letter }}</button>
+        </div>
         <div>
             <div class="brands" *ngFor="let group of brandsByLetter" [attr.data-letter]="group">
                 <div class="brand-group">
-                    <div class="letters">
+                    <div id="{{group.letter}}" class="letters">
                         <p>{{group.letter}}</p>
                     </div>
                     <div class="brand-items" *ngFor="let brand of group.brands">
-                        <button (click)="selectProductsId(brand)">{{brand.title}}</button>
+                        <button class="btn_brand" (click)="selectProductsId(brand)">{{brand.title}}</button>
                     </div>
                 </div>
             </div>

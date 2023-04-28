@@ -12,7 +12,17 @@
                 <h3>MEN</h3>
             </button>
         </div>
-        <input class="input" placeholder="Search for Items" type="text">
+
+        <div class="output_autocomplete">
+            <input (keyup)="showRelatedBrands()" [(ngModel)]="keyword" #inputField class="input" placeholder="Search for Items" type="text">
+            <div *ngIf="relatedItems.length > 0" class="box_output">
+                <button (click)="navigateToBrand(output)" *ngFor="let output of relatedItems">
+                <p>{{output.name}}</p>
+                <p>{{output.gender}}</p>
+            </button>
+            </div>
+        </div>
+
         <div class="box_btn_nav_right">
             <button (click)="searchActive = !searchActive" class="btn_search btn_nav">
                 <img class="img_nav" src="/assets/img/search_white.png" alt="">
@@ -31,11 +41,14 @@
 </nav>
 <div *ngIf="searchActive === true" class="container_search">
     <h2>Search</h2>
-    <input class="input_res" type="text" placeholder="Search for items">
+    <input (keyup)="showRelatedBrands()" [(ngModel)]="keyword" class="input_res" type="text" placeholder="Search for Brands">
     <button (click)="searchActive = false" class="btn_cross_input">
         <img src="/assets/img/cross_black.png" alt="">
     </button>
-    <div class="output_autocomplete_res">
-
+    <div *ngIf="relatedItems.length > 0" class="output_autocomplete_res">
+        <button (click)="navigateToBrand(output)" *ngFor="let output of relatedItems">
+            <p>{{output.name}}</p>
+            <p>{{output.gender}}</p>
+        </button>
     </div>
 </div>

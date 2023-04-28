@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { ApiAsosService } from '../service/api-asos.service';
 import { ShareDataService } from '../service/share-data.service';
 
-
 @Component({
   selector: 'app-product-view',
   templateUrl: './product-view.component.html',
@@ -21,23 +20,23 @@ export class ProductViewComponent implements OnInit {
   constructor(public apiService: ApiAsosService, private shareData :ShareDataService, private router: Router) { }
 
   async ngOnInit() {
-    this.shareData.brandInfo$.subscribe(async (brandInfo: any[]) => {
-      this.prevBrandInfo = this.shareData.getPrevBrandInfo();
-      if (typeof this.prevBrandInfo === 'undefined' || brandInfo['categoryId'] !== this.prevBrandInfo['categoryId']) {
-        this.shareData.setPrevBrandInfo(brandInfo);
-        try {
-          const products = await this.apiService.fetchProducts(brandInfo['categoryId']).toPromise();
-          this.shareData.setBrandData(products);
-        } catch (error) {
-          console.error(error);
-        }
+    let brandInfo =  this.shareData.getValueFromBrandInfo()
+    this.prevBrandInfo = this.shareData.getPrevBrandInfo();
+    if (typeof this.prevBrandInfo === 'undefined' || brandInfo['categoryId'] !== this.prevBrandInfo['categoryId']) {
+      this.shareData.setPrevBrandInfo(brandInfo);
+      try {
+        const products = await this.apiService.fetchProducts(brandInfo['categoryId']).toPromise();
+        this.shareData.setBrandData(products);
+      } catch (error) {
+        console.error(error);
       }
-    });
-
+    }
     this.shareData.brandData$.subscribe(data => {
       this.brandData = data;
       this.setSites();
+      console.log(this.brandData)
     });
+  
   }
 
   

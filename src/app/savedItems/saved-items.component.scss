@@ -201,3 +201,15 @@
     text-shadow: 0px 1px, 1px 0px, 1px 1px;
     margin-top: 0.5rem;
 }
+
+@media screen and (max-width: 787px) {
+    .product_box {
+        width: calc((100% - 2rem) / 2);
+    }
+}
+
+@media screen and (max-width: 580px) {
+    .product_box {
+        width: calc(100% - 2rem);
+    }
+}

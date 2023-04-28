@@ -54,7 +54,7 @@ export class StyleComponent implements OnInit  {
     this.popUpStyle = false;
     this.selectedButton = styleFilter.styleName;
     this.shareData.setFilterStyleId(styleFilter.id)  
-    this.shareData.removeOtherCategories('style');
+    this.shareData.removeOtherCategories('style'); 
     this.shareData.setOffSet(0)
     this.selectedButtonStatus = true
     localStorage.setItem('selectedButtonStyle', this.selectedButton);

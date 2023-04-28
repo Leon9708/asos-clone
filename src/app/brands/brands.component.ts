@@ -23,32 +23,30 @@ export class BrandsComponent implements OnInit {
     this.shareData.brands$.subscribe(brands => {
       this.brands = brands;
     });
-
     this.shareData.genderId$.subscribe(genderId => {
       this.genderId = genderId;
       this.prevGenderId = this.shareData.getPrevGenderId();
       if (this.genderId !== this.prevGenderId) {
         this.shareData.setPrevGenderId(this.genderId)
-        this.fetchData();
+        this.setBrands();
       }else{
         this.brandsByLetter = this.groupBrandsByLetter();
       }
     });
   }
 
-  fetchData(): void {
-    const apiCall = this.genderId === 'men' ? this.apiService.fetchCategoriesMen() : this.apiService.fetchCategoriesWomen();
-    
-    apiCall.subscribe(data => {
-      this.brands = data['brands'][this.genderId === 'men' ? 0 : 2]['children'];
+  setBrands(): void {
+    debugger;
+    this.shareData.categories$.subscribe(categories =>{
+      this.brands = categories['brands'][this.genderId === 'men' ? 0 : 2]['children'];
       this.shareData.setBrands(this.brands);
       this.shareData.setGenderId(this.genderId);
       this.brandsByLetter = this.groupBrandsByLetter();
-      console.log(this.genderId, data);
-    });
+    })
   }
 
   selectProductsId(brand:any) {
+    console.log(brand)
     this.shareData.setBrandInfo(brand) 
     localStorage.removeItem('selectedButtonSort')
     localStorage.removeItem('selectedButtonCategory')
@@ -71,5 +69,14 @@ export class BrandsComponent implements OnInit {
       
     });
     return groupedBrands;
+  }
+
+  navigateToSection(letter: string) {
+    debugger;
+    const uppercaseLetter = letter.toUpperCase();
+    const element = document.getElementById(uppercaseLetter);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 }

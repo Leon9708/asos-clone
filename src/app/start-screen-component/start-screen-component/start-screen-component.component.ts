@@ -14,6 +14,7 @@ export class StartScreenComponentComponent implements OnInit {
   constructor(private router: Router, private shareData: ShareDataService) { }
   
   ngOnInit(): void {
+
   }
 
   loadNext(id:string){
