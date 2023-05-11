@@ -22,6 +22,7 @@ export class NavbarComponent implements OnInit {
   allBrands: any[] = [];
   relatedItems: any[] = [];
   searchActiveDes: boolean = false
+  menuActive: boolean = false
 
   constructor(private shareData: ShareDataService, private router: Router,  private apiService: ApiAsosService) { }
 
@@ -70,18 +71,19 @@ export class NavbarComponent implements OnInit {
   }
 
   async loadBrands(){
-    this.shareData.categories$.subscribe(categories =>{
-      this.categories = categories
+    this.shareData.categories$.subscribe((data)=>{
+      this.categories = data
     })
-    if(this.categories.length <= 0){
+    if(this.categories.length === 0){
       try {
         this.categories = await this.apiService.fetchCategories().toPromise();
         this.shareData.setCategories(this.categories)
       } catch (error) {
         console.error(error);
       }
-      console.log(this.categories)
+      console.log(this.categories,'api')
     }
+    console.log(this.categories,'loaded')
   }
 
   setAllBrands(){

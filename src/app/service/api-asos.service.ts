@@ -9,7 +9,8 @@ export class ApiAsosService {
   brand: any;
   sortType: string;
   private categories = 'https://asos2.p.rapidapi.com/categories/list?country=US&lang=en-US';
-  private options = {
+   options = {
+    method: 'GET',
     headers: {
       'X-RapidAPI-Key': 'a0180db7camshee129c41ed0a557p11395fjsn8bf119f2bea9',
       'X-RapidAPI-Host': 'asos2.p.rapidapi.com'

@@ -18,15 +18,15 @@ export class PreviewCartComponent implements OnInit {
       this.productDetails = cart
       this.checkDuplicates()
       this.calculateSubtotal()
-
     })
   }
 
-  checkProductTotal(product: any) {
+  countProductTotal(product: any) {
     this.productTotal += product.qty
   }
 
   calculateSubtotal(){
+    this.productTotal = 0;
     let subTotalNumber = 0;
     this.productDetails.forEach((product)=>{
       let price = 0
@@ -34,17 +34,16 @@ export class PreviewCartComponent implements OnInit {
       price += product.price
       priceQty =  price * product.qty
       subTotalNumber += priceQty
-      this.checkProductTotal(product)
+       this.countProductTotal(product) 
     })
     this.subTotal = +subTotalNumber.toFixed(2);
   }
   checkDuplicates(){
-    let filteredProductDetails = this.productDetails.reduce((accumulator, current) => {
+ let filteredProductDetails = this.productDetails.reduce((accumulator, current) => {
       let existingProduct = accumulator.find((product: { id: any; size: any; }) => product.id === current.id && product.size === current.size);
       if (existingProduct) {
         let modifiedProduct = Object.assign({}, existingProduct);
-        modifiedProduct.qty += existingProduct.qty ;
-        modifiedProduct.currentPrice += existingProduct.price;
+        modifiedProduct.qty += current.qty;
         accumulator.splice(accumulator.indexOf(existingProduct), 1, modifiedProduct);
       } else {
         accumulator.push(current);
@@ -52,7 +51,6 @@ export class PreviewCartComponent implements OnInit {
       return accumulator;
     }, []);
     this.productDetails = [...filteredProductDetails];
-    console.log(this.productDetails)
   }
 
   openBasket(){

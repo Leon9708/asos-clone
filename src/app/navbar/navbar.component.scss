@@ -139,8 +139,47 @@ h3 {
     display: block;
 }
 
-.btn_menu {
+.place_menu {
     display: none;
+    position: relative;
+    height: 100%;
+}
+
+.box_menu {
+    background-color: #e2e2e2;
+    position: absolute;
+    top: 4rem;
+    width: 12rem;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    border-bottom-left-radius: 0.35rem;
+    border-bottom-right-radius: 0.35rem;
+    .men {
+        border-bottom-left-radius: 0.35rem;
+        border-bottom-right-radius: 0.35rem;
+    }
+    button {
+        background-color: transparent;
+        border: none;
+        width: 100%;
+        padding: 0.5rem;
+        text-align: start;
+        letter-spacing: 0.1rem;
+        text-transform: uppercase;
+        &:hover {
+            background-color: #c8c8c8;
+        }
+        h3 {
+            color: black;
+            letter-spacing: 0.1rem;
+        }
+    }
+}
+
+.btn_menu {
     border: none;
     background-color: transparent;
     height: 100%;
@@ -150,6 +189,10 @@ h3 {
         height: 1.75rem;
         padding-top: 0.2rem;
     }
+}
+
+.home {
+    display: none;
 }
 
 .btn_search {
@@ -261,15 +304,18 @@ h3 {
         gap: 1rem;
         width: 95%;
     }
-    .btn_menu {
-        display: unset;
-    }
     .btn_gender {
         display: none;
+    }
+    .place_menu {
+        display: unset;
     }
 }
 
 @media screen and (max-width: 580px) {
+    .box_output {
+        display: none;
+    }
     .input {
         display: none;
     }
@@ -326,5 +372,17 @@ h3 {
                 height: 1.75rem;
             }
         }
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .asos {
+        display: none;
+    }
+    .home {
+        display: unset;
+    }
+    .box_menu {
+        width: 9rem;
     }
 }

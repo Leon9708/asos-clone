@@ -34,9 +34,8 @@ export class ProductViewComponent implements OnInit {
     this.shareData.brandData$.subscribe(data => {
       this.brandData = data;
       this.setSites();
-      console.log(this.brandData)
     });
-  
+    console.log(this.brandData)
   }
 
   

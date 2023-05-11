@@ -5,19 +5,13 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class ShareDataService {
-  [x: string]: any;
 
   private categoriesSubject = new BehaviorSubject<any[]>([]);
   categories$ = this.categoriesSubject.asObservable();
-  private brandDataSubject = new BehaviorSubject<any[]>([]);
-  brandData$ = this.brandDataSubject.asObservable();
-  private brandsSubject = new BehaviorSubject<any[]>([]);
-  brands$ = this.brandsSubject.asObservable();
-
-  private productObject = new BehaviorSubject<any[]>([])
-  product$ = this.productObject.asObservable();
   private genderIdSubject = new BehaviorSubject<string>(null);
   genderId$ = this.genderIdSubject.asObservable();
+  private brandDataSubject = new BehaviorSubject<any[]>([]);
+  brandData$ = this.brandDataSubject.asObservable();
   private showCartObject = new BehaviorSubject<boolean>(null)
   showCart$ = this.showCartObject.asObservable();
   private buttonStatusObject = new BehaviorSubject<any>(null)
@@ -26,9 +20,10 @@ export class ShareDataService {
   cartArray$ = this.cartArraySubject.asObservable();
   private likedArraySubject = new BehaviorSubject<any[]>([]);
   likedArray$ = this.likedArraySubject.asObservable();
-
-
-  prevGenderId: string;
+  
+  genderId: string;
+  product: any[]
+  brands: any[];
   brandInfo: any[];
   prevBrandInfo: any[];
   productId: number;
@@ -43,7 +38,7 @@ export class ShareDataService {
   constructor() { }
 
   setCategories(categories: any[]){
-    this.categoriesSubject.next(categories)
+    this.categoriesSubject.next(categories);
   }
 
   setPrevBrandInfo(brandInfo: any[]){
@@ -99,7 +94,11 @@ export class ShareDataService {
   }
 
   setProduct(product: any){
-    this.productObject.next(product)
+    this.product = product
+  }
+
+  getProduct(){
+    return this.product
   }
 
   setShowCart(value: any){
@@ -114,15 +113,7 @@ export class ShareDataService {
   }
 
   setGenderId(genderId: string): void {
-    this.genderIdSubject.next(genderId);
-  }
-
-  setPrevGenderId(genderId: string){
-    this.prevGenderId = genderId
-  }
-
-  getPrevGenderId(): string {
-    return this.prevGenderId;
+    this.genderIdSubject.next(genderId)
   }
 
   setButtonStatus(status: boolean): void {
@@ -130,9 +121,11 @@ export class ShareDataService {
   }
 
   setBrands(brands: any[]): void {
-    this.brandsSubject.next(brands);
+    this.brands = brands
   }
-
+  getBrands(){
+    return this.brands
+  }
   setBrandData(data: any[]): void {
     this.brandDataSubject.next(data);
   }

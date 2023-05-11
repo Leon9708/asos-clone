@@ -204,12 +204,21 @@
 
 @media screen and (max-width: 787px) {
     .product_box {
-        width: calc((100% - 2rem) / 2);
+        width: calc((100% - 0.75rem) / 2);
     }
 }
 
 @media screen and (max-width: 580px) {
+    .place_products {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 440px) {
     .product_box {
-        width: calc(100% - 2rem);
+        width: 100%
+    }
+    .place_products {
+        width: 90%;
     }
 }

@@ -48,12 +48,11 @@ export class DetailViewComponent implements OnInit {
   constructor(private shareData: ShareDataService, private apiService: ApiAsosService, private router: Router, private sanitizer: DomSanitizer ) { }
 
   async ngOnInit(): Promise<void> { 
-    this.shareData.product$.subscribe((data: any[]) => {
-      this.product = data;
-    }); 
+    debugger;
+    this.product = this.shareData.getProduct()
     if (this.product.length === 0) {
-      const data = await this.apiService.getProduct().toPromise();
-      this.shareData.setProduct(data); 
+      this.product = await this.apiService.getProduct().toPromise();
+      this.shareData.setProduct(this.product)
     }
     console.log(this.product)
     this.showSize()

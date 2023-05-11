@@ -24,15 +24,17 @@
     }
     ngOnChanges(): void {
       this.filterArray = [];
-      const category = this.brandData.facets.find((facet: { id: string; }) => facet.id === 'attribute_10992');
-      if (category) {
-        this.filterAvailable = true;
-        for (let i = 0; i < category.facetValues.length; i++) {
-          const categoryfilter = {
-            categoryName: category.facetValues[i].name,
-            id: category.facetValues[i].id
-          };
-          this.filterArray.push(categoryfilter);
+      if (this.brandData && this.brandData.facets) {
+        const category = this.brandData.facets.find((facet: { id: string; }) => facet.id === 'attribute_10992');
+        if (category) {
+          this.filterAvailable = true;
+          for (let i = 0; i < category.facetValues.length; i++) {
+            const categoryfilter = {
+              categoryName: category.facetValues[i].name,
+              id: category.facetValues[i].id
+            };
+            this.filterArray.push(categoryfilter);
+          }
         }
       }
     }

@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { distinctUntilChanged } from 'rxjs';
 import { ApiAsosService } from '../service/api-asos.service';
 import { ShareDataService } from '../service/share-data.service';
 
@@ -17,31 +16,20 @@ export class BrandsComponent implements OnInit {
   brandsByLetter: { letter: string, brands:{title:string, categoryId: string}[]}[] = []
   genderId: string;
   prevGenderId: string;
+  categories: any[];
   constructor(private apiService: ApiAsosService, private shareData:ShareDataService, private router: Router) { }
 
   ngOnInit(): void {
-    this.shareData.brands$.subscribe(brands => {
-      this.brands = brands;
-    });
-    this.shareData.genderId$.subscribe(genderId => {
-      this.genderId = genderId;
-      this.prevGenderId = this.shareData.getPrevGenderId();
-      if (this.genderId !== this.prevGenderId) {
-        this.shareData.setPrevGenderId(this.genderId)
-        this.setBrands();
-      }else{
-        this.brandsByLetter = this.groupBrandsByLetter();
-      }
-    });
-  }
-
-  setBrands(): void {
     debugger;
-    this.shareData.categories$.subscribe(categories =>{
-      this.brands = categories['brands'][this.genderId === 'men' ? 0 : 2]['children'];
-      this.shareData.setBrands(this.brands);
-      this.shareData.setGenderId(this.genderId);
-      this.brandsByLetter = this.groupBrandsByLetter();
+    this.shareData.categories$.subscribe((data)=>{
+      this.categories = data
+      this.shareData.genderId$.subscribe((genderId)=>{
+        this.genderId = genderId
+        if(this.categories){  
+          this.brands = this.categories['brands'][this.genderId === 'men' ? 0 : 2]['children'];
+          this.brandsByLetter = this.groupBrandsByLetter();
+        }
+      })
     })
   }
 

@@ -1,5 +1,5 @@
 
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {  Router } from '@angular/router';
 import { ShareDataService } from 'src/app/service/share-data.service';
 
@@ -8,14 +8,10 @@ import { ShareDataService } from 'src/app/service/share-data.service';
   templateUrl: './start-screen-component.component.html',
   styleUrls: ['./start-screen-component.component.scss']
 })
-export class StartScreenComponentComponent implements OnInit {
+export class StartScreenComponentComponent {
   isHoveredWomen: boolean = false;
   isHoveredMen: boolean = false;
   constructor(private router: Router, private shareData: ShareDataService) { }
-  
-  ngOnInit(): void {
-
-  }
 
   loadNext(id:string){
     this.shareData.setGenderId(id)

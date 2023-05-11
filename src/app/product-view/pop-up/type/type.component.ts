@@ -24,15 +24,17 @@ export class TypeComponent implements OnInit {
 
   ngOnChanges(): void { 
     this.filterArray = [];
-    const element = this.brandData.facets.find((facet: { id: string; }) => facet.id === 'attribute_1047');
-    if (element) {
-      this.filterAvailable = true;
-      for (let i = 0; i < element.facetValues.length; i++) {
-        const typeFilter = {
-          name: element.facetValues[i].name,
-          id: element.facetValues[i].id
-        };
-        this.filterArray.push(typeFilter);
+    if (this.brandData && this.brandData.facets) {
+      const element = this.brandData.facets.find((facet: { id: string; }) => facet.id === 'attribute_1047');
+      if (element) {
+        this.filterAvailable = true;
+        for (let i = 0; i < element.facetValues.length; i++) {
+          const typeFilter = {
+            name: element.facetValues[i].name,
+            id: element.facetValues[i].id
+          };
+          this.filterArray.push(typeFilter);
+        }
       }
     }
   }

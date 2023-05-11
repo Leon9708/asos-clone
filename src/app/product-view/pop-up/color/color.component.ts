@@ -23,18 +23,19 @@ export class ColorComponent implements OnInit  {
       this.selectedButtonStatus = buttonStatus
     });
   }
-  ngOnChanges(): void {
+  ngOnChanges(): void{
     this.filterArray = [];
-    const element = this.brandData.facets.find((facet: { id: string; }) => facet.id === 'base_colour');
-
-    if (element) {
-      this.filterAvailable = true;
-      for (let i = 0; i < element.facetValues.length; i++) {
-        const colorFilter = {
-          name: element.facetValues[i].name,
-          id: element.facetValues[i].id
-        };
-        this.filterArray.push(colorFilter);
+    if (this.brandData && this.brandData.facets) {
+      const element = this.brandData.facets.find((facet: { id: string; }) => facet.id === 'base_colour')
+      if (element) {
+        this.filterAvailable = true;
+        for (let i = 0; i < element.facetValues.length; i++) {
+          const colorFilter = {
+            name: element.facetValues[i].name,
+            id: element.facetValues[i].id
+          };
+          this.filterArray.push(colorFilter);
+        }
       }
     }
   }

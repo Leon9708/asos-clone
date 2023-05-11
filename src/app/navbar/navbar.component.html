@@ -1,8 +1,19 @@
 <nav>
     <div class="place_content_nav">
-        <button class="btn_menu">
-            <img src="/assets/img/menu.png" alt="">
-        </button>
+        <div class="place_menu">
+            <button (click)="menuActive = !menuActive" class="btn_menu">
+                <img src="/assets/img/menu.png" alt="">
+            </button>
+            <div *ngIf="menuActive" class="box_menu">
+                <button (click)="backtoStart()" class="home">Home</button>
+                <button (click)="toBrands('women')">
+                    <h3>WOMEN</h3>
+                </button>
+                <button class="men" (click)="toBrands('men')">
+                    <h3>MEN</h3>
+                </button>
+            </div>
+        </div>
         <button (click)="backtoStart()" class="asos">asos</button>
         <div>
             <button (click)="toBrands('women')" class="btn_gender btn_nav">
