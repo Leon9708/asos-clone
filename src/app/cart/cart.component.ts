@@ -39,7 +39,6 @@ export class CartComponent implements OnInit {
     this.calculateSubtotal()
     this.calculateTotal()
     this.checkMinimumPrice();
-    this.checkCode();
   }
 
   calculateTotal() {
@@ -85,6 +84,7 @@ export class CartComponent implements OnInit {
       if (existingProduct) {
         let modifiedProduct = Object.assign({}, existingProduct);
         modifiedProduct.qty += current.qty;
+        modifiedProduct.currentPrice = modifiedProduct.qty * current.price
         accumulator.splice(accumulator.indexOf(existingProduct), 1, modifiedProduct);
       } else {
         accumulator.push(current);
@@ -92,6 +92,7 @@ export class CartComponent implements OnInit {
       return accumulator;
     }, []);
     this.productDetails = [...filteredProductDetails];
+    this.shareData.setCartArray(this.productDetails)
   }
 
   changeSize(size:string,index: number){
@@ -103,18 +104,21 @@ export class CartComponent implements OnInit {
   changeQty(qty:number, index:number){
     this.productDetails[index]['editQty'] = false;
     this.productDetails[index]['qty'] = qty
+    this.productDetails[index]['currentPrice'] = qty * this.productDetails[index]['price'];
     this.shareData.setCartArray(this.productDetails)
   }
 
   checkCode() {
-    if (this.code.toLowerCase() === "newbie") {
-      if (!this.discount) {
-        this.discount = true;
+    if(this.code.toLowerCase() !== undefined){
+      if (this.code.toLowerCase() === "newbie") {
+        if (!this.discount) {
+          this.discount = true;
+          this.shareData.setCartArray(this.productDetails);
+        }
+      } else if (this.discount) {
+        this.discount = false;
         this.shareData.setCartArray(this.productDetails);
       }
-    } else if (this.discount) {
-      this.discount = false;
-      this.shareData.setCartArray(this.productDetails);
     }
   }
 }

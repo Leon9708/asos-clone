@@ -4,7 +4,7 @@
         <div class="box_description" *ngFor="let product of productDetails">
             <img [src]="'http://images.' + product['img']" alt="">
             <div class="box_description_text">
-                <p class="price_product">${{product['price']}}</p>
+                <p class="price_product">${{product['currentPrice']}}</p>
                 <p class="description_product">{{product['name']}}</p>
                 <div>
                     <p>{{product['color']}}</p>

@@ -39,11 +39,13 @@ export class PreviewCartComponent implements OnInit {
     this.subTotal = +subTotalNumber.toFixed(2);
   }
   checkDuplicates(){
- let filteredProductDetails = this.productDetails.reduce((accumulator, current) => {
+    let filteredProductDetails = this.productDetails.reduce((accumulator, current) => {
       let existingProduct = accumulator.find((product: { id: any; size: any; }) => product.id === current.id && product.size === current.size);
       if (existingProduct) {
+        debugger;
         let modifiedProduct = Object.assign({}, existingProduct);
         modifiedProduct.qty += current.qty;
+        modifiedProduct.currentPrice = modifiedProduct.qty * current.price
         accumulator.splice(accumulator.indexOf(existingProduct), 1, modifiedProduct);
       } else {
         accumulator.push(current);

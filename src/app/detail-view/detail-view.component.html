@@ -1,5 +1,5 @@
 <app-navbar class="nav"></app-navbar>
-<div class="place_detailview">
+<div *ngIf="dataLoaded" class="place_detailview">
     <div class="place_img_sticky">
         <div class="box_preview">
             <button (click)="changeImage(i)" *ngFor="let image of product['media']['images']; let i = index" class="preview_img">

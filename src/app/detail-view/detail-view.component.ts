@@ -45,19 +45,19 @@ export class DetailViewComponent implements OnInit {
   isButtonDisabled: boolean = false
   productDescription: SafeHtml;
   liked: boolean = false
+  dataLoaded: boolean = false;
   constructor(private shareData: ShareDataService, private apiService: ApiAsosService, private router: Router, private sanitizer: DomSanitizer ) { }
 
   async ngOnInit(): Promise<void> { 
-    debugger;
     this.product = this.shareData.getProduct()
     if (this.product.length === 0) {
       this.product = await this.apiService.getProduct().toPromise();
       this.shareData.setProduct(this.product)
     }
-    console.log(this.product)
     this.showSize()
     this.formatDescription()
     this.checkLikedArray()
+    this.dataLoaded = true
   }
 
   formatDescription(){
