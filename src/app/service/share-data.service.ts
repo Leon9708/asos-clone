@@ -92,6 +92,7 @@ export class ShareDataService {
   setCartArray(cartArray: any[]){
     this.cartArraySubject.next(cartArray);
   }
+ 
 
   setProduct(product: any){
     this.product = product

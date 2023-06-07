@@ -54,8 +54,8 @@ export class NavbarComponent implements OnInit {
   }
 
   openBasket(){
-    this.shareData.setShowCart(false)
-    this.router.navigateByUrl('cart')
+      this.shareData.setShowCart(false)
+      this.router.navigateByUrl('cart')
    }
 
    backtoStart(){
@@ -81,9 +81,7 @@ export class NavbarComponent implements OnInit {
       } catch (error) {
         console.error(error);
       }
-      console.log(this.categories,'api')
     }
-    console.log(this.categories,'loaded')
   }
 
   setAllBrands(){

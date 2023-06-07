@@ -12,7 +12,7 @@ export class ApiAsosService {
    options = {
     method: 'GET',
     headers: {
-      'X-RapidAPI-Key': 'a0180db7camshee129c41ed0a557p11395fjsn8bf119f2bea9',
+      'X-RapidAPI-Key': 'e837991aa7mshf30c519bdea7725p15cb82jsn89b881e7e9c8',
       'X-RapidAPI-Host': 'asos2.p.rapidapi.com'
     }
   };
@@ -57,7 +57,6 @@ export class ApiAsosService {
     }
         
     url += '&currency=USD&sizeSchema=US&lang=en-US';
-    console.log(url)
     this.http.get<any[]>(url, this.options).subscribe((data) => {
       this.shareData.setBrandData(data);
     });

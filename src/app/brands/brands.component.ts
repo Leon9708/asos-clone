@@ -34,7 +34,6 @@ export class BrandsComponent implements OnInit {
   }
 
   selectProductsId(brand:any) {
-    console.log(brand)
     this.shareData.setBrandInfo(brand) 
     localStorage.removeItem('selectedButtonSort')
     localStorage.removeItem('selectedButtonCategory')

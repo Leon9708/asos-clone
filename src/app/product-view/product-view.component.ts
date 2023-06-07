@@ -35,7 +35,6 @@ export class ProductViewComponent implements OnInit {
       this.brandData = data;
       this.setSites();
     });
-    console.log(this.brandData)
   }
 
   

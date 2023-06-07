@@ -30,7 +30,10 @@ export class CartComponent implements OnInit {
   ngOnInit(): void {
     this.shareData.cartArray$.subscribe((cart:[])=>{
       this.productDetails = cart
-      this.render()
+      debugger;
+      if(this.productDetails.length >= 1){
+        this.render()
+      }
     })
   }
   
