@@ -30,7 +30,6 @@ export class CartComponent implements OnInit {
   ngOnInit(): void {
     this.shareData.cartArray$.subscribe((cart:[])=>{
       this.productDetails = cart
-      debugger;
       if(this.productDetails.length >= 1){
         this.render()
       }
@@ -95,7 +94,6 @@ export class CartComponent implements OnInit {
       return accumulator;
     }, []);
     this.productDetails = [...filteredProductDetails];
-    this.shareData.setCartArray(this.productDetails)
   }
 
   changeSize(size:string,index: number){
