@@ -1,10 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiAsosService } from '../service/api-asos.service';
 import { ShareDataService } from '../service/share-data.service';
-import { trigger, state, style, animate, transition } from '@angular/animations';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
 import { Router } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-
 
 @Component({
   selector: 'app-detail-view',
@@ -12,63 +17,88 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   styleUrls: ['./detail-view.component.scss'],
   animations: [
     trigger('fadeInOut', [
-      state('hidden', style({
-        opacity: 0,
-        top: '-20px'
-      })),
-      state('visible', style({
-        opacity: 1,
-        top: "50%"
-      })),
-      state('fadeOut', style({
-        opacity: 0,
-        top: "50%"
-      })),
-      transition('visible => hidden', animate('0.5s cubic-bezier(0.4, 0, 0.2, 1)')),
-      transition('hidden => visible', animate('0.5s cubic-bezier(0.4, 0, 0.2, 1)')),
-      transition('visible => fadeOut', animate('0.5s 7.5s cubic-bezier(0.4, 0, 0.2, 1)')),
-    ])
-  ]
-
+      state(
+        'hidden',
+        style({
+          opacity: 0,
+          top: '-20px',
+        })
+      ),
+      state(
+        'visible',
+        style({
+          opacity: 1,
+          top: '50%',
+        })
+      ),
+      state(
+        'fadeOut',
+        style({
+          opacity: 0,
+          top: '50%',
+        })
+      ),
+      transition(
+        'visible => hidden',
+        animate('0.5s cubic-bezier(0.4, 0, 0.2, 1)')
+      ),
+      transition(
+        'hidden => visible',
+        animate('0.5s cubic-bezier(0.4, 0, 0.2, 1)')
+      ),
+      transition(
+        'visible => fadeOut',
+        animate('0.5s 7.5s cubic-bezier(0.4, 0, 0.2, 1)')
+      ),
+    ]),
+  ],
 })
 export class DetailViewComponent implements OnInit {
   product: any[];
   popUpSize: boolean = false;
   currentImageIndex: number;
   selectedSize: string;
-  productInfo: any[] = ['Product Details','Brand','Size and Fit', 'About Me']
-  selectedPopup:string;
+  productInfo: any[] = ['Product Details', 'Brand', 'Size and Fit', 'About Me'];
+  selectedPopup: string;
   rotatedBack: boolean;
   rotated: boolean;
   chooseSize: boolean;
-  addToCart: boolean = false
-  isButtonDisabled: boolean = false
+  addToCart: boolean = false;
+  isButtonDisabled: boolean = false;
   productDescription: SafeHtml;
-  liked: boolean = false
+  liked: boolean = false;
   dataLoaded: boolean = false;
-  constructor(private shareData: ShareDataService, private apiService: ApiAsosService, private router: Router, private sanitizer: DomSanitizer ) { }
 
-  async ngOnInit(): Promise<void> { 
-    this.product = this.shareData.getProduct()
+  constructor(
+    private shareData: ShareDataService,
+    private apiService: ApiAsosService,
+    private router: Router,
+    private sanitizer: DomSanitizer
+  ) {}
+
+  async ngOnInit(): Promise<void> {
+    this.product = this.shareData.getProduct();
     if (this.product.length === 0) {
       this.product = await this.apiService.getProduct().toPromise();
-      this.shareData.setProduct(this.product)
+      this.shareData.setProduct(this.product);
     }
-    this.showSize()
-    this.formatDescription()
-    this.checkLikedArray()
-    this.dataLoaded = true
+    this.showSize();
+    this.formatDescription();
+    this.checkLikedArray();
+    this.dataLoaded = true;
   }
 
-  formatDescription(){
-    this.productDescription = this.sanitizer.bypassSecurityTrustHtml(this.removeTags(this.product['brand'].description));
+  formatDescription() {
+    this.productDescription = this.sanitizer.bypassSecurityTrustHtml(
+      this.removeTags(this.product['brand'].description)
+    );
   }
 
   removeTags(description: string): string {
     return description.replace(/<[^>]+>/g, '');
   }
 
-  showSize(){
+  showSize() {
     if (this.product['variants'].length <= 1) {
       this.selectedSize = this.product['variants'][0]['brandSize'];
     }
@@ -77,7 +107,9 @@ export class DetailViewComponent implements OnInit {
   changeImage(imageIndex: number) {
     this.currentImageIndex = imageIndex;
     const mainImage = document.getElementById('mainImg') as HTMLImageElement;
-    mainImage.src = 'http://images.' + this.product['media']['images'][imageIndex].url.slice(7);
+    mainImage.src =
+      'http://images.' +
+      this.product['media']['images'][imageIndex].url.slice(7);
   }
 
   swipeImgLeft() {
@@ -87,7 +119,9 @@ export class DetailViewComponent implements OnInit {
       this.currentImageIndex = this.product['media']['images'].length - 1;
     }
     const mainImage = document.getElementById('mainImg') as HTMLImageElement;
-    mainImage.src = 'http://images.' + this.product['media']['images'][this.currentImageIndex].url.slice(7);
+    mainImage.src =
+      'http://images.' +
+      this.product['media']['images'][this.currentImageIndex].url.slice(7);
   }
   swipeImgRight() {
     if (this.currentImageIndex < this.product['media']['images'].length - 1) {
@@ -96,7 +130,9 @@ export class DetailViewComponent implements OnInit {
       this.currentImageIndex = 0;
     }
     const mainImage = document.getElementById('mainImg') as HTMLImageElement;
-    mainImage.src = 'http://images.' + this.product['media']['images'][this.currentImageIndex].url.slice(7);
+    mainImage.src =
+      'http://images.' +
+      this.product['media']['images'][this.currentImageIndex].url.slice(7);
   }
 
   onSizeButtonClick(size: string) {
@@ -112,12 +148,12 @@ export class DetailViewComponent implements OnInit {
     }
   }
 
-  checkValueBuy(){
-    if(!this.selectedSize){
+  checkValueBuy() {
+    if (!this.selectedSize) {
       this.chooseSize = true;
-    }else{
-      this.addAnimation()
-      this.toBasket()
+    } else {
+      this.addAnimation();
+      this.toBasket();
     }
   }
 
@@ -126,15 +162,15 @@ export class DetailViewComponent implements OnInit {
     this.isButtonDisabled = true;
     setTimeout(() => {
       this.isButtonDisabled = false;
-      this.shareData.setShowCart(true)
+      this.shareData.setShowCart(true);
     }, 1000);
     setTimeout(() => {
       this.addToCart = false;
-      this.shareData.setShowCart(false)
+      this.shareData.setShowCart(false);
     }, 7500);
   }
 
-  toBasket(){
+  toBasket() {
     let productDetails = {
       id: this.product['id'],
       name: this.product['name'],
@@ -146,31 +182,31 @@ export class DetailViewComponent implements OnInit {
       qty: 1,
       currentPrice: this.product['price']['current']['value'],
       editQty: false,
-      editSize: false
-    }
+      editSize: false,
+    };
     this.shareData.addToCartArray(productDetails);
   }
 
-  checkLikedArray(){
-    const likedItems = this.shareData.getLikedArrayValue()
-    this.liked = !!likedItems.find(item => item.id === this.product['id']);
+  checkLikedArray() {
+    const likedItems = this.shareData.getLikedArrayValue();
+    this.liked = !!likedItems.find((item) => item.id === this.product['id']);
   }
 
-  checkValueLike(){
-    if(this.liked){
+  checkValueLike() {
+    if (this.liked) {
       this.liked = false;
       this.shareData.deleteLikedItem(this.product);
-    }else{
-      if(this.selectedSize){
-        this.liked = true
-        this.toLikedItems()
-      }else{
+    } else {
+      if (this.selectedSize) {
+        this.liked = true;
+        this.toLikedItems();
+      } else {
         this.chooseSize = true;
       }
     }
   }
 
-  toLikedItems(){
+  toLikedItems() {
     let productDetails = {
       id: this.product['id'],
       name: this.product['name'],
@@ -182,12 +218,8 @@ export class DetailViewComponent implements OnInit {
       qty: 1,
       currentPrice: this.product['price']['current']['value'],
       editQty: false,
-      editSize: false
-    }
+      editSize: false,
+    };
     this.shareData.addTolikedArray(productDetails);
   }
-
-
-
-  
 }

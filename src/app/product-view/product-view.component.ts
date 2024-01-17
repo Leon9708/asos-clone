@@ -16,10 +16,12 @@ export class ProductViewComponent implements OnInit {
   allowedSites:any[];
   selectedNumber: number = 1;
   prevBrandInfo: any[];
+  loading: boolean = false;
 
   constructor(public apiService: ApiAsosService, private shareData :ShareDataService, private router: Router) { }
 
   async ngOnInit() {
+    this.loading = true
     let brandInfo =  this.shareData.getValueFromBrandInfo()
     this.prevBrandInfo = this.shareData.getPrevBrandInfo();
     if (typeof this.prevBrandInfo === 'undefined' || brandInfo['categoryId'] !== this.prevBrandInfo['categoryId']) {
@@ -34,6 +36,7 @@ export class ProductViewComponent implements OnInit {
     this.shareData.brandData$.subscribe(data => {
       this.brandData = data;
       this.setSites();
+      this.loading = false
     });
   }
 

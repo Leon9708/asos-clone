@@ -1,5 +1,6 @@
 <app-navbar></app-navbar>
-<div class="place_productview_container">
+<app-loading-spinner *ngIf="loading"></app-loading-spinner>
+<div *ngIf="!loading" class="place_productview_container">
     <div class="container_productview">
         <h1>{{ brandData?.['categoryName']}}</h1>
         <div class="place_filter_container">
@@ -20,7 +21,6 @@
                     <p class="price">{{product['price']['current']['text']}}</p>
                 </div>
             </div>
-
         </div>
         <div class="box_sites">
             <div class="box_skip_sites">
