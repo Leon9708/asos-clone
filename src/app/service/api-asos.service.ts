@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ShareDataService } from './share-data.service';
-
-
+HttpClientModule
 @Injectable()
 export class ApiAsosService {
   brand: any;
