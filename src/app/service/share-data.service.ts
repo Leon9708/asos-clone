@@ -27,6 +27,7 @@ export class ShareDataService {
   brandInfo: any[];
   prevBrandInfo: any[];
   productId: number;
+  stockPrice: number;
 
   filterCategoryId: number;
   filterSort: string;
@@ -34,6 +35,7 @@ export class ShareDataService {
   filterTypeId:number;
   filterColorId:number;
   offset: number = 0;
+  
  
   constructor() { }
 
@@ -62,6 +64,10 @@ export class ShareDataService {
   }
   getOffSet(){
     return this.offset
+  }
+
+  getStockPrice(){
+    return this.stockPrice
   }
 
   addTolikedArray(item: any) {
@@ -96,6 +102,10 @@ export class ShareDataService {
 
   setProduct(product: any){
     this.product = product
+  }
+
+  setStockPrice(stockPrice: number){
+    this.stockPrice = stockPrice
   }
 
   getProduct(){
@@ -170,6 +180,12 @@ export class ShareDataService {
   getFilterColorId(): number {
     return this.filterColorId;
   }
+
+  getProductPrice(){
+    return this.stockPrice
+  }
+
+
 
   removeOtherCategories(selectedElement: string){
     if (selectedElement === 'category') {

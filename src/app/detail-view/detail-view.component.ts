@@ -68,6 +68,10 @@ export class DetailViewComponent implements OnInit {
   productDescription: SafeHtml;
   liked: boolean = false;
   dataLoaded: boolean = false;
+  toLocalStorageProduct: any[];
+  image: any [];
+  stockPrice: number;
+
 
   constructor(
     private shareData: ShareDataService,
@@ -78,14 +82,20 @@ export class DetailViewComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.product = this.shareData.getProduct();
-    if (this.product.length === 0) {
+    if (this.product.length === 0 ) {
       this.product = await this.apiService.getProduct().toPromise();
+      localStorage.setItem('product', JSON.stringify(this.product));
       this.shareData.setProduct(this.product);
-    }
+      this.stockPrice = this.shareData.getStockPrice()
+      localStorage.setItem('stockPrice', JSON.stringify(this.stockPrice));
+    } 
+   
     this.showSize();
     this.formatDescription();
     this.checkLikedArray();
+
     this.dataLoaded = true;
+
   }
 
   formatDescription() {
@@ -178,13 +188,14 @@ export class DetailViewComponent implements OnInit {
       size: this.selectedSize,
       sizeOptions: this.product['variants'],
       img: this.product['media']['images'][0]['url'].slice(7),
-      price: this.product['price']['current']['value'],
+      price: this.stockPrice,
       qty: 1,
-      currentPrice: this.product['price']['current']['value'],
+      currentPrice: this.stockPrice,
       editQty: false,
       editSize: false,
     };
     this.shareData.addToCartArray(productDetails);
+    console.log(productDetails)
   }
 
   checkLikedArray() {
@@ -214,12 +225,13 @@ export class DetailViewComponent implements OnInit {
       size: this.selectedSize,
       sizeOptions: this.product['variants'],
       img: this.product['media']['images'][0]['url'].slice(7),
-      price: this.product['price']['current']['value'],
+      price: this.stockPrice,
       qty: 1,
-      currentPrice: this.product['price']['current']['value'],
+      currentPrice: this.stockPrice,
       editQty: false,
       editSize: false,
     };
     this.shareData.addTolikedArray(productDetails);
+
   }
 }

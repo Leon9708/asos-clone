@@ -3,12 +3,14 @@
 <div  *ngIf="dataLoaded" class="place_detailview">
     <div class="place_img_sticky">
         <div class="box_preview">
-            <button (click)="changeImage(i)" *ngFor="let image of product['media']['images']; let i = index" class="preview_img">
-            <img [src]="'http://images.' + image.url.slice(7)" alt="">
-        </button>
-        </div>
+            <div  class="preview_img" *ngFor="let image of product['media']['images']; let i = index">
+                <button (click)="changeImage(i)">
+                    <img [src]="'http://' + image['url']" alt="">
+                </button>
+            </div> 
+        </div> 
         <div class="box_img">
-            <img class="main_img" id="mainImg" [src]="'http://images.' + product['media']['images'][0]['url'].slice(7)" alt="">
+            <img class="main_img" id="mainImg" [src]="'http://' + product['media']['images'][0]['url']" alt="">
             <img class="arrow_left" src="/assets/img/arrow.png" alt="" (click)="swipeImgLeft()">
             <img class="arrow_right" src="/assets/img/arrow.png" alt="" (click)="swipeImgRight()">
         </div>
@@ -16,7 +18,7 @@
     <div class="place_details">
         <div class="box_details">
             <h1>{{product['variants'][0]['name']}}</h1>
-            <h2>{{product['price']['current']['text']}}</h2>
+            <h2>${{stockPrice}}</h2> 
             <div class="box_discount">
                 <div class="box_pricetag">
                     <img src="/assets/img/price_tag.png" alt="">

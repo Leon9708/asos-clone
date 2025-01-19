@@ -15,7 +15,7 @@
         <p class="styles_found">{{ brandData?.['itemCount']}} styles found</p>
         <div class="place_products_container">
             <div class="products_container">
-                <div (click)="openDetailView(product.id)" *ngFor="let product of  brandData?.['products']" class="product_box">
+                <div (click)="openDetailView(product.id, product.price.current.text)" *ngFor="let product of  brandData?.['products']" class="product_box">
                     <img [src]="'http://images.' + product.imageUrl.slice(7)">
                     <p class="description">{{product['name']}}</p>
                     <p class="price">{{product['price']['current']['text']}}</p>

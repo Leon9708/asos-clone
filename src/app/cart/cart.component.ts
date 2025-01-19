@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 
 
 export class CartComponent implements OnInit {
-  productDetails: any[];
+  products: any[];
   subTotal: number = 0;
   total:number = 0;
   editSize:boolean = false;
@@ -24,16 +24,18 @@ export class CartComponent implements OnInit {
   discount:boolean = false;
   popUpBuy: boolean = false;
   buyActive: boolean = false;
+  stockPrice: number;
 
   constructor(private shareData:ShareDataService, private router: Router) { }
 
   ngOnInit(): void {
     this.shareData.cartArray$.subscribe((cart:[])=>{
-      this.productDetails = cart
-      if(this.productDetails.length >= 1){
+      this.products = cart
+      if(this.products.length >= 1){
         this.render()
       }
     })
+
   }
   
   render(){
@@ -55,7 +57,7 @@ export class CartComponent implements OnInit {
       totalNumber = totalNumber * 0.9;
     }
     this.total = +totalNumber.toFixed(2); 
-    this.buyActive = this.productDetails.length !== 0 ? true : false;
+    this.buyActive = this.products.length !== 0 ? true : false;
   }
 
   checkShipping(){
@@ -66,7 +68,7 @@ export class CartComponent implements OnInit {
 
   calculateSubtotal(){
     let subTotalNumber = 0;
-    this.productDetails.forEach((product)=>{
+    this.products.forEach((product)=>{
       let price = 0
       let priceQty = 0
       price += product.price
@@ -81,7 +83,7 @@ export class CartComponent implements OnInit {
   }
 
   checkDuplicates(){
-    let filteredProductDetails = this.productDetails.reduce((accumulator, current) => {
+    let filteredProductDetails = this.products.reduce((accumulator, current) => {
       let existingProduct = accumulator.find((product: { id: any; size: any; }) => product.id === current.id && product.size === current.size);
       if (existingProduct) {
         let modifiedProduct = Object.assign({}, existingProduct);
@@ -93,20 +95,20 @@ export class CartComponent implements OnInit {
       }
       return accumulator;
     }, []);
-    this.productDetails = [...filteredProductDetails];
+    this.products = [...filteredProductDetails];
   }
 
   changeSize(size:string,index: number){
-    this.productDetails[index]['editSize'] = false;
-    this.productDetails[index]['size'] = size;
-    this.shareData.setCartArray(this.productDetails)
+    this.products[index]['editSize'] = false;
+    this.products[index]['size'] = size;
+    this.shareData.setCartArray(this.products)
   }
 
   changeQty(qty:number, index:number){
-    this.productDetails[index]['editQty'] = false;
-    this.productDetails[index]['qty'] = qty
-    this.productDetails[index]['currentPrice'] = qty * this.productDetails[index]['price'];
-    this.shareData.setCartArray(this.productDetails)
+    this.products[index]['editQty'] = false;
+    this.products[index]['qty'] = qty
+    this.products[index]['currentPrice'] = qty * this.products[index]['price'];
+    this.shareData.setCartArray(this.products)
   }
 
   checkCode() {
@@ -114,11 +116,11 @@ export class CartComponent implements OnInit {
       if (this.code.toLowerCase() === "newbie") {
         if (!this.discount) {
           this.discount = true;
-          this.shareData.setCartArray(this.productDetails);
+          this.shareData.setCartArray(this.products);
         }
       } else if (this.discount) {
         this.discount = false;
-        this.shareData.setCartArray(this.productDetails);
+        this.shareData.setCartArray(this.products);
       }
     }
   }

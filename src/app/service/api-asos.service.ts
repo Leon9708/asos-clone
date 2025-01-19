@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ShareDataService } from './share-data.service';
 HttpClientModule
@@ -64,7 +64,7 @@ export class ApiAsosService {
 
   getProduct(){
     let productId = this.shareData.getProductId() ;
-    let url = `https://asos2.p.rapidapi.com/products/v3/detail?id=${productId}&lang=en-US&store=US&sizeSchema=US&currency=USD`;
+    let url = `https://asos2.p.rapidapi.com/products/v4/detail?id=${productId}&lang=en-US&store=US&sizeSchema=US&currency=USD`;
     return this.http.get<any[]>(url, this.options)
   }
 

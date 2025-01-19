@@ -1,15 +1,15 @@
 <app-navbar></app-navbar>
 <div class="place_cart">
     <app-bought class="app-bought" [ngClass]="{'show': popUpBuy}"></app-bought>
-    <div [ngStyle]="productDetails.length > 1 ? {'justify-content': 'center'} : null" class="place_products">
+    <div [ngStyle]="products.length > 1 ? {'justify-content': 'center'} : null" class="place_products">
         <div class="box_products_heading">
             <p class="cart_heading">My bag</p>
         </div>
-        <div class="place_empty" *ngIf="productDetails.length < 1">
+        <div class="place_empty" *ngIf="products.length < 1">
             <img src="/assets/img/bag_black.png" alt="">
             <h2>Your bag is empty</h2>
         </div>
-        <div class="place_description" *ngFor="let product of productDetails; let i = index">
+        <div class="place_description" *ngFor="let product of products; let i = index">
             <div class="box_description">
                 <img [src]="'http://images.' + product['img']" alt="">
                 <div class="box_description_text">

@@ -20,7 +20,6 @@ export class BrandsComponent implements OnInit {
   constructor(private apiService: ApiAsosService, private shareData:ShareDataService, private router: Router) { }
 
   ngOnInit(): void {
-    debugger;
     this.shareData.categories$.subscribe((data)=>{
       this.categories = data
       this.shareData.genderId$.subscribe((genderId)=>{
@@ -59,7 +58,6 @@ export class BrandsComponent implements OnInit {
   }
 
   navigateToSection(letter: string) {
-    debugger;
     const uppercaseLetter = letter.toUpperCase();
     const element = document.getElementById(uppercaseLetter);
     if (element) {

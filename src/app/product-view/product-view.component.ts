@@ -29,6 +29,7 @@ export class ProductViewComponent implements OnInit {
       try {
         const products = await this.apiService.fetchProducts(brandInfo['categoryId']).toPromise();
         this.shareData.setBrandData(products);
+        console.log(products)
       } catch (error) {
         console.error(error);
       }
@@ -37,6 +38,7 @@ export class ProductViewComponent implements OnInit {
       this.brandData = data;
       this.setSites();
       this.loading = false
+      console.log(this.brandData)
     });
   }
 
@@ -71,10 +73,19 @@ export class ProductViewComponent implements OnInit {
     }
   }
 
-  openDetailView(productId: number){  
-    this.shareData.setProduct([])
-    this.shareData.setProductId(productId)
-    this.router.navigateByUrl('detail-view')
+  removeTags(value: string): number {
+    const numberPattern = /[-+]?\d*\.?\d+/;
+    const match = value.match(numberPattern); 
+    return match ? parseInt(match[0], 10) : 0; 
+  }
+  
+  openDetailView(productId: number, stockPrice: string) {  
+    this.shareData.setProduct([]);
+    console.log(stockPrice);
+    const parsedPrice = this.removeTags(stockPrice); // Convert the string to a number
+    this.shareData.setStockPrice(parsedPrice); // Pass the number to setStockPrice
+    this.shareData.setProductId(productId);
+    this.router.navigateByUrl('detail-view');
   }
 
   
