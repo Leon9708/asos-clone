@@ -11,7 +11,7 @@ export class ApiAsosService {
    options = {
     method: 'GET',
     headers: {
-      'X-RapidAPI-Key': 'e837991aa7mshf30c519bdea7725p15cb82jsn89b881e7e9c8',
+      'X-RapidAPI-Key': 'a0180db7camshee129c41ed0a557p11395fjsn8bf119f2bea9',
       'X-RapidAPI-Host': 'asos2.p.rapidapi.com'
     }
   };
@@ -34,7 +34,6 @@ export class ApiAsosService {
     let type = this.shareData.getFilterTypeId()
     let color = this.shareData.getFilterColorId();
     let brandInfo = this.shareData.getValueFromBrandInfo()
-    debugger;
     let url = `https://asos2.p.rapidapi.com/products/v2/list?store=US&offset=${offset}&categoryId=${brandInfo['categoryId']}&limit=48&country=US&`;
 
     if(sortType){

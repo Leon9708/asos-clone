@@ -70,6 +70,7 @@ export class ProductViewComponent implements OnInit {
       this.selectedNumber = number;
       this.shareData.setOffSet(offset)
       this.apiService.updateProducts()
+      this.loading = true
     }
   }
 
@@ -81,9 +82,8 @@ export class ProductViewComponent implements OnInit {
   
   openDetailView(productId: number, stockPrice: string) {  
     this.shareData.setProduct([]);
-    console.log(stockPrice);
-    const parsedPrice = this.removeTags(stockPrice); // Convert the string to a number
-    this.shareData.setStockPrice(parsedPrice); // Pass the number to setStockPrice
+    const parsedPrice = this.removeTags(stockPrice); 
+    this.shareData.setStockPrice(parsedPrice); 
     this.shareData.setProductId(productId);
     this.router.navigateByUrl('detail-view');
   }
