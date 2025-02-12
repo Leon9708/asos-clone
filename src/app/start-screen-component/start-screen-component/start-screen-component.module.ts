@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { StartScreenComponentRoutingModule } from './start-screen-component-routing.module';
 import { StartScreenComponentComponent } from './start-screen-component.component';
-import { SharedModule } from 'src/app/shared/shared-module.module';
+import { SharedModule } from 'src/app/shared/components/shared-module.module';
 
 
 @NgModule({

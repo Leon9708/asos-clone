@@ -1,6 +1,6 @@
   import { Component, Input, OnInit, Output, EventEmitter, ChangeDetectorRef, HostListener } from '@angular/core';
-  import { ApiAsosService } from 'src/app/service/api-asos.service';
-  import { ShareDataService } from 'src/app/service/share-data.service';
+  import { ApiAsosService } from 'src/app/shared/service/api-asos.service';
+  import { ShareDataService } from 'src/app/shared/service/share-data.service';
 
   @Component({
     selector: 'app-category',

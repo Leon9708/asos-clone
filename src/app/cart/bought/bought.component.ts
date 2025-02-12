@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ShareDataService } from 'src/app/service/share-data.service';
+import { ShareDataService } from 'src/app/shared/service/share-data.service';
 
 @Component({
   selector: 'app-bought',

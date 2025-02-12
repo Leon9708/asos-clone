@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ShareDataService } from '../service/share-data.service';
+import { ShareDataService } from '../shared/service/share-data.service';
 
 @Component({
   selector: 'app-saved-items',

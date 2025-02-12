@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiAsosService } from './service/api-asos.service';
-import { ShareDataService } from './service/share-data.service';
+import { ApiAsosService } from './shared/service/api-asos.service';
+import { ShareDataService } from './shared/service/share-data.service';
 
 
 @Component({

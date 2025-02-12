@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiAsosService } from '../service/api-asos.service';
-import { ShareDataService } from '../service/share-data.service';
+import { ApiAsosService } from '../shared/service/api-asos.service';
+import { ShareDataService } from '../shared/service/share-data.service';
+import { item } from '../shared/models/item';
 import {
   trigger,
   state,
@@ -10,6 +11,7 @@ import {
 } from '@angular/animations';
 import { Router } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-detail-view',
@@ -54,53 +56,50 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   ],
 })
 export class DetailViewComponent implements OnInit {
-  product: any[];
+  product: [] = [];
   popUpSize: boolean = false;
   currentImageIndex: number;
   selectedSize: string;
-  productInfo: any[] = ['Product Details', 'Brand', 'Size and Fit', 'About Me'];
   selectedPopup: string;
-  rotatedBack: boolean;
-  rotated: boolean;
-  chooseSize: boolean;
+  choosenSize: boolean;
   addToCart: boolean = false;
   isButtonDisabled: boolean = false;
-  productDescription: SafeHtml;
   liked: boolean = false;
   dataLoaded: boolean = false;
-  toLocalStorageProduct: any[];
-  image: any [];
   stockPrice: number;
+  productDescription: SafeHtml;
 
 
   constructor(
     private shareData: ShareDataService,
     private apiService: ApiAsosService,
     private router: Router,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    
   ) {}
 
   async ngOnInit(): Promise<void> {
-    this.product = this.shareData.getProduct();
-    if (this.product.length === 0 ) {
+/*     this.product = this.shareData.getProduct(); */
+     this.product = JSON.parse(localStorage.getItem('product')); 
+    if (this.product.length === 0 || this.product == undefined) {
       this.product = await this.apiService.getProduct().toPromise();
+      console.log(this.product, 'api')
       localStorage.setItem('product', JSON.stringify(this.product));
       this.shareData.setProduct(this.product);
-      this.stockPrice = this.shareData.getStockPrice()
+      this.stockPrice = this.shareData.getStockPrice();
       localStorage.setItem('stockPrice', JSON.stringify(this.stockPrice));
-    } 
+    }
    
     this.showSize();
     this.formatDescription();
     this.checkLikedArray();
 
     this.dataLoaded = true;
-
   }
 
   formatDescription() {
     this.productDescription = this.sanitizer.bypassSecurityTrustHtml(
-      this.removeTags(this.product['brand'].description)
+      this.removeTags(this.product['brand']['description'])
     );
   }
 
@@ -146,7 +145,7 @@ export class DetailViewComponent implements OnInit {
   }
 
   onSizeButtonClick(size: string) {
-    this.chooseSize = false;
+    this.choosenSize = false;
     this.selectedSize = size;
   }
 
@@ -160,7 +159,7 @@ export class DetailViewComponent implements OnInit {
 
   checkValueBuy() {
     if (!this.selectedSize) {
-      this.chooseSize = true;
+      this.choosenSize = true;
     } else {
       this.addAnimation();
       this.toBasket();
@@ -181,7 +180,7 @@ export class DetailViewComponent implements OnInit {
   }
 
   toBasket() {
-    let productDetails = {
+    let productDetails: item = {
       id: this.product['id'],
       name: this.product['name'],
       color: this.product['variants'][0]['colour'],
@@ -212,17 +211,17 @@ export class DetailViewComponent implements OnInit {
         this.liked = true;
         this.toLikedItems();
       } else {
-        this.chooseSize = true;
+        this.choosenSize = true;
       }
     }
   }
 
   toLikedItems() {
-    let productDetails = {
+    let productDetails: item ={
       id: this.product['id'],
       name: this.product['name'],
       color: this.product['variants'][0]['colour'],
-      size: this.selectedSize,
+      size: this.selectedSize, 
       sizeOptions: this.product['variants'],
       img: this.product['media']['images'][0]['url'].slice(7),
       price: this.stockPrice,

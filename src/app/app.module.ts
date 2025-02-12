@@ -5,10 +5,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { SharedModule } from './shared/shared-module.module';
-import { ShareDataService } from './service/share-data.service';
-import { ApiAsosService } from './service/api-asos.service';
+import { SharedModule } from './shared/components/shared-module.module';
+import { ShareDataService } from './shared/service/share-data.service';
+import { ApiAsosService } from './shared/service/api-asos.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [AppComponent],

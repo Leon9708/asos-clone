@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ShareDataService } from '../service/share-data.service';
+import { ShareDataService } from '../../service/share-data.service';
 import { Router } from '@angular/router';
-import { ApiAsosService } from '../service/api-asos.service';
+import { ApiAsosService } from '../../service/api-asos.service';
 
 @Component({
   selector: 'app-navbar',

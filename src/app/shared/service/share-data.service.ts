@@ -10,11 +10,11 @@ export class ShareDataService {
   categories$ = this.categoriesSubject.asObservable();
   private genderIdSubject = new BehaviorSubject<string>(null);
   genderId$ = this.genderIdSubject.asObservable();
-  private brandDataSubject = new BehaviorSubject<any[]>([]);
+  private brandDataSubject = new BehaviorSubject<{}>({});
   brandData$ = this.brandDataSubject.asObservable();
   private showCartObject = new BehaviorSubject<boolean>(null)
   showCart$ = this.showCartObject.asObservable();
-  private buttonStatusObject = new BehaviorSubject<any>(null)
+  private buttonStatusObject = new BehaviorSubject<boolean>(null)
   buttonStatus$ = this.buttonStatusObject.asObservable();
   private cartArraySubject = new BehaviorSubject<any[]>([]);
   cartArray$ = this.cartArraySubject.asObservable();
@@ -22,7 +22,7 @@ export class ShareDataService {
   likedArray$ = this.likedArraySubject.asObservable();
   
   genderId: string;
-  product: any[]
+  product: [];
   brands: any[];
   brandInfo: any[];
   prevBrandInfo: any[];
@@ -70,7 +70,7 @@ export class ShareDataService {
     return this.stockPrice
   }
 
-  addTolikedArray(item: any) {
+  addTolikedArray(item: {}) {
     const currentLikedArray = this.likedArraySubject.getValue();
     currentLikedArray.push(item);
     this.likedArraySubject.next(currentLikedArray);
@@ -79,7 +79,7 @@ export class ShareDataService {
     this.likedArraySubject.next(likedArray);
   }
 
-  deleteLikedItem(likedItem: any[]){
+  deleteLikedItem(likedItem: {}){
     const currentLikedArray = this.likedArraySubject.getValue();
     const deleteItemIndex = currentLikedArray.findIndex(item => item.id === likedItem['id']);
     currentLikedArray.splice(deleteItemIndex, 1);
@@ -90,7 +90,7 @@ export class ShareDataService {
     return this.likedArraySubject.value;
   }
 
-  addToCartArray(item: any) {
+  addToCartArray(item: {}) {
     const currentCartArray = this.cartArraySubject.getValue();
     currentCartArray.push(item);
     this.cartArraySubject.next(currentCartArray);
@@ -137,7 +137,7 @@ export class ShareDataService {
   getBrands(){
     return this.brands
   }
-  setBrandData(data: any[]): void {
+  setBrandData(data: {}): void {
     this.brandDataSubject.next(data);
   }
 

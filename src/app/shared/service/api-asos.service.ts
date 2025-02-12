@@ -55,7 +55,7 @@ export class ApiAsosService {
     }
         
     url += '&currency=USD&sizeSchema=US&lang=en-US';
-    this.http.get<any[]>(url, this.options).subscribe((data) => {
+    this.http.get<{}>(url, this.options).subscribe((data) => {
       this.shareData.setBrandData(data);
     });
 
@@ -64,7 +64,7 @@ export class ApiAsosService {
   getProduct(){
     let productId = this.shareData.getProductId() ;
     let url = `https://asos2.p.rapidapi.com/products/v4/detail?id=${productId}&lang=en-US&store=US&sizeSchema=US&currency=USD`;
-    return this.http.get<any[]>(url, this.options)
+    return this.http.get<[]>(url, this.options)
   }
 
 

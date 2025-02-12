@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiAsosService } from '../service/api-asos.service';
-import { ShareDataService } from '../service/share-data.service';
+import { ApiAsosService } from '../shared/service/api-asos.service';
+import { ShareDataService } from '../shared/service/share-data.service';
 
 @Component({
   selector: 'app-product-view',
@@ -10,12 +10,10 @@ import { ShareDataService } from '../service/share-data.service';
 })
 export class ProductViewComponent implements OnInit {
   
-  categoryId: string = '';
-  brandData: any [] = [];
-  sites: any[] = [];
-  allowedSites:any[];
+  brandData: {};
+  sites: number[] = [];
+  allowedSites: number[];
   selectedNumber: number = 1;
-  prevBrandInfo: any[];
   loading: boolean = false;
 
   constructor(public apiService: ApiAsosService, private shareData :ShareDataService, private router: Router) { }
@@ -23,26 +21,29 @@ export class ProductViewComponent implements OnInit {
   async ngOnInit() {
     this.loading = true
     let brandInfo =  this.shareData.getValueFromBrandInfo()
-    this.prevBrandInfo = this.shareData.getPrevBrandInfo();
-    if (typeof this.prevBrandInfo === 'undefined' || brandInfo['categoryId'] !== this.prevBrandInfo['categoryId']) {
+    let prevBrandInfo = this.shareData.getPrevBrandInfo();
+    if (typeof prevBrandInfo === 'undefined' || brandInfo['categoryId'] !== prevBrandInfo['categoryId']) {
       this.shareData.setPrevBrandInfo(brandInfo);
-      try {
-        const products = await this.apiService.fetchProducts(brandInfo['categoryId']).toPromise();
-        this.shareData.setBrandData(products);
-        console.log(products)
-      } catch (error) {
-        console.error(error);
+      let products = JSON.parse(localStorage.getItem('products'));
+      if(!products){
+        try {
+          products = await this.apiService.fetchProducts(brandInfo['categoryId']).toPromise();
+          localStorage.setItem('products', JSON.stringify(products));
+          console.log(products)
+        } catch (error) {
+          console.error(error);
+        }
       }
+      this.shareData.setBrandData(products);
+      console.log('storage', products)
     }
     this.shareData.brandData$.subscribe(data => {
       this.brandData = data;
       this.setSites();
       this.loading = false
-      console.log(this.brandData)
     });
   }
 
-  
   setSites() {
     const result = this.brandData['itemCount'] / 48;
     let end: number;

@@ -7,7 +7,7 @@ import { CategoryComponent } from '../product-view/pop-up/category/category.comp
 import { StyleComponent } from '../product-view/pop-up/style/style.component';
 import { TypeComponent } from '../product-view/pop-up/type/type.component';
 import { ColorComponent } from '../product-view/pop-up/color/color.component';
-import { SharedModule } from '../shared/shared-module.module';
+import { SharedModule } from '../shared/components/shared-module.module';
 
 
 

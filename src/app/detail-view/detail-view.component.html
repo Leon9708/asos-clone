@@ -41,7 +41,7 @@
                 <p *ngIf="product['variants'].length <= 1">{{product['variants'][0]['brandSize']}}</p>
             </div>
             <div class="place_btns">
-                <p *ngIf="chooseSize" class="size_error">Please select from the available colour and size options</p>
+                <p *ngIf="choosenSize" class="size_error">Please select from the available colour and size options</p>
                 <div class="box_btns">
                     <button [disabled]="isButtonDisabled" (click)="checkValueBuy()" class="btn_buy">
                         <img [@fadeInOut]="addToCart ? 'visible' : 'hidden'" src="/assets/img/hook.png" alt="">

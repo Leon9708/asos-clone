@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiAsosService } from '../service/api-asos.service';
-import { ShareDataService } from '../service/share-data.service';
+import { ApiAsosService } from '../shared/service/api-asos.service';
+import { ShareDataService } from '../shared/service/share-data.service';
 
 @Component({
   selector: 'app-brands',
@@ -17,6 +17,9 @@ export class BrandsComponent implements OnInit {
   genderId: string;
   prevGenderId: string;
   categories: any[];
+  loading: boolean = false;
+
+
   constructor(private apiService: ApiAsosService, private shareData:ShareDataService, private router: Router) { }
 
   ngOnInit(): void {

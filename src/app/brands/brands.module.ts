@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { BrandsRoutingModule } from './brands-routing.module';
 import { BrandsComponent } from './brands.component';
-import { SharedModule } from '../shared/shared-module.module';
+import { SharedModule } from '../shared/components/shared-module.module';
 
 
 
