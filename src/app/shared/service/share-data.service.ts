@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class ShareDataService {
 
-  private categoriesSubject = new BehaviorSubject<any[]>([]);
-  categories$ = this.categoriesSubject.asObservable();
+  private brandCategoriesSubject = new BehaviorSubject<[]>([]);
+  brandCategories$ = this.brandCategoriesSubject.asObservable();
   private genderIdSubject = new BehaviorSubject<string>(null);
   genderId$ = this.genderIdSubject.asObservable();
   private brandDataSubject = new BehaviorSubject<{}>({});
@@ -37,10 +38,11 @@ export class ShareDataService {
   offset: number = 0;
   
  
-  constructor() { }
+  constructor() {
+   }
 
-  setCategories(categories: any[]){
-    this.categoriesSubject.next(categories);
+  setBrandCategories(brandCategories: []){
+    this.brandCategoriesSubject.next(brandCategories);
   }
 
   setPrevBrandInfo(brandInfo: any[]){
@@ -75,6 +77,7 @@ export class ShareDataService {
     currentLikedArray.push(item);
     this.likedArraySubject.next(currentLikedArray);
   }
+
   setlikedArray(likedArray: any[]){
     this.likedArraySubject.next(likedArray);
   }
@@ -99,7 +102,6 @@ export class ShareDataService {
     this.cartArraySubject.next(cartArray);
   }
  
-
   setProduct(product: any){
     this.product = product
   }
@@ -134,9 +136,11 @@ export class ShareDataService {
   setBrands(brands: any[]): void {
     this.brands = brands
   }
+
   getBrands(){
     return this.brands
   }
+
   setBrandData(data: {}): void {
     this.brandDataSubject.next(data);
   }
@@ -184,8 +188,6 @@ export class ShareDataService {
   getProductPrice(){
     return this.stockPrice
   }
-
-
 
   removeOtherCategories(selectedElement: string){
     if (selectedElement === 'category') {

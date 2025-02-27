@@ -15,6 +15,7 @@ export class ProductViewComponent implements OnInit {
   allowedSites: number[];
   selectedNumber: number = 1;
   loading: boolean = false;
+  products: [];
 
   constructor(public apiService: ApiAsosService, private shareData :ShareDataService, private router: Router) { }
 
@@ -24,19 +25,13 @@ export class ProductViewComponent implements OnInit {
     let prevBrandInfo = this.shareData.getPrevBrandInfo();
     if (typeof prevBrandInfo === 'undefined' || brandInfo['categoryId'] !== prevBrandInfo['categoryId']) {
       this.shareData.setPrevBrandInfo(brandInfo);
-      let products = JSON.parse(localStorage.getItem('products'));
-      if(!products){
-        try {
-          products = await this.apiService.fetchProducts(brandInfo['categoryId']).toPromise();
-          localStorage.setItem('products', JSON.stringify(products));
-          console.log(products)
-        } catch (error) {
-          console.error(error);
-        }
-      }
-      this.shareData.setBrandData(products);
-      console.log('storage', products)
-    }
+      await this.apiService.fetchAndStoreProducts(brandInfo['categoryId']);
+    } 
+    this.subscribeToBrandData();
+
+  }
+
+  subscribeToBrandData(){
     this.shareData.brandData$.subscribe(data => {
       this.brandData = data;
       this.setSites();
@@ -88,9 +83,5 @@ export class ProductViewComponent implements OnInit {
     this.shareData.setProductId(productId);
     this.router.navigateByUrl('detail-view');
   }
-
-  
-
-
 }
 

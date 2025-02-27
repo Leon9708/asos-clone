@@ -77,7 +77,7 @@
                         <img class="vertical" [ngClass]="{ 'rotate-90': selectedPopup === 'Brand', 'rotate-back': selectedPopup !== 'Brand' }" src="/assets/img/minus.png" alt="">
                         <img class="horizontal" src="/assets/img/minus.png" alt="">
                     </button>
-                    <p class="popUpDescription fadeInUp" *ngIf="selectedPopup === 'Brand'" [ngClass]="{ 'active': selectedPopup === 'Brand' }">{{ removeTags(product['brand'].description) }}</p>
+                    <p class="popUpDescription fadeInUp" *ngIf="selectedPopup === 'Brand'" [ngClass]="{ 'active': selectedPopup === 'Brand' }">{{ removeTagsDescription(product['brand'].description) }}</p>
                 </div>
                 <div *ngIf="product['info'].sizeAndFit?.length > 0 " class="box_description">
                     <button (click)="turnImg('Size and Fit')" class="btn_description">

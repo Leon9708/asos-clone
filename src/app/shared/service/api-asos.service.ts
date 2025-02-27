@@ -16,20 +16,58 @@ export class ApiAsosService {
     }
   };
   
-  constructor(private http: HttpClient, private shareData: ShareDataService) { }
+  constructor(private http: HttpClient, private shareData: ShareDataService) {
+    this.loadBrands();
+   }
 
-  fetchCategories(): Observable<any[]> {
-    return this.http.get<any[]>(this.categories, this.options);
+   async fetchAndStoreProducts(categoryId: number): Promise<void> {
+    let products= JSON.parse(localStorage.getItem('products'));
+  
+    if (!products) {
+      try {
+        products = await this.fetchProducts(categoryId).toPromise();
+        localStorage.setItem('products', JSON.stringify(products));
+        console.log(products);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    this.shareData.setBrandData(products);
+    console.log('storage', products);
+  }
+
+
+  async loadBrands(): Promise<void> {   
+    let brandCategories = localStorage.getItem('brandCategories');
+    if (!brandCategories) {
+      try {
+        const apiData = await this.fetchCategories().toPromise();
+        if (apiData) {
+          this.shareData.setBrandCategories(apiData);
+          localStorage.setItem('brandCategories', JSON.stringify(apiData));
+          console.log('Daten aus API geladen:', apiData);
+        }
+      } catch (error) {
+        console.error('Fehler beim Laden der Daten:', error);
+      }
+    }
+    else{
+      this.shareData.setBrandCategories(JSON.parse(brandCategories));
+    }
+  }
+
+  fetchCategories() {
+    return this.http.get<[]>(this.categories, this.options);
   }
   
-  fetchProducts (brandId:string): Observable<any[]> {
+  fetchProducts (brandId:number) {
     const url = `https://asos2.p.rapidapi.com/products/v2/list?store=US&offset=0&categoryId=${brandId}&limit=48&country=US&sort=freshness&currency=USD&sizeSchema=US&lang=en-US`
-    return this.http.get<any[]>(url, this.options);
+    return this.http.get<[]>(url, this.options);
   }
   updateProducts(){
     let offset = this.shareData.getOffSet();
     let category = this.shareData.getFilterCategoryId();  
-    let sortType =  this.shareData.getFilterSort()
+    let sortType = this.shareData.getFilterSort()
     let style =  this.shareData.getFilterStyleId()
     let type = this.shareData.getFilterTypeId()
     let color = this.shareData.getFilterColorId();
@@ -41,18 +79,10 @@ export class ApiAsosService {
     }else{
       url +=`sort=freshness`
     }
-    if(style){
-    url += `&attribute_1046=${style}`;
-    }
-    if (category) {
-      url += `&attribute_10992=${category}`;
-    }
-    if(type){
-      url += `&attribute_1047=${type}`;
-    }
-    if(color){
-      url += `&base_colour=${color}`;
-    }
+    if (style) url += `&attribute_1046=${style}`;
+    if (category) url += `&attribute_10992=${category}`;
+    if (type) url += `&attribute_1047=${type}`;
+    if (color) url += `&base_colour=${color}`;
         
     url += '&currency=USD&sizeSchema=US&lang=en-US';
     this.http.get<{}>(url, this.options).subscribe((data) => {

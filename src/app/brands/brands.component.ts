@@ -16,19 +16,19 @@ export class BrandsComponent implements OnInit {
   brandsByLetter: { letter: string, brands:{title:string, categoryId: string}[]}[] = []
   genderId: string;
   prevGenderId: string;
-  categories: any[];
+  brandCategories: any[];
   loading: boolean = false;
 
 
   constructor(private apiService: ApiAsosService, private shareData:ShareDataService, private router: Router) { }
 
   ngOnInit(): void {
-    this.shareData.categories$.subscribe((data)=>{
-      this.categories = data
+    this.shareData.brandCategories$.subscribe((data)=>{
+      this.brandCategories = data
       this.shareData.genderId$.subscribe((genderId)=>{
         this.genderId = genderId
-        if(this.categories){  
-          this.brands = this.categories['brands'][this.genderId === 'men' ? 0 : 2]['children'];
+        if(this.brandCategories){  
+          this.brands = this.brandCategories['brands'][this.genderId === 'men' ? 0 : 2]['children'];
           this.brandsByLetter = this.groupBrandsByLetter();
         }
       })

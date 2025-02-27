@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ShareDataService } from '../../service/share-data.service';
 import { Router } from '@angular/router';
-import { ApiAsosService } from '../../service/api-asos.service';
 
 @Component({
   selector: 'app-navbar',
@@ -16,7 +15,7 @@ export class NavbarComponent implements OnInit {
   cartArray: any;
   searchActive: boolean = false;
   keyword: string;
-  categories: any[];
+  brandCategories: [];
   allBrands: any[] = [];
   relatedItems: any[] = [];
   searchActiveDes: boolean = false;
@@ -25,7 +24,6 @@ export class NavbarComponent implements OnInit {
   constructor(
     private shareData: ShareDataService,
     private router: Router,
-    private apiService: ApiAsosService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -33,7 +31,10 @@ export class NavbarComponent implements OnInit {
     this.shareData.cartArray$.subscribe(
       (cartArray) => (this.cartArray = cartArray)
     );
-    await this.loadBrands();
+   
+    this.shareData.brandCategories$.subscribe((data) => {
+      this.brandCategories = data;
+    });
     this.setAllBrands();
   }
 
@@ -70,47 +71,27 @@ export class NavbarComponent implements OnInit {
     this.router.navigateByUrl('savedItems');
   }
 
-  async loadBrands() {
-    this.shareData.categories$.subscribe((data) => {
-      this.categories = data;
-    });
-    if (this.categories.length === 0) {
-      try {
-        this.categories = await this.apiService.fetchCategories().toPromise();
-        this.shareData.setCategories(this.categories);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  }
-
   setAllBrands() {
-    for (let i = 0; i < this.categories['brands'][0]['children'].length; i++) {
-      const menBrand = {
-        name: this.categories['brands'][0]['children'][i]['content']['title'],
-        gender: 'men',
-        categoryId:
-          this.categories['brands'][0]['children'][i]['link']['categoryId'],
-      };
-      this.allBrands.push(menBrand);
-    }
-    for (let i = 0; i < this.categories['brands'][2]['children'].length; i++) {
-      const womenBrand = {
-        name: this.categories['brands'][2]['children'][i]['content']['title'],
-        gender: 'women',
-        categoryId:
-          this.categories['brands'][2]['children'][i]['link']['categoryId'],
-      };
-      this.allBrands.push(womenBrand);
-    }
+    const genders = ['men', 'women']; 
+    const entryNumbers = [0, 2];
+
+    entryNumbers.forEach((index, i) => {
+      this.brandCategories['brands'][index]['children'].forEach((child: any) => {
+        this.allBrands.push({
+          name: child['content']['title'],
+          gender: genders[i],
+          categoryId: child['link']['categoryId'],
+        });
+      });
+    }); 
   }
 
   showRelatedBrands() {
     this.keyword.toLowerCase();
     if (this.keyword) {
       const relatedItems = this.allBrands.filter((brand) => {
-        let brandLowerCase = brand['name'].toLowerCase();
-        if (brandLowerCase.includes(this.keyword)) {
+        let brandLetters = brand['name'].toLowerCase().slice(0, this.keyword.length); 
+        if (brandLetters.includes(this.keyword)) {
           return brand;
         }
       });
@@ -120,6 +101,7 @@ export class NavbarComponent implements OnInit {
       this.relatedItems = [];
     }
   }
+
   navigateToBrand(brand: any[]) {
     delete brand['gender'];
     this.shareData.setBrandInfo(brand);

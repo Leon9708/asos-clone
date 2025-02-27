@@ -6,12 +6,12 @@ import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './shared/components/shared-module.module';
-import { ShareDataService } from './shared/service/share-data.service';
 import { ApiAsosService } from './shared/service/api-asos.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
-@NgModule({
+
+@NgModule({ 
   declarations: [AppComponent],
   imports: [
     BrowserModule,
@@ -21,7 +21,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SharedModule,
     BrowserAnimationsModule,
   ],
-  providers: [ShareDataService, ApiAsosService],
+  providers: [
+    ApiAsosService,
+    ], 
   bootstrap: [AppComponent],
 })
 export class AppModule {}

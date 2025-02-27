@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiAsosService } from '../shared/service/api-asos.service';
 import { ShareDataService } from '../shared/service/share-data.service';
-import { item } from '../shared/models/item';
+import { product } from '../shared/models/item';
 import {
   trigger,
   state,
@@ -79,9 +79,10 @@ export class DetailViewComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-/*     this.product = this.shareData.getProduct(); */
+    debugger;
+    /* this.product = this.shareData.getProduct(); */
      this.product = JSON.parse(localStorage.getItem('product')); 
-    if (this.product.length === 0 || this.product == undefined) {
+    if (this.product.length == 0 || this.product == undefined) {
       this.product = await this.apiService.getProduct().toPromise();
       console.log(this.product, 'api')
       localStorage.setItem('product', JSON.stringify(this.product));
@@ -99,11 +100,11 @@ export class DetailViewComponent implements OnInit {
 
   formatDescription() {
     this.productDescription = this.sanitizer.bypassSecurityTrustHtml(
-      this.removeTags(this.product['brand']['description'])
+      this.removeTagsDescription(this.product['brand']['description'])
     );
   }
 
-  removeTags(description: string): string {
+  removeTagsDescription(description: string): string {
     return description.replace(/<[^>]+>/g, '');
   }
 
@@ -157,15 +158,6 @@ export class DetailViewComponent implements OnInit {
     }
   }
 
-  checkValueBuy() {
-    if (!this.selectedSize) {
-      this.choosenSize = true;
-    } else {
-      this.addAnimation();
-      this.toBasket();
-    }
-  }
-
   addAnimation() {
     this.addToCart = true;
     this.isButtonDisabled = true;
@@ -179,22 +171,13 @@ export class DetailViewComponent implements OnInit {
     }, 7500);
   }
 
-  toBasket() {
-    let productDetails: item = {
-      id: this.product['id'],
-      name: this.product['name'],
-      color: this.product['variants'][0]['colour'],
-      size: this.selectedSize,
-      sizeOptions: this.product['variants'],
-      img: this.product['media']['images'][0]['url'].slice(7),
-      price: this.stockPrice,
-      qty: 1,
-      currentPrice: this.stockPrice,
-      editQty: false,
-      editSize: false,
-    };
-    this.shareData.addToCartArray(productDetails);
-    console.log(productDetails)
+  checkValueBuy() {
+    if (!this.selectedSize) {
+      this.choosenSize = true;
+    } else {
+      this.addAnimation();
+      this.createProductDetails("basket");
+    }
   }
 
   checkLikedArray() {
@@ -209,15 +192,15 @@ export class DetailViewComponent implements OnInit {
     } else {
       if (this.selectedSize) {
         this.liked = true;
-        this.toLikedItems();
+        this.createProductDetails("liked");
       } else {
         this.choosenSize = true;
       }
     }
   }
 
-  toLikedItems() {
-    let productDetails: item ={
+  createProductDetails(value: string) {
+    let productDetails: product ={
       id: this.product['id'],
       name: this.product['name'],
       color: this.product['variants'][0]['colour'],
@@ -230,7 +213,13 @@ export class DetailViewComponent implements OnInit {
       editQty: false,
       editSize: false,
     };
-    this.shareData.addTolikedArray(productDetails);
 
+    if (value === "liked") {
+      this.shareData.addToCartArray(productDetails);
+    }else{
+      this.shareData.addToCartArray(productDetails);
+    }
+
+    console.log(productDetails)
   }
 }

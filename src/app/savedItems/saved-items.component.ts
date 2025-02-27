@@ -7,7 +7,7 @@ import { ShareDataService } from '../shared/service/share-data.service';
   styleUrls: ['./saved-items.component.scss']
 })
 export class SavedItemsComponent implements OnInit {
-  productDetails: any[];
+  productDetails: any[] = [];
   ditSize:boolean = false;
   editQty:boolean = false;
   constructor(private shareData:ShareDataService) { }
