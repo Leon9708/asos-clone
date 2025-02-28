@@ -29,6 +29,7 @@ export class ShareDataService {
   prevBrandInfo: any[];
   productId: number;
   stockPrice: number;
+  btnGender:  boolean;
 
   filterCategoryId: number;
   filterSort: string;
@@ -40,6 +41,7 @@ export class ShareDataService {
  
   constructor() {
    }
+
 
   setBrandCategories(brandCategories: []){
     this.brandCategoriesSubject.next(brandCategories);

@@ -26,13 +26,21 @@ export class BrandsComponent implements OnInit {
     this.shareData.brandCategories$.subscribe((data)=>{
       this.brandCategories = data
       this.shareData.genderId$.subscribe((genderId)=>{
-        this.genderId = genderId
+        this.triggerGender(genderId);
         if(this.brandCategories){  
           this.brands = this.brandCategories['brands'][this.genderId === 'men' ? 0 : 2]['children'];
           this.brandsByLetter = this.groupBrandsByLetter();
         }
       })
     })
+  }
+
+  triggerGender(genderId: string) {
+    this.genderId = genderId
+    window.scrollTo({
+      behavior: 'smooth',
+      top: 0
+    });
   }
 
   selectProductsId(brand:any) {
@@ -63,8 +71,13 @@ export class BrandsComponent implements OnInit {
   navigateToSection(letter: string) {
     const uppercaseLetter = letter.toUpperCase();
     const element = document.getElementById(uppercaseLetter);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    const elementPosition = element.getBoundingClientRect().top; 
+    const navbarHeight = 65
+    const newElementPosition = elementPosition - navbarHeight;
+
+    window.scrollTo({
+      top: newElementPosition,
+      behavior: 'smooth'
+    });
   }
 }

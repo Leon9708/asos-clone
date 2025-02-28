@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { ShareDataService } from './share-data.service';
 HttpClientModule
 @Injectable()
@@ -39,14 +38,13 @@ export class ApiAsosService {
 
   async loadBrands(): Promise<void> {   
     let brandCategories = localStorage.getItem('brandCategories');
+
     if (!brandCategories) {
       try {
-        const apiData = await this.fetchCategories().toPromise();
-        if (apiData) {
-          this.shareData.setBrandCategories(apiData);
-          localStorage.setItem('brandCategories', JSON.stringify(apiData));
-          console.log('Daten aus API geladen:', apiData);
-        }
+        const brandCategories = await this.fetchCategories().toPromise();
+        this.shareData.setBrandCategories(brandCategories);
+        localStorage.setItem('brandCategories', JSON.stringify(brandCategories));
+        console.log('Daten aus API geladen:', brandCategories);
       } catch (error) {
         console.error('Fehler beim Laden der Daten:', error);
       }
@@ -79,12 +77,14 @@ export class ApiAsosService {
     }else{
       url +=`sort=freshness`
     }
+
     if (style) url += `&attribute_1046=${style}`;
     if (category) url += `&attribute_10992=${category}`;
     if (type) url += `&attribute_1047=${type}`;
     if (color) url += `&base_colour=${color}`;
         
     url += '&currency=USD&sizeSchema=US&lang=en-US';
+
     this.http.get<{}>(url, this.options).subscribe((data) => {
       this.shareData.setBrandData(data);
     });

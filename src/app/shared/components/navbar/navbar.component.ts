@@ -26,7 +26,7 @@ export class NavbarComponent implements OnInit {
     private router: Router,
   ) {}
 
-  async ngOnInit(): Promise<void> {
+   ngOnInit() {
     this.shareData.showCart$.subscribe((value) => (this.showCart = value));
     this.shareData.cartArray$.subscribe(
       (cartArray) => (this.cartArray = cartArray)
@@ -37,6 +37,8 @@ export class NavbarComponent implements OnInit {
     });
     this.setAllBrands();
   }
+
+ 
 
   checkCart(element: string) {
     this.cartName = element;

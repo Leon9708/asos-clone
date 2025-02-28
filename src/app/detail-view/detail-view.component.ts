@@ -9,7 +9,6 @@ import {
   animate,
   transition,
 } from '@angular/animations';
-import { Router } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 
@@ -73,13 +72,11 @@ export class DetailViewComponent implements OnInit {
   constructor(
     private shareData: ShareDataService,
     private apiService: ApiAsosService,
-    private router: Router,
     private sanitizer: DomSanitizer,
     
   ) {}
 
   async ngOnInit(): Promise<void> {
-    debugger;
     /* this.product = this.shareData.getProduct(); */
      this.product = JSON.parse(localStorage.getItem('product')); 
     if (this.product.length == 0 || this.product == undefined) {
@@ -150,15 +147,25 @@ export class DetailViewComponent implements OnInit {
     this.selectedSize = size;
   }
 
-  turnImg(buttonName: string) {
-    if (this.selectedPopup === buttonName) {
+  showAndCloseDetails(detailsName: string) {
+    if (this.selectedPopup === detailsName) {
       this.selectedPopup = '';
     } else {
-      this.selectedPopup = buttonName;
+      this.selectedPopup = detailsName;
+      this.navigateToDetails(detailsName);
     }
   }
 
-  addAnimation() {
+  navigateToDetails(detailsName: string) {
+    setTimeout(() => { {
+      const element = document.getElementById(detailsName);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }}, 20);
+  }
+
+  addAnimationCart() {
     this.addToCart = true;
     this.isButtonDisabled = true;
     setTimeout(() => {
@@ -175,8 +182,8 @@ export class DetailViewComponent implements OnInit {
     if (!this.selectedSize) {
       this.choosenSize = true;
     } else {
-      this.addAnimation();
-      this.createProductDetails("basket");
+      this.addAnimationCart();
+      this.createAndSetProductDetails("basket");
     }
   }
 
@@ -192,14 +199,14 @@ export class DetailViewComponent implements OnInit {
     } else {
       if (this.selectedSize) {
         this.liked = true;
-        this.createProductDetails("liked");
+        this.createAndSetProductDetails("liked");
       } else {
         this.choosenSize = true;
       }
     }
   }
 
-  createProductDetails(value: string) {
+  createAndSetProductDetails(value: string) {
     let productDetails: product ={
       id: this.product['id'],
       name: this.product['name'],
@@ -215,11 +222,9 @@ export class DetailViewComponent implements OnInit {
     };
 
     if (value === "liked") {
-      this.shareData.addToCartArray(productDetails);
+      this.shareData.addTolikedArray(productDetails);
     }else{
       this.shareData.addToCartArray(productDetails);
     }
-
-    console.log(productDetails)
   }
 }
