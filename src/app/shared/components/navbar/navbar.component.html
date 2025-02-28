@@ -26,10 +26,10 @@
 
         <div class="output_autocomplete">
             <input (keyup)="showRelatedBrands()" [(ngModel)]="keyword" #inputField class="input" placeholder="Search for Brands" type="text">
-            <div *ngIf="relatedItems.length > 0" class="box_output">
-                <button (click)="navigateToBrand(output)" *ngFor="let output of relatedItems">
-                <p>{{output.name}}</p>
-                <p>{{output.gender}}</p>
+            <div *ngIf="shownBrands.length > 0" class="box_output">
+                <button (click)="navigateToBrand(brand)" *ngFor="let brand of shownBrands">
+                <p>{{brand.name}}</p>
+                <p>{{brand.gender}}</p>
             </button>
             </div>
         </div>
@@ -56,10 +56,10 @@
     <button (click)="searchActive = false" class="btn_cross_input">
         <img src="/assets/img/cross_black.png" alt="">
     </button>
-    <div *ngIf="relatedItems.length > 0" class="output_autocomplete_res">
-        <button (click)="navigateToBrand(output)" *ngFor="let output of relatedItems">
-            <p>{{output.name}}</p>
-            <p>{{output.gender}}</p>
+    <div *ngIf="shownBrands.length > 0" class="output_autocomplete_res">
+        <button (click)="navigateToBrand(brand)" *ngFor="let brand of shownBrands">
+            <p>{{brand.name}}</p>
+            <p>{{brand.gender}}</p>
         </button>
     </div>
 </div>

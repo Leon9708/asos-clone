@@ -24,8 +24,7 @@ export class ShareDataService {
   
   genderId: string;
   product: [];
-  brands: any[];
-  brandInfo: any[];
+  brandInfo: [];
   prevBrandInfo: any[];
   productId: number;
   stockPrice: number;
@@ -59,7 +58,7 @@ export class ShareDataService {
     return this.brandInfo
   }
 
-  setBrandInfo(newBrandInfo: any[]){
+  setBrandInfo(newBrandInfo: []){
     this.brandInfo = newBrandInfo
   }
 
@@ -133,14 +132,6 @@ export class ShareDataService {
 
   setButtonStatus(status: boolean): void {
     this.buttonStatusObject.next(status);
-  }
-
-  setBrands(brands: any[]): void {
-    this.brands = brands
-  }
-
-  getBrands(){
-    return this.brands
   }
 
   setBrandData(data: {}): void {

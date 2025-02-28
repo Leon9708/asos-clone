@@ -11,3 +11,9 @@ export interface product {
     editQty: boolean;
     editSize: boolean;
 }
+
+export interface Brand {
+    name: string;
+    gender?: string;
+    id: number; 
+  }

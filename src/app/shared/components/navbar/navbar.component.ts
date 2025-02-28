@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ShareDataService } from '../../service/share-data.service';
 import { Router } from '@angular/router';
+import { Brand } from '../../models/item';
 
 @Component({
   selector: 'app-navbar',
@@ -16,8 +17,8 @@ export class NavbarComponent implements OnInit {
   searchActive: boolean = false;
   keyword: string;
   brandCategories: [];
-  allBrands: any[] = [];
-  relatedItems: any[] = [];
+  allBrands: Brand[] = [];
+  shownBrands: Brand[] = [];
   searchActiveDes: boolean = false;
   menuActive: boolean = false;
 
@@ -78,7 +79,7 @@ export class NavbarComponent implements OnInit {
     const entryNumbers = [0, 2];
 
     entryNumbers.forEach((index, i) => {
-      this.brandCategories['brands'][index]['children'].forEach((child: any) => {
+      this.brandCategories['brands'][index]['children'].forEach((child: []) => {
         this.allBrands.push({
           name: child['content']['title'],
           gender: genders[i],
@@ -91,20 +92,19 @@ export class NavbarComponent implements OnInit {
   showRelatedBrands() {
     this.keyword.toLowerCase();
     if (this.keyword) {
-      const relatedItems = this.allBrands.filter((brand) => {
+      const filteredBrands = this.allBrands.filter((brand) => {
         let brandLetters = brand['name'].toLowerCase().slice(0, this.keyword.length); 
         if (brandLetters.includes(this.keyword)) {
           return brand;
         }
       });
-      const randomizedItems = relatedItems.sort(() => Math.random() - 0.5);
-      this.relatedItems = randomizedItems.slice(0, 10);
+      this.shownBrands = filteredBrands.sort(() => Math.random() - 0.5).slice(0, 10);
     } else {
-      this.relatedItems = [];
+      this.shownBrands = [];
     }
   }
 
-  navigateToBrand(brand: any[]) {
+  navigateToBrand(brand: []) {
     delete brand['gender'];
     this.shareData.setBrandInfo(brand);
     this.router.navigateByUrl('product-view');
