@@ -55,7 +55,7 @@ export class PreviewCartComponent implements OnInit {
   }
 
   openBasket(){
-    this.shareData.setShowCart(false)
+    this.shareData.showCart(false)
     this.router.navigateByUrl('cart')
   }
 

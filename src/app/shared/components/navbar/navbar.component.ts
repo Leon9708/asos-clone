@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ShareDataService } from '../../service/share-data.service';
 import { Router } from '@angular/router';
-import { Brand } from '../../models/item';
+import {  brandDetails } from '../../models/item';
+import { ApiAsosService } from '../../service/api-asos.service';
 
 @Component({
   selector: 'app-navbar',
@@ -17,29 +18,27 @@ export class NavbarComponent implements OnInit {
   searchActive: boolean = false;
   keyword: string;
   brandCategories: [];
-  allBrands: Brand[] = [];
-  shownBrands: Brand[] = [];
+  allBrands: brandDetails[] = [];
+  shownBrands: brandDetails[] = [];
   searchActiveDes: boolean = false;
   menuActive: boolean = false;
+  loading: boolean = false;
 
   constructor(
     private shareData: ShareDataService,
     private router: Router,
+    private apiService: ApiAsosService
   ) {}
 
-   ngOnInit() {
+  ngOnInit() {
     this.shareData.showCart$.subscribe((value) => (this.showCart = value));
-    this.shareData.cartArray$.subscribe(
-      (cartArray) => (this.cartArray = cartArray)
-    );
-   
+    this.shareData.cartArray$.subscribe((cartArray) => (this.cartArray = cartArray));
+  
     this.shareData.brandCategories$.subscribe((data) => {
       this.brandCategories = data;
     });
     this.setAllBrands();
   }
-
- 
 
   checkCart(element: string) {
     this.cartName = element;
@@ -49,16 +48,16 @@ export class NavbarComponent implements OnInit {
 
   hoverPreviewCart(value: boolean) {
     if (value === true) {
-      this.shareData.setShowCart(value);
+      this.shareData.showCart(value);
     } else {
       setTimeout(() => {
-        this.shareData.setShowCart(value);
+        this.shareData.showCart(value);
       }, 1000);
     }
   }
 
   openBasket() {
-    this.shareData.setShowCart(false);
+    this.shareData.showCart(false);
     this.router.navigateByUrl('cart');
   }
 
@@ -70,6 +69,7 @@ export class NavbarComponent implements OnInit {
     this.shareData.setGenderId(id);
     this.router.navigateByUrl('brands');
   }
+
   toSavedItems() {
     this.router.navigateByUrl('savedItems');
   }
@@ -79,11 +79,11 @@ export class NavbarComponent implements OnInit {
     const entryNumbers = [0, 2];
 
     entryNumbers.forEach((index, i) => {
-      this.brandCategories['brands'][index]['children'].forEach((child: []) => {
+      this.brandCategories['brands'][index]['children'].forEach((brand: brandDetails[]) => {
         this.allBrands.push({
-          name: child['content']['title'],
+          name: brand['content']['title'],
           gender: genders[i],
-          categoryId: child['link']['categoryId'],
+          id: brand['link']['categoryId'],
         });
       });
     }); 
@@ -92,21 +92,23 @@ export class NavbarComponent implements OnInit {
   showRelatedBrands() {
     this.keyword.toLowerCase();
     if (this.keyword) {
-      const filteredBrands = this.allBrands.filter((brand) => {
-        let brandLetters = brand['name'].toLowerCase().slice(0, this.keyword.length); 
-        if (brandLetters.includes(this.keyword)) {
-          return brand;
-        }
-      });
+      const filteredBrands = this.allBrands.filter((brand) =>
+        brand.name.toLowerCase().startsWith(this.keyword)
+      );
       this.shownBrands = filteredBrands.sort(() => Math.random() - 0.5).slice(0, 10);
     } else {
       this.shownBrands = [];
     }
   }
 
-  navigateToBrand(brand: []) {
+  async navigateToBrand(brand: brandDetails) {
+    this.keyword = '';
+    this.shownBrands = [];
     delete brand['gender'];
     this.shareData.setBrandInfo(brand);
+    this.loading = true;
+    await this.apiService.fetchBrandData();
+    this.loading = false;
     this.router.navigateByUrl('product-view');
   }
 }

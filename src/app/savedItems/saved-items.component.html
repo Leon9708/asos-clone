@@ -1,15 +1,15 @@
 <app-navbar></app-navbar>
 <div class="place_cart">
-    <div [ngStyle]="productDetails.length > 1 ? {'justify-content': 'center'} : null" class="place_products">
+    <div [ngStyle]="likedItems.length > 1 ? {'justify-content': 'center'} : null" class="place_products">
         <div class="box_products_heading">
             <p class="cart_heading">Saved Items</p>
         </div>
-        <div class="place_empty" *ngIf="productDetails.length < 1">
+        <div class="place_empty" *ngIf="likedItems.length < 1">
             <img src="/assets/img/liked_black.png" alt="">
             <h2>You have no Saved Items</h2>
         </div>
         <div class="products_container">
-            <div *ngFor="let product of productDetails; let i = index" class="product_box">
+            <div *ngFor="let product of likedItems; let i = index" class="product_box">
                 <img [src]="'http://images.' + product['img']">
                 <div class="box_description">
                     <p class="description">{{product['name']}}</p>

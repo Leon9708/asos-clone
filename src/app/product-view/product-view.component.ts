@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component,  OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiAsosService } from '../shared/service/api-asos.service';
 import { ShareDataService } from '../shared/service/share-data.service';
@@ -19,24 +19,19 @@ export class ProductViewComponent implements OnInit {
 
   constructor(public apiService: ApiAsosService, private shareData :ShareDataService, private router: Router) { }
 
-  async ngOnInit() {
-    this.loading = true
-    let brandInfo =  this.shareData.getValueFromBrandInfo()
-    let prevBrandInfo = this.shareData.getPrevBrandInfo();
-    if (typeof prevBrandInfo === 'undefined' || brandInfo['categoryId'] !== prevBrandInfo['categoryId']) {
-      this.shareData.setPrevBrandInfo(brandInfo);
-      await this.apiService.fetchAndStoreProducts(brandInfo['categoryId']);
-    } 
-    this.subscribeToBrandData();
-
-  }
-
-  subscribeToBrandData(){
+  async ngOnInit(){
+    this.loading = true;
+    
     this.shareData.brandData$.subscribe(data => {
       this.brandData = data;
       this.setSites();
       this.loading = false
-    });
+    }); 
+ 
+  }
+
+  ngOnDestroy(): void {
+    this.shareData.setBrandData([]);
   }
 
   setSites() {
@@ -65,7 +60,7 @@ export class ProductViewComponent implements OnInit {
       let offset = (number - 1) * 48;
       this.selectedNumber = number;
       this.shareData.setOffSet(offset)
-      this.apiService.updateProducts()
+      this.apiService.updateBrandData()
       this.loading = true
     }
   }
@@ -80,7 +75,7 @@ export class ProductViewComponent implements OnInit {
     this.shareData.setProduct([]);
     const parsedPrice = this.removeTags(stockPrice); 
     this.shareData.setStockPrice(parsedPrice); 
-    this.shareData.setProductId(productId);
+    this.apiService.fetchProduct(productId)
     this.router.navigateByUrl('detail-view');
   }
 }

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiAsosService } from '../shared/service/api-asos.service';
 import { ShareDataService } from '../shared/service/share-data.service';
+import { brandDetails } from '../shared/models/item';
 
 @Component({
   selector: 'app-brands',
@@ -13,7 +14,7 @@ export class BrandsComponent implements OnInit {
   alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
   alphabetUpper = this.alphabet.map(letter => letter.toUpperCase());
   brands: any[] = [];
-  brandsByLetter: { letter: string, brands:{title:string, categoryId: string}[]}[] = []
+  brandsByLetter: { letter: string, brand: brandDetails[]}[] = []
   genderId: string;
   prevGenderId: string;
   brandCategories: any[];
@@ -43,27 +44,16 @@ export class BrandsComponent implements OnInit {
     });
   }
 
-  selectProductsId(brand:any) {
-    this.shareData.setBrandInfo(brand) 
-    localStorage.removeItem('selectedButtonSort')
-    localStorage.removeItem('selectedButtonCategory')
-    localStorage.removeItem('selectedButtonColor')
-    localStorage.removeItem('selectedButtonType')
-    localStorage.removeItem('selectedButtonStyle')
-    this.router.navigateByUrl('product-view');
-  }
-
-  groupBrandsByLetter(): { letter: string, brands: {title:string, categoryId: string}[]}[] {
-    const groupedBrands: { letter: string, brands: {title:string, categoryId: string} [] } [] = [];
+  groupBrandsByLetter(): { letter: string, brand: brandDetails[]}[] {
+    const groupedBrands: { letter: string, brand: brandDetails[]} [] = [];
     this.alphabetUpper.forEach(letter => {
-      const letterBrands = this.brands
+      const brandDetails: brandDetails[] = this.brands
         .filter(brand => brand['content']['title'].toUpperCase().charAt(0) === letter)
-        .map(brand => ({ title: brand['content']['title'], categoryId: brand['link']['categoryId'] }));
+        .map(brand => ({ name: brand['content']['title'] as string, id: brand['link']['categoryId'] as number }));
        
-      if (letterBrands.length > 0) {
-        groupedBrands.push({ letter, brands: letterBrands });
-      }
-      
+        if (brandDetails.length > 0) {
+          groupedBrands.push({ letter, brand: brandDetails });
+        }
     });
     return groupedBrands;
   }
@@ -80,4 +70,17 @@ export class BrandsComponent implements OnInit {
       behavior: 'smooth'
     });
   }
+  
+  async selectProductsId(brand: brandDetails) {
+    this.shareData.setBrandInfo(brand) 
+    localStorage.removeItem('selectedButtonSort')
+    localStorage.removeItem('selectedButtonCategory')
+    localStorage.removeItem('selectedButtonColor')
+    localStorage.removeItem('selectedButtonType')
+    localStorage.removeItem('selectedButtonStyle')
+    this.loading = true;
+    await this.apiService.fetchBrandData();
+    this.router.navigateByUrl('product-view');
+  }
+
 }

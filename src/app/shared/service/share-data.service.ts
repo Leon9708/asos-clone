@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
+import { productDetails, brandDetails } from '../models/item';
+
 
 @Injectable({
   providedIn: 'root'
@@ -19,14 +21,13 @@ export class ShareDataService {
   buttonStatus$ = this.buttonStatusObject.asObservable();
   private cartArraySubject = new BehaviorSubject<any[]>([]);
   cartArray$ = this.cartArraySubject.asObservable();
-  private likedArraySubject = new BehaviorSubject<any[]>([]);
-  likedArray$ = this.likedArraySubject.asObservable();
+  private likedItemsSubject = new BehaviorSubject<productDetails[]>([]);
+  likedItems$ = this.likedItemsSubject.asObservable();
   
   genderId: string;
   product: [];
-  brandInfo: [];
-  prevBrandInfo: any[];
-  productId: number;
+  brandInfo: brandDetails;
+  prevBrandInfo: brandDetails;
   stockPrice: number;
   btnGender:  boolean;
 
@@ -38,92 +39,83 @@ export class ShareDataService {
   offset: number = 0;
   
  
-  constructor() {
-   }
+  constructor() { }
 
-
-  setBrandCategories(brandCategories: []){
+  setBrandCategories(brandCategories: []): void {
     this.brandCategoriesSubject.next(brandCategories);
   }
 
-  setPrevBrandInfo(brandInfo: any[]){
+  setPrevBrandInfo(brandInfo: brandDetails): void {
     this.prevBrandInfo = brandInfo
   }
 
-  getPrevBrandInfo(): any[] {
+  getPrevBrandInfo(): brandDetails {
     return this.prevBrandInfo;
   }
 
-  getValueFromBrandInfo() {
+  getBrandInfo(): brandDetails {
     return this.brandInfo
   }
 
-  setBrandInfo(newBrandInfo: []){
+  setBrandInfo(newBrandInfo: brandDetails ): void {
     this.brandInfo = newBrandInfo
   }
 
-  setOffSet(value:number){
+  setOffSet(value: number): void {
     this.offset = value
   }
-  getOffSet(){
+  getOffSet(): number {
     return this.offset
   }
 
-  getStockPrice(){
+  getStockPrice(): number {
     return this.stockPrice
   }
 
-  addTolikedArray(item: {}) {
-    const currentLikedArray = this.likedArraySubject.getValue();
-    currentLikedArray.push(item);
-    this.likedArraySubject.next(currentLikedArray);
+  addTolikedArray(product: productDetails): void  {
+    const currentLikedItems = this.likedItemsSubject.getValue();
+    currentLikedItems.push(product);
+    this.likedItemsSubject.next(currentLikedItems);
   }
 
-  setlikedArray(likedArray: any[]){
-    this.likedArraySubject.next(likedArray);
+  setlikedArray(likedItems: productDetails[]): void {
+    this.likedItemsSubject.next(likedItems);
   }
 
-  deleteLikedItem(likedItem: {}){
-    const currentLikedArray = this.likedArraySubject.getValue();
-    const deleteItemIndex = currentLikedArray.findIndex(item => item.id === likedItem['id']);
-    currentLikedArray.splice(deleteItemIndex, 1);
-    this.likedArraySubject.next(currentLikedArray);
+  deleteLikedItem(likedItemData: {}): void {
+    const currentLikedItems = this.likedItemsSubject.getValue();
+    const deleteItemIndex = currentLikedItems.findIndex(item => item.id === likedItemData['id']);
+    currentLikedItems.splice(deleteItemIndex, 1);
+    this.likedItemsSubject.next(currentLikedItems);
   }
 
-  getLikedArrayValue(){
-    return this.likedArraySubject.value;
+  getLikedArray(): productDetails[] {
+    return this.likedItemsSubject.value;
   }
 
-  addToCartArray(item: {}) {
+  addToCartArray(item: productDetails): void  {
     const currentCartArray = this.cartArraySubject.getValue();
     currentCartArray.push(item);
     this.cartArraySubject.next(currentCartArray);
   }
-  setCartArray(cartArray: any[]){
+  setCartArray(cartArray: productDetails[]): void {
     this.cartArraySubject.next(cartArray);
   }
  
-  setProduct(product: any){
+  setProduct(product: []): void {
     this.product = product
   }
 
-  setStockPrice(stockPrice: number){
+  setStockPrice(stockPrice: number): void {
     this.stockPrice = stockPrice
   }
 
-  getProduct(){
+  getProduct(): []{
     return this.product
   }
 
-  setShowCart(value: any){
+  showCart(value: boolean): void {
     this.showCartObject.next(value);
-  }
-  setProductId(id: number): void {
-    this.productId = id;
-  }
-  
-  getProductId(): number {
-    return this.productId;
   }
 
   setGenderId(genderId: string): void {
@@ -134,11 +126,11 @@ export class ShareDataService {
     this.buttonStatusObject.next(status);
   }
 
-  setBrandData(data: {}): void {
+  setBrandData(data: {}): void  {
     this.brandDataSubject.next(data);
   }
 
-  setFilterCategoryId(id: number): void {
+  setFilterCategoryId(id: number): void  {
     this.filterCategoryId = id;
   }
   
@@ -146,7 +138,7 @@ export class ShareDataService {
     return this.filterCategoryId;
   }
 
-  setFilterStyleId(filterStyleId: number): void {
+  setFilterStyleId(filterStyleId: number) {
     this.filterStyleId = filterStyleId;
   }
   
@@ -154,7 +146,7 @@ export class ShareDataService {
     return this.filterStyleId;
   }
 
-  setFilterSort(filterSort: string): void {
+  setFilterSort(filterSort: string) {
     this.filterSort = filterSort;
   }
   
@@ -162,7 +154,7 @@ export class ShareDataService {
     return this.filterSort;
   }
 
-  setFilterTypeId(filterTypeId: number): void {
+  setFilterTypeId(filterTypeId: number) {
     this.filterTypeId = filterTypeId;
   }
   
@@ -170,7 +162,7 @@ export class ShareDataService {
     return this.filterTypeId;
   }
 
-  setFilterColorId(filterColorId: number): void {
+  setFilterColorId(filterColorId: number) {
     this.filterColorId = filterColorId;
   }
   
@@ -178,7 +170,7 @@ export class ShareDataService {
     return this.filterColorId;
   }
 
-  getProductPrice(){
+  getProductPrice(): number{
     return this.stockPrice
   }
 

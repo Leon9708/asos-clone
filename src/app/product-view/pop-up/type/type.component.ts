@@ -55,7 +55,7 @@ export class TypeComponent implements OnInit {
     this.shareData.setOffSet(0);
     this.selectedButtonStatus = true
     localStorage.setItem('selectedButtonType', this.selectedButton);
-    this.apiService.updateProducts()
+    this.apiService.updateBrandData()
     this.cdRef.detectChanges();
   } 
 
@@ -63,7 +63,7 @@ export class TypeComponent implements OnInit {
     this.shareData.filterTypeId = undefined
     this.selectedButton = '';
     this.popUpType = false;
-    this.apiService.updateProducts();
+    this.apiService.updateBrandData();
   }
 }
 

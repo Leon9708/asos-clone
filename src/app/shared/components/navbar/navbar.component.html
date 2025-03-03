@@ -1,3 +1,6 @@
+<div *ngIf="loading" class="place_loadingspinner">
+    <app-loading-spinner ></app-loading-spinner>
+</div>
 <nav>
     <div class="place_content_nav">
         <div class="place_menu">
@@ -28,9 +31,9 @@
             <input (keyup)="showRelatedBrands()" [(ngModel)]="keyword" #inputField class="input" placeholder="Search for Brands" type="text">
             <div *ngIf="shownBrands.length > 0" class="box_output">
                 <button (click)="navigateToBrand(brand)" *ngFor="let brand of shownBrands">
-                <p>{{brand.name}}</p>
-                <p>{{brand.gender}}</p>
-            </button>
+                    <p>{{brand.name}}</p>
+                    <p>{{brand.gender}}</p>
+                </button>
             </div>
         </div>
 

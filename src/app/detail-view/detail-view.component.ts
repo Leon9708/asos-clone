@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiAsosService } from '../shared/service/api-asos.service';
 import { ShareDataService } from '../shared/service/share-data.service';
-import { product } from '../shared/models/item';
+import { productDetails } from '../shared/models/item';
 import {
   trigger,
   state,
@@ -68,25 +67,16 @@ export class DetailViewComponent implements OnInit {
   stockPrice: number;
   productDescription: SafeHtml;
 
-
   constructor(
     private shareData: ShareDataService,
-    private apiService: ApiAsosService,
     private sanitizer: DomSanitizer,
     
   ) {}
 
   async ngOnInit(): Promise<void> {
-    /* this.product = this.shareData.getProduct(); */
-     this.product = JSON.parse(localStorage.getItem('product')); 
-    if (this.product.length == 0 || this.product == undefined) {
-      this.product = await this.apiService.getProduct().toPromise();
-      console.log(this.product, 'api')
-      localStorage.setItem('product', JSON.stringify(this.product));
-      this.shareData.setProduct(this.product);
-      this.stockPrice = this.shareData.getStockPrice();
-      localStorage.setItem('stockPrice', JSON.stringify(this.stockPrice));
-    }
+    this.product = this.shareData.getProduct();
+    this.stockPrice = this.shareData.getStockPrice();
+    localStorage.setItem('stockPrice', JSON.stringify(this.stockPrice));
    
     this.showSize();
     this.formatDescription();
@@ -170,11 +160,11 @@ export class DetailViewComponent implements OnInit {
     this.isButtonDisabled = true;
     setTimeout(() => {
       this.isButtonDisabled = false;
-      this.shareData.setShowCart(true);
+      this.shareData.showCart(true);
     }, 1000);
     setTimeout(() => {
       this.addToCart = false;
-      this.shareData.setShowCart(false);
+      this.shareData.showCart(false);
     }, 7500);
   }
 
@@ -188,7 +178,7 @@ export class DetailViewComponent implements OnInit {
   }
 
   checkLikedArray() {
-    const likedItems = this.shareData.getLikedArrayValue();
+    const likedItems = this.shareData.getLikedArray();
     this.liked = !!likedItems.find((item) => item.id === this.product['id']);
   }
 
@@ -207,7 +197,7 @@ export class DetailViewComponent implements OnInit {
   }
 
   createAndSetProductDetails(value: string) {
-    let productDetails: product ={
+    let productDetails: productDetails ={
       id: this.product['id'],
       name: this.product['name'],
       color: this.product['variants'][0]['colour'],

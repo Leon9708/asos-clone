@@ -15,8 +15,8 @@
                     <div id="{{group.letter}}" class="letters">
                         <p>{{group.letter}}</p>
                     </div>
-                    <div class="brand-items" *ngFor="let brand of group.brands">
-                        <button class="btn_brand" (click)="selectProductsId(brand)">{{brand.title}}</button>
+                    <div class="brand-items" *ngFor="let brand of group.brand">
+                        <button class="btn_brand" (click)="selectProductsId(brand)">{{brand.name}}</button>
                     </div>
                 </div>
             </div>

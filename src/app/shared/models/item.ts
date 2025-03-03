@@ -1,4 +1,4 @@
-export interface product {
+export interface productDetails {
     id: number;
     name: string;
     color: string;
@@ -12,7 +12,7 @@ export interface product {
     editSize: boolean;
 }
 
-export interface Brand {
+export interface brandDetails {
     name: string;
     gender?: string;
     id: number; 
