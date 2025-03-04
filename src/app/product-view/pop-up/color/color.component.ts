@@ -58,7 +58,7 @@ export class ColorComponent implements OnInit  {
     this.shareData.setOffSet(0)
     this.selectedButtonStatus = true;
     localStorage.setItem('selectedButtonColor', this.selectedButton);
-    this.apiService.updateProducts()
+    this.apiService.updateBrandData()
     this.cdRef.detectChanges();
   } 
 
@@ -66,7 +66,7 @@ export class ColorComponent implements OnInit  {
     this.shareData.filterColorId = undefined
     this.selectedButton = '';
     this.popUpColor = false
-    this.apiService.updateProducts()
+    this.apiService.updateBrandData()
   }
 }
 

@@ -56,7 +56,7 @@
       this.shareData.setOffSet(0)
       this.selectedButtonStatus = true;
       localStorage.setItem('selectedButtonCategory', this.selectedButton); 
-      this.apiService.updateProducts();
+      this.apiService.updateBrandData();
       this.cdRef.detectChanges();
     } 
 
@@ -65,6 +65,6 @@
       this.shareData.filterCategoryId = undefined
       this.selectedButton = '';
       this.popUpCategory = false;
-      this.apiService.updateProducts();
+      this.apiService.updateBrandData();
     }
   }

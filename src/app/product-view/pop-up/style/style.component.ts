@@ -60,7 +60,7 @@ export class StyleComponent implements OnInit  {
     this.shareData.setOffSet(0)
     this.selectedButtonStatus = true
     localStorage.setItem('selectedButtonStyle', this.selectedButton);
-    this.apiService.updateProducts()
+    this.apiService.updateBrandData()
     this.cdRef.detectChanges();
   } 
 
@@ -68,6 +68,6 @@ export class StyleComponent implements OnInit  {
     this.shareData.filterStyleId = undefined
     this.selectedButton = '';
     this.popUpStyle = false;
-    this.apiService.updateProducts();
+    this.apiService.updateBrandData();
   }
 }

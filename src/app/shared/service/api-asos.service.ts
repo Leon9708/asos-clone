@@ -4,6 +4,7 @@ import { ShareDataService } from './share-data.service';
 import { firstValueFrom } from 'rxjs';
 HttpClientModule
 @Injectable()
+
 export class ApiAsosService {
   private categories = 'https://asos2.p.rapidapi.com/categories/list?country=US&lang=en-US';
    options = {
@@ -59,16 +60,16 @@ export class ApiAsosService {
   updateBrandData() {
     let offset = this.shareData.getOffSet();
     let category = this.shareData.getFilterCategoryId();  
-    let sortType = this.shareData.getFilterSort()
-    let style =  this.shareData.getFilterStyleId()
-    let type = this.shareData.getFilterTypeId()
+    let sortType = this.shareData.getFilterSort();
+    let style =  this.shareData.getFilterStyleId();
+    let type = this.shareData.getFilterTypeId();
     let color = this.shareData.getFilterColorId();
-    let brandInfo = this.shareData.getBrandInfo()
+    let brandInfo = this.shareData.getBrandInfo();
     let url = `https://asos2.p.rapidapi.com/products/v2/list?store=US&offset=${offset}&categoryId=${brandInfo['categoryId']}&limit=48&country=US&`;
 
     if(sortType){
       url +=`sort=${sortType}`
-    }else{
+    } else{
       url +=`sort=freshness`
     }
 
@@ -94,8 +95,8 @@ export class ApiAsosService {
         product = await firstValueFrom(this.http.get<[]>(url, this.options))
         console.log(product, 'api')
         localStorage.setItem('product', JSON.stringify(product));
-        this.shareData.setProduct(product);
+        this.shareData.setProduct(product); 
       }
     }
   }
-} 
+}
